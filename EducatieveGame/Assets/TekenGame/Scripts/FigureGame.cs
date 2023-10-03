@@ -12,6 +12,8 @@ public class FigureGame : MonoBehaviour
     [SerializeField] private Material _lineCorrect;
     [SerializeField] private Material _lineWrong;
     [SerializeField] private TextMeshProUGUI _count;
+    [SerializeField] private GameObject _end;
+    [SerializeField] private GameObject _instructions;
     private LineRenderer _lineRend;
     private GridGenerator _gridGen;
     private List<Vector3> _linePoints;
@@ -40,13 +42,15 @@ public class FigureGame : MonoBehaviour
     private int Width { get => _width; set => _width = value; }
     private int Height { get => _height; set => _height = value; }
     private Dictionary<(float, float), string> Directions { get => _directions; set => _directions = value; }
-    private RectTransform Arrow { get => _arrow; set => _arrow = value; }
     private List<Vector3> LinePoints { get => _linePoints; set => _linePoints = value; }
     private LineRenderer ExtraLineRend { get => _extraLineRend; set => _extraLineRend = value; }
     private Material LineCorrect { get => _lineCorrect; set => _lineCorrect = value; }
     private Material LineWrong { get => _lineWrong; set => _lineWrong = value; }
     private List<(int, int)> Arrows { get => _arrows; set => _arrows = value; }
     private TextMeshProUGUI Count { get => _count; set => _count = value; }
+    private GameObject End { get => _end; set => _end = value; }
+    private RectTransform Arrow { get => _arrow; set => _arrow = value; }
+    private GameObject Instructions { get => _instructions; set => _instructions = value; }
 
     private void Awake()
     {
@@ -95,7 +99,7 @@ public class FigureGame : MonoBehaviour
                     {
                         LineRend.positionCount++;
                         LineRend.SetPosition(LineRend.positionCount - 1, LinePoints[i]);
-                        ExtraLineRend.positionCount++;
+                        ExtraLineRend.SetPosition(ExtraLineRend.positionCount - 2, LinePoints[i]);
                         ExtraLineRend.SetPosition(ExtraLineRend.positionCount - 1, LinePoints[i]);
                         i++;
                     }
@@ -105,6 +109,15 @@ public class FigureGame : MonoBehaviour
                 {
                     ExtraLineRend.sharedMaterial = LineWrong;
                 }
+            }
+        }
+        else
+        {
+            if (ExtraLineRend.positionCount > 0)
+            {
+                ExtraLineRend.positionCount = 0;
+                Instructions.SetActive(false);
+                End.SetActive(true);
             }
         }
     }
