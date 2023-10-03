@@ -8,13 +8,14 @@ public class GridGenerator : MonoBehaviour
     private GameObject Cell { get => _cell; set => _cell = value; }
     public Vector3[] GridPoints { get => _gridPoints; set => _gridPoints = value; }
 
+    //genereert een grid met gegeven breedte, hoogte en grootte en bewaart de gridpunten in een array
     public void GenerateGrid(int width, int height, int cellSize)
     {
         int numberOfGridPoints = (width + 1) * (height + 1);
         GridPoints = new Vector3[numberOfGridPoints];
 
-        float offsetX = 0.5f * cellSize;
-        float offsetY = 0.5f * cellSize;
+        float offsetX = 0.5f * cellSize; //hulpafstand voor het grid te centreren
+        float offsetY = 0.5f * cellSize; //hulpafstand voor het grid te centreren
 
         if (cellSize % 2 == 1 && width % 2 == 1)
         {

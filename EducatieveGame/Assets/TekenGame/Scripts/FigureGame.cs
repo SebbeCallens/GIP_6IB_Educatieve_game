@@ -5,23 +5,27 @@ using TMPro;
 
 public class FigureGame : MonoBehaviour
 {
-    [SerializeField] private GameObject _startDot;
-    [SerializeField] private RectTransform _arrow;
-    [SerializeField] private string _figureName;
-    [SerializeField] private LineRenderer _extraLineRend;
-    [SerializeField] private Material _lineCorrect;
-    [SerializeField] private Material _lineWrong;
-    [SerializeField] private TextMeshProUGUI _count;
+    [Header("UI")]
     [SerializeField] private GameObject _end;
     [SerializeField] private GameObject _instructions;
+    [SerializeField] private TextMeshProUGUI _count;
+    [SerializeField] private RectTransform _arrow;
+    [Header("Other")]
+    [SerializeField] private GameObject _startDot;
+    [SerializeField] private LineRenderer _assistLineRend; //de linerenderer om te gebruiken in assist modus
+    [SerializeField] private Material _lineCorrect;
+    [SerializeField] private Material _lineWrong;
+    [SerializeField] private bool _assistMode; //later laten kiezen door gebruiker in menu, assist modus kleurt het lijndeel waar je mee bezig bent groen of rood afhankelijk of het in de juiste richting is of niet
+    [SerializeField] private string _figureName; //later laten kiezen door gebruiker in menu
     private LineRenderer _lineRend;
     private GridGenerator _gridGen;
-    private List<Vector3> _linePoints;
-    private List<(int, int)> _arrows;
-    private int _cellSize;
+    private GridFunctions _gridFuncs;
     private int _width;
     private int _height;
+    private int _cellSize;
     private int i = 0;
+    private List<Vector3> _linePoints;
+    private List<(int, int)> _arrows;
     private Dictionary<(float, float), string> _directions = new Dictionary<(float, float), string>
     {
         { (-1, -1), "Left-Down" },
@@ -34,28 +38,32 @@ public class FigureGame : MonoBehaviour
         { (1, 1), "Right-Up" }
     };
 
+    private GameObject End { get => _end; set => _end = value; }
+    private GameObject Instructions { get => _instructions; set => _instructions = value; }
+    private TextMeshProUGUI Count { get => _count; set => _count = value; }
+    private RectTransform Arrow { get => _arrow; set => _arrow = value; }
     private GameObject StartDot { get => _startDot; set => _startDot = value; }
+    private LineRenderer AssistLineRend { get => _assistLineRend; set => _assistLineRend = value; }
+    private Material LineCorrect { get => _lineCorrect; set => _lineCorrect = value; }
+    private Material LineWrong { get => _lineWrong; set => _lineWrong = value; }
+    private bool AssistMode { get => _assistMode; set => _assistMode = value; }
     private string FigureName { get => _figureName; set => _figureName = value; }
     private LineRenderer LineRend { get => _lineRend; set => _lineRend = value; }
     private GridGenerator GridGen { get => _gridGen; set => _gridGen = value; }
-    private int CellSize { get => _cellSize; set => _cellSize = value; }
+    public GridFunctions GridFuncs { get => _gridFuncs; set => _gridFuncs = value; }
     private int Width { get => _width; set => _width = value; }
     private int Height { get => _height; set => _height = value; }
-    private Dictionary<(float, float), string> Directions { get => _directions; set => _directions = value; }
+    private int CellSize { get => _cellSize; set => _cellSize = value; }
+    private int I { get => i; set => i = value; }
     private List<Vector3> LinePoints { get => _linePoints; set => _linePoints = value; }
-    private LineRenderer ExtraLineRend { get => _extraLineRend; set => _extraLineRend = value; }
-    private Material LineCorrect { get => _lineCorrect; set => _lineCorrect = value; }
-    private Material LineWrong { get => _lineWrong; set => _lineWrong = value; }
     private List<(int, int)> Arrows { get => _arrows; set => _arrows = value; }
-    private TextMeshProUGUI Count { get => _count; set => _count = value; }
-    private GameObject End { get => _end; set => _end = value; }
-    private RectTransform Arrow { get => _arrow; set => _arrow = value; }
-    private GameObject Instructions { get => _instructions; set => _instructions = value; }
+    private Dictionary<(float, float), string> Directions { get => _directions; set => _directions = value; }
 
     private void Awake()
     {
         LineRend = gameObject.GetComponent<LineRenderer>();
         GridGen = gameObject.GetComponent<GridGenerator>();
+        GridFuncs = GetComponent<GridFunctions>();
         FigureName = FigureName + ".txt";
         LinePoints = new List<Vector3>();
         Arrows = new List<(int, int)>();
@@ -64,65 +72,100 @@ public class FigureGame : MonoBehaviour
 
     private void Update()
     {
-        if (i == 0)
+        if (I == 0) //startpunt plaatsen zodat de gebruiker weet waar de figuur begint
         {
             Arrows = TransformList(Arrows);
             LineRend.positionCount++;
-            LineRend.SetPosition(LineRend.positionCount - 1, LinePoints[i]);
-            ExtraLineRend.positionCount++;
-            ExtraLineRend.SetPosition(ExtraLineRend.positionCount - 1, LinePoints[i]);
-            ExtraLineRend.positionCount++;
-            ExtraLineRend.SetPosition(ExtraLineRend.positionCount - 1, LinePoints[i]);
-            i++;
+            LineRend.SetPosition(LineRend.positionCount - 1, LinePoints[I]);
+            if (AssistMode)
+            {
+                AssistLineRend.positionCount++;
+                AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, LinePoints[I]);
+                AssistLineRend.positionCount++;
+                AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, LinePoints[I]);
+            }
+            else
+            {
+                AssistLineRend.positionCount++;
+                AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, LinePoints[I]);
+                LineRend.positionCount++;
+                LineRend.SetPosition(LineRend.positionCount - 1, LinePoints[I]);
+            }
+            I++;
         }
 
-        else if (i != LinePoints.Count)
+        else if (I != LinePoints.Count) //de gebruiker de figuur laten tekenen
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             int count;
             int rotation;
-            (count, rotation) = Arrows[i - 1];
+            (count, rotation) = Arrows[I - 1];
             Count.text = count.ToString();
             Arrow.localEulerAngles = new Vector3(Arrow.localEulerAngles.x, Arrow.localEulerAngles.y, rotation);
 
-            if (MouseInGrid(mousePosition))
+            if (GridFuncs.MouseInGrid(mousePosition))
             {
-                Vector3 closestPositionOnGrid = ClosestPosition(mousePosition, LineRend.GetPosition(LineRend.positionCount - 1));
-                ExtraLineRend.SetPosition(ExtraLineRend.positionCount - 1, closestPositionOnGrid);
+                Vector3 closestPositionOnGrid;
 
-                if (closestPositionOnGrid == LinePoints[i])
+                if (AssistMode)
                 {
-                    ExtraLineRend.sharedMaterial = LineCorrect;
+                    closestPositionOnGrid = GridFuncs.ClosestPosition(mousePosition, LineRend.GetPosition(LineRend.positionCount - 1), CellSize);
+                    AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, closestPositionOnGrid);
+                }
+                else
+                {
+                    closestPositionOnGrid = GridFuncs.ClosestPosition(mousePosition, LineRend.GetPosition(LineRend.positionCount - 2), CellSize);
+                    LineRend.SetPosition(LineRend.positionCount - 1, closestPositionOnGrid);
+                }
+
+                if (closestPositionOnGrid == LinePoints[I])
+                {
+                    AssistLineRend.sharedMaterial = LineCorrect;
 
                     if (Input.GetMouseButtonDown(0))
                     {
+                        if (AssistMode)
+                        {
+                            AssistLineRend.SetPosition(AssistLineRend.positionCount - 2, LinePoints[I]);
+                            AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, LinePoints[I]);
+                        }
+
                         LineRend.positionCount++;
-                        LineRend.SetPosition(LineRend.positionCount - 1, LinePoints[i]);
-                        ExtraLineRend.SetPosition(ExtraLineRend.positionCount - 2, LinePoints[i]);
-                        ExtraLineRend.SetPosition(ExtraLineRend.positionCount - 1, LinePoints[i]);
-                        i++;
+                        LineRend.SetPosition(LineRend.positionCount - 1, LinePoints[I]);
+                        I++;
                     }
                 }
 
                 else
                 {
-                    ExtraLineRend.sharedMaterial = LineWrong;
+                    AssistLineRend.sharedMaterial = LineWrong;
+                }
+            }
+            else //ervoor zorgen dat als de muis niet in het grid is dat de laatste lijn niet blijft staan
+            {
+                if (AssistMode)
+                {
+                    AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, AssistLineRend.GetPosition(AssistLineRend.positionCount - 2));
+                }
+                else
+                {
+                    LineRend.SetPosition(LineRend.positionCount - 1, LineRend.GetPosition(LineRend.positionCount - 2));
                 }
             }
         }
-        else
+        else //figuur is af, UI updaten
         {
-            if (ExtraLineRend.positionCount > 0)
+            if (AssistLineRend.positionCount > 0)
             {
-                ExtraLineRend.positionCount = 0;
+                AssistLineRend.positionCount = 0;
                 Instructions.SetActive(false);
                 End.SetActive(true);
             }
         }
     }
 
-    private List<(int, int)> TransformList(List<(int, int)> inputList)
+    private List<(int, int)> TransformList(List<(int, int)> inputList) //lijst met instructies aanpassen zodat als het meerdere keren na elkaar dezelfde kant op is dat dit klopt in de instructie
     {
         List<(int, int)> transformedList = new List<(int, int)>();
 
@@ -166,39 +209,7 @@ public class FigureGame : MonoBehaviour
         return transformedList;
     }
 
-    private bool MouseInGrid(Vector3 position)
-    {
-        float minX = GridGen.GridPoints[0].x;
-        float minY = GridGen.GridPoints[0].y;
-        float maxX = GridGen.GridPoints[^1].x;
-        float maxY = GridGen.GridPoints[^1].y;
-        return position.x >= minX && position.x <= maxX && position.y >= minY && position.y <= maxY;
-    }
-
-    private Vector3 ClosestPosition(Vector3 position, Vector3 targetGridPoint)
-    {
-        Vector3 closestGridPoint = Vector3.zero;
-        float closestDistanceToMouse = Vector3.Distance(position, closestGridPoint);
-
-        for (int i = 0; i < GridGen.GridPoints.Length; i++)
-        {
-            Vector3 gridPoint = GridGen.GridPoints[i];
-            float distanceToMouse = Vector3.Distance(position, gridPoint);
-
-            if (Mathf.Abs(gridPoint.x - targetGridPoint.x) <= CellSize && Mathf.Abs(gridPoint.y - targetGridPoint.y) <= CellSize)
-            {
-                if (distanceToMouse < closestDistanceToMouse)
-                {
-                    closestGridPoint = gridPoint;
-                    closestDistanceToMouse = distanceToMouse;
-                }
-            }
-        }
-
-        return closestGridPoint;
-    }
-
-    private void ReadFigure()
+    private void ReadFigure() //leest de lijnen van het figuurbestand
     {
         string filePath = Path.Combine(Application.persistentDataPath, "figures", FigureName);
 

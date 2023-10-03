@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LoadFigure : MonoBehaviour
 {
+    //dit script is voor de debug scene LoadFigure en tekent een figuur die opgeslaan is
     [SerializeField] private GameObject _startDot;
     [SerializeField] private string _figureName;
     private LineRenderer _lineRend;
@@ -41,7 +42,7 @@ public class LoadFigure : MonoBehaviour
         ReadFigure();
     }
 
-    private void ReadFigure()
+    private void ReadFigure() //leest de lijnen van het figuurbestand
     {
         string filePath = Path.Combine(Application.persistentDataPath, "figures", FigureName);
         List<Vector3> linePoints = new List<Vector3>();
@@ -107,7 +108,7 @@ public class LoadFigure : MonoBehaviour
         }
     }
 
-    private Vector3 ComputeNextPoint(Vector3 startPoint, string direction)
+    private Vector3 ComputeNextPoint(Vector3 startPoint, string direction) //berekent het volgende punt voor de linerenderer
     {
         float dx = 0, dy = 0;
         foreach (var entry in Directions)
@@ -121,10 +122,5 @@ public class LoadFigure : MonoBehaviour
         }
 
         return new Vector3(startPoint.x + dx * CellSize, startPoint.y + dy * CellSize, startPoint.z);
-    }
-
-    public void NextScene()
-    {
-        SceneManager.LoadScene("game");
     }
 }

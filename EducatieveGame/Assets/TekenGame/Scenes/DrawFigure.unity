@@ -541,6 +541,7 @@ GameObject:
   m_Component:
   - component: {fileID: 257158367}
   - component: {fileID: 257158369}
+  - component: {fileID: 257158371}
   - component: {fileID: 257158370}
   - component: {fileID: 257158368}
   m_Layer: 0
@@ -692,13 +693,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 749def4ea6c3c054a9b59f48408e59b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startDot: {fileID: 8834923150338136657, guid: d875a4ad402573349bf88b2cf0e022bd, type: 3}
-  _figureName: figure
   _widthText: {fileID: 968450682}
   _heightText: {fileID: 794654370}
   _cellSizeText: {fileID: 2036584945}
   _gridSettings: {fileID: 504701139}
   _drawMode: {fileID: 359235049}
+  _startDot: {fileID: 8834923150338136657, guid: d875a4ad402573349bf88b2cf0e022bd, type: 3}
+  _figureName: figure
+--- !u!114 &257158371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257158364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ae188d858f39f349ad097471f3d7043, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &359235049
 GameObject:
   m_ObjectHideFlags: 0

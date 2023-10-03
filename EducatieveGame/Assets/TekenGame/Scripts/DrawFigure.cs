@@ -3,25 +3,27 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
-using UnityEngine.UI;
 
 public class DrawFigure : MonoBehaviour
 {
-    [SerializeField] private GameObject _startDot;
-    [SerializeField] private string _figureName;
+    [Header("UI")]
     [SerializeField] private TextMeshProUGUI _widthText;
     [SerializeField] private TextMeshProUGUI _heightText;
     [SerializeField] private TextMeshProUGUI _cellSizeText;
     [SerializeField] private GameObject _gridSettings;
     [SerializeField] private GameObject _drawMode;
-    private int _cellSize = 1;
+    [Header("Other")]
+    [SerializeField] private GameObject _startDot;
+    [SerializeField] private string _figureName; //later laten kiezen door gebruiker
     private int _width = 2;
     private int _height = 2;
-    private bool settingValues = true;
+    private int _cellSize = 1;
+    private bool _settingGridValues = true;
+    private bool _startDotPlaced = false;
+    private GameObject _start;
     private LineRenderer _lineRend;
     private GridGenerator _gridGen;
-    private GameObject _start;
-    private bool _startDotPlaced = false;
+    private GridFunctions _gridFuncs;
     private Dictionary<(float, float), string> _directions = new Dictionary<(float, float), string>
     {
         { (-1, -1), "Left-Down" },
@@ -34,48 +36,46 @@ public class DrawFigure : MonoBehaviour
         { (1, 1), "Right-Up" }
     };
 
-    private GameObject StartDot { get => _startDot; set => _startDot = value; }
-    private string FigureName { get => _figureName; set => _figureName = value; }
-    private LineRenderer LineRend { get => _lineRend; set => _lineRend = value; }
-    private GridGenerator GridGen { get => _gridGen; set => _gridGen = value; }
-    private Dictionary<(float, float), string> Directions { get => _directions; set => _directions = value; }
-    private GameObject Start { get => _start; set => _start = value; }
-    private bool StartDotPlaced { get => _startDotPlaced; set => _startDotPlaced = value; }
-    private int CellSize { get => _cellSize; set => _cellSize = value; }
-    private int Width { get => _width; set => _width = value; }
-    private int Height { get => _height; set => _height = value; }
     private TextMeshProUGUI WidthText { get => _widthText; set => _widthText = value; }
     private TextMeshProUGUI HeightText { get => _heightText; set => _heightText = value; }
     private TextMeshProUGUI CellSizeText { get => _cellSizeText; set => _cellSizeText = value; }
-    private bool SettingValues { get => settingValues; set => settingValues = value; }
     private GameObject GridSettings { get => _gridSettings; set => _gridSettings = value; }
     private GameObject DrawMode { get => _drawMode; set => _drawMode = value; }
+    private GameObject StartDot { get => _startDot; set => _startDot = value; }
+    private string FigureName { get => _figureName; set => _figureName = value; }
+    private int Width { get => _width; set => _width = value; }
+    private int Height { get => _height; set => _height = value; }
+    private int CellSize { get => _cellSize; set => _cellSize = value; }
+    private bool SettingGridValues { get => _settingGridValues; set => _settingGridValues = value; }
+    private bool StartDotPlaced { get => _startDotPlaced; set => _startDotPlaced = value; }
+    private GameObject Start { get => _start; set => _start = value; }
+    private LineRenderer LineRend { get => _lineRend; set => _lineRend = value; }
+    private GridGenerator GridGen { get => _gridGen; set => _gridGen = value; }
+    public GridFunctions GridFuncs { get => _gridFuncs; set => _gridFuncs = value; }
+    private Dictionary<(float, float), string> Directions { get => _directions; set => _directions = value; }
 
     private void Awake()
     {
         LineRend = GetComponent<LineRenderer>();
         GridGen = GetComponent<GridGenerator>();
+        GridFuncs = GetComponent<GridFunctions>();
         FigureName = FigureName + ".txt";
         Start = Instantiate(StartDot, Vector3.zero, Quaternion.identity, transform);
+        WidthText.text = Width.ToString();
+        HeightText.text = Height.ToString();
+        CellSizeText.text = CellSize.ToString();
     }
 
     private void Update()
     {
-        if (SettingValues)
-        {
-            WidthText.text = Width.ToString();
-            HeightText.text = Height.ToString();
-            CellSizeText.text = CellSize.ToString();
-        }
-
-        else
+        if (!SettingGridValues)
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (MouseInGrid(mousePosition))
+            if (GridFuncs.MouseInGrid(mousePosition))
             {
                 if (!StartDotPlaced)
                 {
-                    Vector3 closestPositionOnGrid = ClosestPositionOnGrid(mousePosition);
+                    Vector3 closestPositionOnGrid = GridFuncs.ClosestPositionOnGrid(mousePosition);
                     Start.transform.position = closestPositionOnGrid;
                     if (Input.GetMouseButtonDown(0))
                     {
@@ -90,7 +90,7 @@ public class DrawFigure : MonoBehaviour
 
                 else
                 {
-                    Vector3 closestPositionOnGrid = ClosestPosition(mousePosition, LineRend.GetPosition(LineRend.positionCount - 2));
+                    Vector3 closestPositionOnGrid = GridFuncs.ClosestPosition(mousePosition, LineRend.GetPosition(LineRend.positionCount - 2), CellSize);
                     LineRend.SetPosition(LineRend.positionCount - 1, closestPositionOnGrid);
 
                     if (Directions.ContainsKey(((closestPositionOnGrid.x - LineRend.GetPosition(LineRend.positionCount - 2).x) / CellSize, (closestPositionOnGrid.y - LineRend.GetPosition(LineRend.positionCount - 2).y) / CellSize)) && Input.GetMouseButtonDown(0))
@@ -102,12 +102,20 @@ public class DrawFigure : MonoBehaviour
                     }
                 }
             }
+            else if (StartDotPlaced) //ervoor zorgen dat als de muis niet in het grid is dat de laatste lijn niet blijft staan
+            {
+                LineRend.SetPosition(LineRend.positionCount - 1, LineRend.GetPosition(LineRend.positionCount - 2));
+            }
+            else //ervoor zorgen als de muis niet in het grid is dat het startpunt dat nog niet gezet is verdwijnt
+            {
+                Start.transform.position = Vector3.zero;
+            }
         }
     }
 
-    public void GenerateGrid()
+    public void GenerateGrid() //genereer het grid, verberg de gridinstellingen en maak de instellingen voor tekenmodus zichtbaar
     {
-        settingValues = false;
+        SettingGridValues = false;
         GridSettings.SetActive(false);
         DrawMode.SetActive(true);
         GridGen.GenerateGrid(Width, Height, CellSize);
@@ -120,6 +128,7 @@ public class DrawFigure : MonoBehaviour
             if (Width < 16)
             {
                 Width++;
+                WidthText.text = Width.ToString();
             }
         }
         else if (index == 1)
@@ -127,6 +136,7 @@ public class DrawFigure : MonoBehaviour
             if (Height < 10)
             {
                 Height++;
+                HeightText.text = Height.ToString();
             }
         }
         else if (index == 2)
@@ -134,6 +144,7 @@ public class DrawFigure : MonoBehaviour
             if (CellSize < 2)
             {
                 CellSize++;
+                CellSizeText.text = CellSize.ToString();
             }
         }
     }
@@ -145,6 +156,7 @@ public class DrawFigure : MonoBehaviour
             if (Width > 2)
             {
                 Width--;
+                WidthText.text = Width.ToString();
             }
         }
         else if (index == 1)
@@ -152,6 +164,7 @@ public class DrawFigure : MonoBehaviour
             if (Height > 2)
             {
                 Height--;
+                HeightText.text = Height.ToString();
             }
         }
         else if (index == 2)
@@ -159,70 +172,19 @@ public class DrawFigure : MonoBehaviour
             if (CellSize > 1)
             {
                 CellSize--;
+                CellSizeText.text = CellSize.ToString();
             }
         }
     }
 
-    private bool MouseInGrid(Vector3 position)
+    private void AddStartPos(Vector3 startPos) //voegt de instellingen van het grid van de huidige figuur toe en het startpunt van de figuur
     {
-        float minX = GridGen.GridPoints[0].x;
-        float minY = GridGen.GridPoints[0].y;
-        float maxX = GridGen.GridPoints[^1].x;
-        float maxY = GridGen.GridPoints[^1].y;
-        return position.x >= minX && position.x <= maxX && position.y >= minY && position.y <= maxY;
-    }
-
-    private Vector3 ClosestPositionOnGrid(Vector3 position)
-    {
-        Vector3 closestGridPoint = GridGen.GridPoints[0];
-        float closestDistance = Vector3.Distance(position, closestGridPoint);
-
-        for (int i = 1; i < GridGen.GridPoints.Length; i++)
+        if (!Directory.Exists(Path.Combine(Application.persistentDataPath, "figures"))) //maakt de map voor figuren op te slaan aan als deze nog niet bestaat
         {
-            float distance = Vector3.Distance(position, GridGen.GridPoints[i]);
-
-            if (distance < closestDistance)
-            {
-                closestGridPoint = GridGen.GridPoints[i];
-                closestDistance = distance;
-            }
+            Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "figures"));
         }
 
-        return closestGridPoint;
-    }
-
-    private Vector3 ClosestPosition(Vector3 position, Vector3 targetGridPoint)
-    {
-        Vector3 closestGridPoint = Vector3.zero;
-        float closestDistanceToMouse = Vector3.Distance(position, closestGridPoint);
-
-        for (int i = 0; i < GridGen.GridPoints.Length; i++)
-        {
-            Vector3 gridPoint = GridGen.GridPoints[i];
-            float distanceToMouse = Vector3.Distance(position, gridPoint);
-
-            if (Mathf.Abs(gridPoint.x - targetGridPoint.x) <= CellSize && Mathf.Abs(gridPoint.y - targetGridPoint.y) <= CellSize)
-            {
-                if (distanceToMouse < closestDistanceToMouse)
-                {
-                    closestGridPoint = gridPoint;
-                    closestDistanceToMouse = distanceToMouse;
-                }
-            }
-        }
-
-        return closestGridPoint;
-    }
-
-    private void AddStartPos(Vector3 startPos)
-    {
-        string directoryPath = Path.Combine(Application.persistentDataPath, "figures");
-        string filePath = Path.Combine(directoryPath, FigureName);
-
-        if (!Directory.Exists(directoryPath))
-        {
-            Directory.CreateDirectory(directoryPath);
-        }
+        string filePath = Path.Combine(Application.persistentDataPath, "figures", FigureName);
 
         using (StreamWriter writer = new StreamWriter(filePath))
         {
@@ -234,7 +196,7 @@ public class DrawFigure : MonoBehaviour
         }
     }
 
-    private void AddLineSegment(string direction)
+    private void AddLineSegment(string direction) //voegt de delen van de figuur toe aan het figuurbestand
     {
         string filePath = Path.Combine(Application.persistentDataPath, "figures", FigureName);
 
@@ -246,6 +208,6 @@ public class DrawFigure : MonoBehaviour
 
     public void NextScene()
     {
-        SceneManager.LoadScene("LoadFigure");
+        SceneManager.LoadScene("game");
     }
 }
