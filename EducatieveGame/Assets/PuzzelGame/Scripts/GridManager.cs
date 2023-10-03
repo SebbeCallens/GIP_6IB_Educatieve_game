@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridManager : MonoBehaviour
+public class GridManager2 : MonoBehaviour
 {
     public int _width, _height;
     public Tile _tilePrefab;
@@ -107,5 +107,6 @@ public class GridManager : MonoBehaviour
             case 25:
                 return 'Z';
         }
+        return '!';
     }
 }

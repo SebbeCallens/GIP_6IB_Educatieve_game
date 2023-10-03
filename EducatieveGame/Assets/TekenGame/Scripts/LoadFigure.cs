@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LoadFigure : MonoBehaviour
 {
@@ -38,6 +39,14 @@ public class LoadFigure : MonoBehaviour
         GridGen = gameObject.GetComponent<GridGenerator>();
         FigureName = FigureName + ".txt";
         ReadFigure();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("game");
+        }
     }
 
     private void ReadFigure()

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DrawFigure : MonoBehaviour
 {
@@ -79,6 +80,11 @@ public class DrawFigure : MonoBehaviour
                     AddLineSegment(direction);
                     LineRend.positionCount++;
                     LineRend.SetPosition(LineRend.positionCount - 1, closestPositionOnGrid);
+                }
+
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    SceneManager.LoadScene("LoadFigure");
                 }
             }
         }

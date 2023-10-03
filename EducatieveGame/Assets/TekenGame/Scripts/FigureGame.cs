@@ -119,6 +119,11 @@ public class FigureGame : MonoBehaviour
                 Instructions.SetActive(false);
                 End.SetActive(true);
             }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
         }
     }
 
