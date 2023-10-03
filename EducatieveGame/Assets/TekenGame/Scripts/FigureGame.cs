@@ -119,11 +119,6 @@ public class FigureGame : MonoBehaviour
                 Instructions.SetActive(false);
                 End.SetActive(true);
             }
-
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Application.Quit();
-            }
         }
     }
 
@@ -234,10 +229,7 @@ public class FigureGame : MonoBehaviour
                     }
                     else if (line.StartsWith("StartPos: "))
                     {
-                        GridGen.CellSize = CellSize;
-                        GridGen.Width = Width;
-                        GridGen.Height = Height;
-                        GridGen.GenerateGrid();
+                        GridGen.GenerateGrid(Width, Height, CellSize);
 
                         string startPosString = line.Substring("StartPos: ".Length);
                         string[] startPosParts = startPosString.Split(',');
@@ -316,5 +308,10 @@ public class FigureGame : MonoBehaviour
         }
 
         return new Vector3(startPoint.x + dx * CellSize, startPoint.y + dy * CellSize, startPoint.z);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }

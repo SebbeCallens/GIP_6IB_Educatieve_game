@@ -2,14 +2,22 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.UI;
 
 public class DrawFigure : MonoBehaviour
 {
     [SerializeField] private GameObject _startDot;
     [SerializeField] private string _figureName;
-    [SerializeField] private int _cellSize;
-    [SerializeField] private int _width;
-    [SerializeField] private int _height;
+    [SerializeField] private TextMeshProUGUI _widthText;
+    [SerializeField] private TextMeshProUGUI _heightText;
+    [SerializeField] private TextMeshProUGUI _cellSizeText;
+    [SerializeField] private GameObject _gridSettings;
+    [SerializeField] private GameObject _drawMode;
+    private int _cellSize = 1;
+    private int _width = 2;
+    private int _height = 2;
+    private bool settingValues = true;
     private LineRenderer _lineRend;
     private GridGenerator _gridGen;
     private GameObject _start;
@@ -36,6 +44,12 @@ public class DrawFigure : MonoBehaviour
     private int CellSize { get => _cellSize; set => _cellSize = value; }
     private int Width { get => _width; set => _width = value; }
     private int Height { get => _height; set => _height = value; }
+    private TextMeshProUGUI WidthText { get => _widthText; set => _widthText = value; }
+    private TextMeshProUGUI HeightText { get => _heightText; set => _heightText = value; }
+    private TextMeshProUGUI CellSizeText { get => _cellSizeText; set => _cellSizeText = value; }
+    private bool SettingValues { get => settingValues; set => settingValues = value; }
+    private GameObject GridSettings { get => _gridSettings; set => _gridSettings = value; }
+    private GameObject DrawMode { get => _drawMode; set => _drawMode = value; }
 
     private void Awake()
     {
@@ -43,49 +57,108 @@ public class DrawFigure : MonoBehaviour
         GridGen = GetComponent<GridGenerator>();
         FigureName = FigureName + ".txt";
         Start = Instantiate(StartDot, Vector3.zero, Quaternion.identity, transform);
-        GridGen.CellSize = CellSize;
-        GridGen.Width = Width;
-        GridGen.Height = Height;
-        GridGen.GenerateGrid();
     }
 
     private void Update()
     {
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (MouseInGrid(mousePosition))
+        if (SettingValues)
         {
-            if (!StartDotPlaced)
+            WidthText.text = Width.ToString();
+            HeightText.text = Height.ToString();
+            CellSizeText.text = CellSize.ToString();
+        }
+
+        else
+        {
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (MouseInGrid(mousePosition))
             {
-                Vector3 closestPositionOnGrid = ClosestPositionOnGrid(mousePosition);
-                Start.transform.position = closestPositionOnGrid;
-                if (Input.GetMouseButtonDown(0))
+                if (!StartDotPlaced)
                 {
-                    StartDotPlaced = true;
-                    AddStartPos(closestPositionOnGrid);
-                    LineRend.positionCount++;
+                    Vector3 closestPositionOnGrid = ClosestPositionOnGrid(mousePosition);
+                    Start.transform.position = closestPositionOnGrid;
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        StartDotPlaced = true;
+                        AddStartPos(closestPositionOnGrid);
+                        LineRend.positionCount++;
+                        LineRend.SetPosition(LineRend.positionCount - 1, closestPositionOnGrid);
+                        LineRend.positionCount++;
+                        LineRend.SetPosition(LineRend.positionCount - 1, closestPositionOnGrid);
+                    }
+                }
+
+                else
+                {
+                    Vector3 closestPositionOnGrid = ClosestPosition(mousePosition, LineRend.GetPosition(LineRend.positionCount - 2));
                     LineRend.SetPosition(LineRend.positionCount - 1, closestPositionOnGrid);
-                    LineRend.positionCount++;
-                    LineRend.SetPosition(LineRend.positionCount - 1, closestPositionOnGrid);
+
+                    if (Directions.ContainsKey(((closestPositionOnGrid.x - LineRend.GetPosition(LineRend.positionCount - 2).x) / CellSize, (closestPositionOnGrid.y - LineRend.GetPosition(LineRend.positionCount - 2).y) / CellSize)) && Input.GetMouseButtonDown(0))
+                    {
+                        string direction = Directions[((closestPositionOnGrid.x - LineRend.GetPosition(LineRend.positionCount - 2).x) / CellSize, (closestPositionOnGrid.y - LineRend.GetPosition(LineRend.positionCount - 2).y) / CellSize)];
+                        AddLineSegment(direction);
+                        LineRend.positionCount++;
+                        LineRend.SetPosition(LineRend.positionCount - 1, closestPositionOnGrid);
+                    }
                 }
             }
+        }
+    }
 
-            else
+    public void GenerateGrid()
+    {
+        settingValues = false;
+        GridSettings.SetActive(false);
+        DrawMode.SetActive(true);
+        GridGen.GenerateGrid(Width, Height, CellSize);
+    }
+
+    public void ValueUp(int index)
+    {
+        if (index == 0)
+        {
+            if (Width < 16)
             {
-                Vector3 closestPositionOnGrid = ClosestPosition(mousePosition, LineRend.GetPosition(LineRend.positionCount - 2));
-                LineRend.SetPosition(LineRend.positionCount - 1, closestPositionOnGrid);
+                Width++;
+            }
+        }
+        else if (index == 1)
+        {
+            if (Height < 10)
+            {
+                Height++;
+            }
+        }
+        else if (index == 2)
+        {
+            if (CellSize < 2)
+            {
+                CellSize++;
+            }
+        }
+    }
 
-                if (Directions.ContainsKey(((closestPositionOnGrid.x - LineRend.GetPosition(LineRend.positionCount - 2).x) / CellSize, (closestPositionOnGrid.y - LineRend.GetPosition(LineRend.positionCount - 2).y) / CellSize)) && Input.GetMouseButtonDown(0))
-                {
-                    string direction = Directions[((closestPositionOnGrid.x - LineRend.GetPosition(LineRend.positionCount - 2).x) / CellSize, (closestPositionOnGrid.y - LineRend.GetPosition(LineRend.positionCount - 2).y) / CellSize)];
-                    AddLineSegment(direction);
-                    LineRend.positionCount++;
-                    LineRend.SetPosition(LineRend.positionCount - 1, closestPositionOnGrid);
-                }
-
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    SceneManager.LoadScene("LoadFigure");
-                }
+    public void ValueDown(int index)
+    {
+        if (index == 0)
+        {
+            if (Width > 2)
+            {
+                Width--;
+            }
+        }
+        else if (index == 1)
+        {
+            if (Height > 2)
+            {
+                Height--;
+            }
+        }
+        else if (index == 2)
+        {
+            if (CellSize > 1)
+            {
+                CellSize--;
             }
         }
     }
@@ -169,5 +242,10 @@ public class DrawFigure : MonoBehaviour
         {
             writer.WriteLine(direction);
         }
+    }
+
+    public void NextScene()
+    {
+        SceneManager.LoadScene("LoadFigure");
     }
 }

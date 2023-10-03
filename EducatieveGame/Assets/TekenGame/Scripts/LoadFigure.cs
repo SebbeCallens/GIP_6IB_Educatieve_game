@@ -9,9 +9,9 @@ public class LoadFigure : MonoBehaviour
     [SerializeField] private string _figureName;
     private LineRenderer _lineRend;
     private GridGenerator _gridGen;
-    private int _cellSize;
     private int _width;
     private int _height;
+    private int _cellSize;
     private Dictionary<(float, float), string> _directions = new Dictionary<(float, float), string>
     {
         { (-1, -1), "Left-Down" },
@@ -28,9 +28,9 @@ public class LoadFigure : MonoBehaviour
     private string FigureName { get => _figureName; set => _figureName = value; }
     private LineRenderer LineRend { get => _lineRend; set => _lineRend = value; }
     private GridGenerator GridGen { get => _gridGen; set => _gridGen = value; }
-    private int CellSize { get => _cellSize; set => _cellSize = value; }
     private int Width { get => _width; set => _width = value; }
     private int Height { get => _height; set => _height = value; }
+    private int CellSize { get => _cellSize; set => _cellSize = value; }
     private Dictionary<(float, float), string> Directions { get => _directions; set => _directions = value; }
 
     private void Awake()
@@ -39,14 +39,6 @@ public class LoadFigure : MonoBehaviour
         GridGen = gameObject.GetComponent<GridGenerator>();
         FigureName = FigureName + ".txt";
         ReadFigure();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SceneManager.LoadScene("game");
-        }
     }
 
     private void ReadFigure()
@@ -81,10 +73,7 @@ public class LoadFigure : MonoBehaviour
                     }
                     else if (line.StartsWith("StartPos: "))
                     {
-                        GridGen.CellSize = CellSize;
-                        GridGen.Width = Width;
-                        GridGen.Height = Height;
-                        GridGen.GenerateGrid();
+                        GridGen.GenerateGrid(Width, Height, CellSize);
 
                         string startPosString = line.Substring("StartPos: ".Length);
                         string[] startPosParts = startPosString.Split(',');
@@ -132,5 +121,10 @@ public class LoadFigure : MonoBehaviour
         }
 
         return new Vector3(startPoint.x + dx * CellSize, startPoint.y + dy * CellSize, startPoint.z);
+    }
+
+    public void NextScene()
+    {
+        SceneManager.LoadScene("game");
     }
 }
