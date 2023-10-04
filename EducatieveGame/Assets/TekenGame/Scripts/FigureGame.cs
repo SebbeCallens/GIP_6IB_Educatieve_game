@@ -15,7 +15,7 @@ public class FigureGame : MonoBehaviour
     [SerializeField] private LineRenderer _assistLineRend; //de linerenderer om te gebruiken in assist modus
     [SerializeField] private Material _lineCorrect;
     [SerializeField] private Material _lineWrong;
-    [SerializeField] private bool _assistMode; //later laten kiezen door gebruiker in menu, assist modus kleurt het lijndeel waar je mee bezig bent groen of rood afhankelijk of het in de juiste richting is of niet
+    [SerializeField] private bool _assistMode;
     [SerializeField] private string _figureName; //later laten kiezen door gebruiker in menu
     private LineRenderer _lineRend;
     private GridGenerator _gridGen;
@@ -24,6 +24,7 @@ public class FigureGame : MonoBehaviour
     private int _height;
     private int _cellSize;
     private int i = 0;
+    private int original;
     private List<Vector3> _linePoints;
     private List<(int, int)> _arrows;
     private Dictionary<(float, float), string> _directions = new Dictionary<(float, float), string>
@@ -55,6 +56,7 @@ public class FigureGame : MonoBehaviour
     private int Height { get => _height; set => _height = value; }
     private int CellSize { get => _cellSize; set => _cellSize = value; }
     private int I { get => i; set => i = value; }
+    private int Original { get => original; set => original = value; }
     private List<Vector3> LinePoints { get => _linePoints; set => _linePoints = value; }
     private List<(int, int)> Arrows { get => _arrows; set => _arrows = value; }
     private Dictionary<(float, float), string> Directions { get => _directions; set => _directions = value; }
@@ -64,10 +66,21 @@ public class FigureGame : MonoBehaviour
         LineRend = gameObject.GetComponent<LineRenderer>();
         GridGen = gameObject.GetComponent<GridGenerator>();
         GridFuncs = GetComponent<GridFunctions>();
+        Original = PlayerPrefs.GetInt("original");
+        FigureName = PlayerPrefs.GetString("figure");
         FigureName = FigureName + ".txt";
         LinePoints = new List<Vector3>();
         Arrows = new List<(int, int)>();
         ReadFigure();
+
+        if (PlayerPrefs.GetInt("assist") == 1)
+        {
+            AssistMode = true;
+        }
+        else
+        {
+            AssistMode = false;
+        }
     }
 
     private void Update()
@@ -211,7 +224,15 @@ public class FigureGame : MonoBehaviour
 
     private void ReadFigure() //leest de lijnen van het figuurbestand
     {
-        string filePath = Path.Combine(Application.persistentDataPath, "figures", FigureName);
+        string filePath;
+        if (Original == 0)
+        {
+            filePath = Path.Combine(Application.persistentDataPath, "figures", FigureName);
+        }
+        else
+        {
+            filePath = Path.Combine(Application.streamingAssetsPath, "TekenGame/Figures", FigureName);
+        }
 
         if (File.Exists(filePath))
         {

@@ -6,11 +6,14 @@ using TMPro;
 public class DrawFigure : MonoBehaviour
 {
     [Header("UI")]
+    [SerializeField] private TMP_InputField _figureNameText;
     [SerializeField] private TextMeshProUGUI _widthText;
     [SerializeField] private TextMeshProUGUI _heightText;
     [SerializeField] private TextMeshProUGUI _cellSizeText;
     [SerializeField] private GameObject _gridSettings;
     [SerializeField] private GameObject _drawMode;
+    [SerializeField] private GameObject _warning;
+    [SerializeField] private GameObject _noLinesWarning;
     [Header("Settings")]
     [SerializeField] private int _minWidth;
     [SerializeField] private int _minHeight;
@@ -18,16 +21,19 @@ public class DrawFigure : MonoBehaviour
     [SerializeField] private int _maxHeight;
     [Header("Other")]
     [SerializeField] private GameObject _startDot;
-    [SerializeField] private string _figureName; //later laten kiezen door gebruiker
+    [SerializeField] private GameObject _menuLogObject;
+    private string _figureName;
     private int _width;
     private int _height;
     private int _cellSize = 1;
     private bool _settingGridValues = true;
     private bool _startDotPlaced = false;
+    private bool _noLines = true;
     private GameObject _start;
     private LineRenderer _lineRend;
     private GridGenerator _gridGen;
     private GridFunctions _gridFuncs;
+    private MenuLogic _menuLog;
     private Dictionary<(float, float), string> _directions = new Dictionary<(float, float), string>
     {
         { (-1, -1), "Left-Down" },
@@ -40,26 +46,32 @@ public class DrawFigure : MonoBehaviour
         { (1, 1), "Right-Up" }
     };
 
+    private TMP_InputField FigureNameText { get => _figureNameText; set => _figureNameText = value; }
     private TextMeshProUGUI WidthText { get => _widthText; set => _widthText = value; }
     private TextMeshProUGUI HeightText { get => _heightText; set => _heightText = value; }
     private TextMeshProUGUI CellSizeText { get => _cellSizeText; set => _cellSizeText = value; }
     private GameObject GridSettings { get => _gridSettings; set => _gridSettings = value; }
     private GameObject DrawMode { get => _drawMode; set => _drawMode = value; }
-    public int MinWidth { get => _minWidth; set => _minWidth = value; }
-    public int MinHeight { get => _minHeight; set => _minHeight = value; }
-    public int MaxWidth { get => _maxWidth; set => _maxWidth = value; }
-    public int MaxHeight { get => _maxHeight; set => _maxHeight = value; }
+    private GameObject Warning { get => _warning; set => _warning = value; }
+    private GameObject NoLinesWarning { get => _noLinesWarning; set => _noLinesWarning = value; }
+    private int MinWidth { get => _minWidth; set => _minWidth = value; }
+    private int MinHeight { get => _minHeight; set => _minHeight = value; }
+    private int MaxWidth { get => _maxWidth; set => _maxWidth = value; }
+    private int MaxHeight { get => _maxHeight; set => _maxHeight = value; }
     private GameObject StartDot { get => _startDot; set => _startDot = value; }
+    private GameObject MenuLogObject { get => _menuLogObject; set => _menuLogObject = value; }
     private string FigureName { get => _figureName; set => _figureName = value; }
     private int Width { get => _width; set => _width = value; }
     private int Height { get => _height; set => _height = value; }
     private int CellSize { get => _cellSize; set => _cellSize = value; }
     private bool SettingGridValues { get => _settingGridValues; set => _settingGridValues = value; }
     private bool StartDotPlaced { get => _startDotPlaced; set => _startDotPlaced = value; }
+    private bool NoLines { get => _noLines; set => _noLines = value; }
     private GameObject Start { get => _start; set => _start = value; }
     private LineRenderer LineRend { get => _lineRend; set => _lineRend = value; }
     private GridGenerator GridGen { get => _gridGen; set => _gridGen = value; }
-    public GridFunctions GridFuncs { get => _gridFuncs; set => _gridFuncs = value; }
+    private GridFunctions GridFuncs { get => _gridFuncs; set => _gridFuncs = value; }
+    private MenuLogic MenuLog { get => _menuLog; set => _menuLog = value; }
     private Dictionary<(float, float), string> Directions { get => _directions; set => _directions = value; }
 
     private void Awake()
@@ -67,7 +79,7 @@ public class DrawFigure : MonoBehaviour
         LineRend = GetComponent<LineRenderer>();
         GridGen = GetComponent<GridGenerator>();
         GridFuncs = GetComponent<GridFunctions>();
-        FigureName = FigureName + ".txt";
+        MenuLog = MenuLogObject.GetComponent<MenuLogic>();
         Start = Instantiate(StartDot, Vector3.zero, Quaternion.identity, transform);
         Width = MinWidth;
         Height = MinHeight;
@@ -125,10 +137,18 @@ public class DrawFigure : MonoBehaviour
 
     public void GenerateGrid() //genereer het grid, verberg de gridinstellingen en maak de instellingen voor tekenmodus zichtbaar
     {
-        SettingGridValues = false;
-        GridSettings.SetActive(false);
-        DrawMode.SetActive(true);
-        GridGen.GenerateGrid(Width, Height, CellSize);
+        if (!string.IsNullOrWhiteSpace(FigureNameText.text))
+        {
+            SettingGridValues = false;
+            GridSettings.SetActive(false);
+            DrawMode.SetActive(true);
+            GridGen.GenerateGrid(Width, Height, CellSize);
+            FigureName = FigureNameText.text + ".txt";
+        }
+        else
+        {
+            Warning.SetActive(true);
+        }
     }
 
     public void ValueUp(int index)
@@ -228,11 +248,24 @@ public class DrawFigure : MonoBehaviour
 
     private void AddLineSegment(string direction) //voegt de delen van de figuur toe aan het figuurbestand
     {
+        NoLines = false;
         string filePath = Path.Combine(Application.persistentDataPath, "figures", FigureName);
 
         using (StreamWriter writer = new StreamWriter(filePath, true))
         {
             writer.WriteLine(direction);
+        }
+    }
+
+    public void Done()
+    {
+        if (NoLines)
+        {
+            NoLinesWarning.SetActive(true);
+        }
+        else
+        {
+            MenuLog.LoadScene("SelectMode");
         }
     }
 }
