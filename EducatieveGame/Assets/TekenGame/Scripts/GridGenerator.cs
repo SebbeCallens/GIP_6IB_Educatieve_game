@@ -27,19 +27,19 @@ public class GridGenerator : MonoBehaviour
         }
 
         int i = 0;
-        for (int y = 0; y <= height; y++)
+        for (int y = 0; y <= height; y++) //elke y coordinaat aflopen
         {
-            for (int x = 0; x <= width; x++)
+            for (int x = 0; x <= width; x++) //elke x coordinaat aflopen
             {
                 Vector3 cellPosition = new(x * cellSize + transform.position.x - (width * cellSize) / 2 + offsetX, y * cellSize + transform.position.y - (height * cellSize) / 2 + offsetY, 0);
                 
-                if (y != height && x != width)
+                if (y != height && x != width) //voor de laatste y rij en x rij geen cel object plaatsen
                 {
                     GameObject cell = Instantiate(Cell, cellPosition, Quaternion.identity, transform);
                     cell.transform.localScale = new(cellSize, cellSize, 1);
                 }
 
-                GridPoints[i] = new(cellPosition.x - 0.5f * cellSize, cellPosition.y - 0.5f * cellSize, 0);
+                GridPoints[i] = new(cellPosition.x - 0.5f * cellSize, cellPosition.y - 0.5f * cellSize, 0); //gridpunt instelllen in array
                 i++;
             }
         }

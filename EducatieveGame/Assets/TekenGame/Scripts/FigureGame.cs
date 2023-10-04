@@ -320,9 +320,4 @@ public class FigureGame : MonoBehaviour
 
         return new Vector3(startPoint.x + dx * CellSize, startPoint.y + dy * CellSize, startPoint.z);
     }
-
-    public void Quit()
-    {
-        Application.Quit();
-    }
 }

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class DrawFigure : MonoBehaviour
@@ -12,11 +11,16 @@ public class DrawFigure : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _cellSizeText;
     [SerializeField] private GameObject _gridSettings;
     [SerializeField] private GameObject _drawMode;
+    [Header("Settings")]
+    [SerializeField] private int _minWidth;
+    [SerializeField] private int _minHeight;
+    [SerializeField] private int _maxWidth;
+    [SerializeField] private int _maxHeight;
     [Header("Other")]
     [SerializeField] private GameObject _startDot;
     [SerializeField] private string _figureName; //later laten kiezen door gebruiker
-    private int _width = 2;
-    private int _height = 2;
+    private int _width;
+    private int _height;
     private int _cellSize = 1;
     private bool _settingGridValues = true;
     private bool _startDotPlaced = false;
@@ -41,6 +45,10 @@ public class DrawFigure : MonoBehaviour
     private TextMeshProUGUI CellSizeText { get => _cellSizeText; set => _cellSizeText = value; }
     private GameObject GridSettings { get => _gridSettings; set => _gridSettings = value; }
     private GameObject DrawMode { get => _drawMode; set => _drawMode = value; }
+    public int MinWidth { get => _minWidth; set => _minWidth = value; }
+    public int MinHeight { get => _minHeight; set => _minHeight = value; }
+    public int MaxWidth { get => _maxWidth; set => _maxWidth = value; }
+    public int MaxHeight { get => _maxHeight; set => _maxHeight = value; }
     private GameObject StartDot { get => _startDot; set => _startDot = value; }
     private string FigureName { get => _figureName; set => _figureName = value; }
     private int Width { get => _width; set => _width = value; }
@@ -61,6 +69,8 @@ public class DrawFigure : MonoBehaviour
         GridFuncs = GetComponent<GridFunctions>();
         FigureName = FigureName + ".txt";
         Start = Instantiate(StartDot, Vector3.zero, Quaternion.identity, transform);
+        Width = MinWidth;
+        Height = MinHeight;
         WidthText.text = Width.ToString();
         HeightText.text = Height.ToString();
         CellSizeText.text = CellSize.ToString();
@@ -125,7 +135,7 @@ public class DrawFigure : MonoBehaviour
     {
         if (index == 0)
         {
-            if (Width < 16)
+            if (Width < MaxWidth / CellSize)
             {
                 Width++;
                 WidthText.text = Width.ToString();
@@ -133,7 +143,7 @@ public class DrawFigure : MonoBehaviour
         }
         else if (index == 1)
         {
-            if (Height < 10)
+            if (Height < MaxHeight / CellSize)
             {
                 Height++;
                 HeightText.text = Height.ToString();
@@ -144,6 +154,16 @@ public class DrawFigure : MonoBehaviour
             if (CellSize < 2)
             {
                 CellSize++;
+                if (Width > MaxWidth / CellSize)
+                {
+                    Width = MaxWidth / CellSize;
+                    WidthText.text = Width.ToString();
+                }
+                if (Height > MaxHeight / CellSize)
+                {
+                    Height = MaxHeight / CellSize;
+                    HeightText.text = Height.ToString();
+                }
                 CellSizeText.text = CellSize.ToString();
             }
         }
@@ -153,7 +173,7 @@ public class DrawFigure : MonoBehaviour
     {
         if (index == 0)
         {
-            if (Width > 2)
+            if (Width > MinWidth / CellSize)
             {
                 Width--;
                 WidthText.text = Width.ToString();
@@ -161,7 +181,7 @@ public class DrawFigure : MonoBehaviour
         }
         else if (index == 1)
         {
-            if (Height > 2)
+            if (Height > MinHeight / CellSize)
             {
                 Height--;
                 HeightText.text = Height.ToString();
@@ -172,6 +192,16 @@ public class DrawFigure : MonoBehaviour
             if (CellSize > 1)
             {
                 CellSize--;
+                if (Width < MinWidth * CellSize)
+                {
+                    Width = MinWidth * CellSize;
+                    WidthText.text = Width.ToString();
+                }
+                if (Height < MinHeight * CellSize)
+                {
+                    Height = MinHeight * CellSize;
+                    HeightText.text = Height.ToString();
+                }
                 CellSizeText.text = CellSize.ToString();
             }
         }
@@ -204,10 +234,5 @@ public class DrawFigure : MonoBehaviour
         {
             writer.WriteLine(direction);
         }
-    }
-
-    public void NextScene()
-    {
-        SceneManager.LoadScene("game");
     }
 }
