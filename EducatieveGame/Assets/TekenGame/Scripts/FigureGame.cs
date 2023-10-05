@@ -257,8 +257,8 @@ public class FigureGame : MonoBehaviour
                 {
                     if (line.StartsWith("CellSize: "))
                     {
-                        string widthString = line.Substring("CellSize: ".Length);
-                        CellSize = int.Parse(widthString.Trim());
+                        string cellSizeString = line.Substring("CellSize: ".Length);
+                        CellSize = int.Parse(cellSizeString.Trim());
                     }
                     else if (line.StartsWith("Width: "))
                     {

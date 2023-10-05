@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +10,7 @@ public class FigureListLoader : MonoBehaviour
     [SerializeField] private GameObject _figureButton;
     [SerializeField] private GameObject _figureButtonOriginal;
     [SerializeField] private GameObject _noFigures;
+
     [SerializeField] private bool _original;
 
     private GameObject FigureButton { get => _figureButton; set => _figureButton = value; }
@@ -22,42 +25,69 @@ public class FigureListLoader : MonoBehaviour
         if (Original)
         {
             figureDirectory = Path.Combine(Application.streamingAssetsPath, "TekenGame/Figures");
-
-            if (Directory.Exists(figureDirectory))
-            {
-                string[] figures = Directory.GetFiles(figureDirectory, "*.txt");
-
-                foreach (string figure in figures)
-                {
-                    GameObject figureBut = Instantiate(FigureButtonOriginal, transform);
-                    TextMeshProUGUI textMeshPro = figureBut.GetComponentInChildren<TextMeshProUGUI>();
-                    textMeshPro.text = Path.GetFileNameWithoutExtension(figure);
-                }
-            }
-            else
-            {
-                Instantiate(NoFigures, transform);
-            }
+            AddButtons(figureDirectory);
         }
         else
         {
             figureDirectory = Path.Combine(Application.persistentDataPath, "figures");
+            AddButtons(figureDirectory);
+        }
+    }
 
-            if (Directory.Exists(figureDirectory))
+    private void AddButtons(string figureDirectory)
+    {
+        if (Directory.Exists(figureDirectory))
+        {
+            string[] figures = Directory.GetFiles(figureDirectory, "*.txt");
+            List<(string figurePath, float difficulty)> figureList = new List<(string, float)>();
+
+            foreach (string figure in figures)
             {
-                string[] figures = Directory.GetFiles(figureDirectory, "*.txt");
+                float difficult;
 
-                foreach (string figure in figures)
+                using (StreamReader reader = new StreamReader(figure))
                 {
-                    GameObject figureBut = Instantiate(FigureButton, transform);
-                    TextMeshProUGUI textMeshPro = figureBut.GetComponentInChildren<TextMeshProUGUI>();
-                    textMeshPro.text = Path.GetFileNameWithoutExtension(figure);
+                    string line;
+                    float lines = 0;
+                    float cellSize = 0;
+
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if (line.StartsWith("CellSize: "))
+                        {
+                            string cellSizeString = line.Substring("CellSize: ".Length);
+                            cellSize = int.Parse(cellSizeString.Trim());
+                        }
+                        lines++;
+                    }
+
+                    difficult = lines / cellSize / 100;
+
+                    if (difficult > 1)
+                    {
+                        difficult = 1;
+                    }
                 }
+
+                figureList.Add((figure, difficult));
             }
-            else
+
+            figureList.Sort((a, b) => a.difficulty.CompareTo(b.difficulty));
+
+            int i = 0;
+            foreach ((string figurePath, float difficulty) in figureList)
             {
-                Instantiate(NoFigures, transform);
+                GameObject figureBut = Instantiate(FigureButton, transform);
+                TextMeshProUGUI[] figureText = figureBut.GetComponentsInChildren<TextMeshProUGUI>();
+                figureText[0].text = Path.GetFileNameWithoutExtension(figurePath);
+                Image[] difficultyImages = figureBut.GetComponentsInChildren<Image>();
+                difficultyImages[1].fillAmount = difficulty;
+                i++;
             }
+        }
+        else
+        {
+            Instantiate(NoFigures, transform);
         }
     }
 }

@@ -490,7 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b06f985108d13ca47903eae052117982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _figureButton: {fileID: 4300140006373660822, guid: 17cab315c987f044981859bb9d6d1df1, type: 3}
+  _figureButton: {fileID: 4300140006373660822, guid: ccca3ed81141d624585d6a8a2953af73, type: 3}
   _figureButtonOriginal: {fileID: 4300140006373660822, guid: cfea29ba75f7db7458f8ad93d768fe30, type: 3}
   _noFigures: {fileID: 8689944673598326359, guid: f0d4be3edd60a1c4ebeb238ebe225c36, type: 3}
   _original: 0
@@ -1060,8 +1060,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400, y: 0.000030517578}
-  m_SizeDelta: {x: 400, y: 500}
+  m_AnchoredPosition: {x: -400, y: 0}
+  m_SizeDelta: {x: 600, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &814618968
 MonoBehaviour:
@@ -1526,7 +1526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b06f985108d13ca47903eae052117982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _figureButton: {fileID: 4300140006373660822, guid: 17cab315c987f044981859bb9d6d1df1, type: 3}
+  _figureButton: {fileID: 4300140006373660822, guid: ccca3ed81141d624585d6a8a2953af73, type: 3}
   _figureButtonOriginal: {fileID: 4300140006373660822, guid: cfea29ba75f7db7458f8ad93d768fe30, type: 3}
   _noFigures: {fileID: 8689944673598326359, guid: f0d4be3edd60a1c4ebeb238ebe225c36, type: 3}
   _original: 1
@@ -1665,8 +1665,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 400, y: 0.000030517578}
-  m_SizeDelta: {x: 400, y: 500}
+  m_AnchoredPosition: {x: 400, y: 0}
+  m_SizeDelta: {x: 600, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1501850811
 MonoBehaviour:
