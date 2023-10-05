@@ -10,6 +10,7 @@ public class FigureGame : MonoBehaviour
     [SerializeField] private GameObject _instructions;
     [SerializeField] private TextMeshProUGUI _count;
     [SerializeField] private RectTransform _arrow;
+    [SerializeField] private Score _scoreObj;
     [Header("Other")]
     [SerializeField] private GameObject _startDot;
     [SerializeField] private LineRenderer _assistLineRend; //de linerenderer om te gebruiken in assist modus
@@ -43,6 +44,7 @@ public class FigureGame : MonoBehaviour
     private GameObject Instructions { get => _instructions; set => _instructions = value; }
     private TextMeshProUGUI Count { get => _count; set => _count = value; }
     private RectTransform Arrow { get => _arrow; set => _arrow = value; }
+    public Score ScoreObj { get => _scoreObj; set => _scoreObj = value; }
     private GameObject StartDot { get => _startDot; set => _startDot = value; }
     private LineRenderer AssistLineRend { get => _assistLineRend; set => _assistLineRend = value; }
     private Material LineCorrect { get => _lineCorrect; set => _lineCorrect = value; }
@@ -143,6 +145,10 @@ public class FigureGame : MonoBehaviour
                             AssistLineRend.SetPosition(AssistLineRend.positionCount - 2, LinePoints[I]);
                             AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, LinePoints[I]);
                         }
+                        else
+                        {
+                            ScoreObj.AddScore(1);
+                        }
 
                         LineRend.positionCount++;
                         LineRend.SetPosition(LineRend.positionCount - 1, LinePoints[I]);
@@ -153,6 +159,11 @@ public class FigureGame : MonoBehaviour
                 else
                 {
                     AssistLineRend.sharedMaterial = LineWrong;
+                    
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        ScoreObj.AddScore(-1);
+                    }
                 }
             }
             else //ervoor zorgen dat als de muis niet in het grid is dat de laatste lijn niet blijft staan

@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using TMPro;
+using System.Linq;
+using UnityEngine.UIElements;
 
 public class DrawFigure : MonoBehaviour
 {
@@ -23,12 +25,15 @@ public class DrawFigure : MonoBehaviour
     [SerializeField] private GameObject _startDot;
     [SerializeField] private GameObject _menuLogObject;
     private string _figureName;
+    private List<string> _actions;
+    private List<(string, Vector3)> _undoneActions;
     private int _width;
     private int _height;
     private int _cellSize = 1;
     private bool _settingGridValues = true;
     private bool _startDotPlaced = false;
     private bool _noLines = true;
+    private Vector3 _undoneStartDot = Vector3.zero;
     private GameObject _start;
     private LineRenderer _lineRend;
     private GridGenerator _gridGen;
@@ -61,12 +66,15 @@ public class DrawFigure : MonoBehaviour
     private GameObject StartDot { get => _startDot; set => _startDot = value; }
     private GameObject MenuLogObject { get => _menuLogObject; set => _menuLogObject = value; }
     private string FigureName { get => _figureName; set => _figureName = value; }
+    private List<string> Actions { get => _actions; set => _actions = value; }
+    private List<(string, Vector3)> UndoneActions { get => _undoneActions; set => _undoneActions = value; }
     private int Width { get => _width; set => _width = value; }
     private int Height { get => _height; set => _height = value; }
     private int CellSize { get => _cellSize; set => _cellSize = value; }
     private bool SettingGridValues { get => _settingGridValues; set => _settingGridValues = value; }
     private bool StartDotPlaced { get => _startDotPlaced; set => _startDotPlaced = value; }
     private bool NoLines { get => _noLines; set => _noLines = value; }
+    private Vector3 UndoneStartDot { get => _undoneStartDot; set => _undoneStartDot = value; }
     private GameObject Start { get => _start; set => _start = value; }
     private LineRenderer LineRend { get => _lineRend; set => _lineRend = value; }
     private GridGenerator GridGen { get => _gridGen; set => _gridGen = value; }
@@ -80,6 +88,8 @@ public class DrawFigure : MonoBehaviour
         GridGen = GetComponent<GridGenerator>();
         GridFuncs = GetComponent<GridFunctions>();
         MenuLog = MenuLogObject.GetComponent<MenuLogic>();
+        Actions = new List<string>();
+        UndoneActions = new List<(string, Vector3)>();
         Start = Instantiate(StartDot, Vector3.zero, Quaternion.identity, transform);
         Width = MinWidth;
         Height = MinHeight;
@@ -101,6 +111,8 @@ public class DrawFigure : MonoBehaviour
                     Start.transform.position = closestPositionOnGrid;
                     if (Input.GetMouseButtonDown(0))
                     {
+                        UndoneActions.Clear();
+                        UndoneStartDot = Vector3.zero;
                         StartDotPlaced = true;
                         AddStartPos(closestPositionOnGrid);
                         LineRend.positionCount++;
@@ -117,6 +129,8 @@ public class DrawFigure : MonoBehaviour
 
                     if (Directions.ContainsKey(((closestPositionOnGrid.x - LineRend.GetPosition(LineRend.positionCount - 2).x) / CellSize, (closestPositionOnGrid.y - LineRend.GetPosition(LineRend.positionCount - 2).y) / CellSize)) && Input.GetMouseButtonDown(0))
                     {
+                        UndoneActions.Clear();
+                        UndoneStartDot = Vector3.zero;
                         string direction = Directions[((closestPositionOnGrid.x - LineRend.GetPosition(LineRend.positionCount - 2).x) / CellSize, (closestPositionOnGrid.y - LineRend.GetPosition(LineRend.positionCount - 2).y) / CellSize)];
                         AddLineSegment(direction);
                         LineRend.positionCount++;
@@ -227,6 +241,53 @@ public class DrawFigure : MonoBehaviour
         }
     }
 
+    public void Undo()
+    {
+        if (StartDotPlaced)
+        {
+            if (Actions.Count != 0)
+            {
+                string action = Actions[Actions.Count - 1];
+                RemoveLineSegment(action, LineRend.GetPosition(LineRend.positionCount - 1));
+                LineRend.positionCount--;
+            }
+            else
+            {
+                LineRend.positionCount--;
+                LineRend.positionCount--;
+                UndoneStartDot = Start.transform.position;
+                Start.transform.position = Vector3.zero;
+                StartDotPlaced = false;
+            }
+        }
+    }
+
+    public void Redo()
+    {
+        if (UndoneStartDot != Vector3.zero)
+        {
+            Start.transform.position = UndoneStartDot;
+            AddStartPos(UndoneStartDot);
+            LineRend.positionCount++;
+            LineRend.SetPosition(LineRend.positionCount - 1, UndoneStartDot);
+            LineRend.positionCount++;
+            LineRend.SetPosition(LineRend.positionCount - 1, UndoneStartDot);
+            UndoneStartDot = Vector3.zero;
+            StartDotPlaced = true;
+        }
+        else if (UndoneActions.Count != 0)
+        {
+            NoLines = false;
+            var lastItem = UndoneActions[UndoneActions.Count - 1];
+            string action = lastItem.Item1;
+            Vector3 position = lastItem.Item2;
+            LineRend.positionCount++;
+            LineRend.SetPosition(LineRend.positionCount - 2, position);
+            UndoneActions.RemoveAt(UndoneActions.Count - 1);
+            AddLineSegment(action);
+        }
+    }
+
     private void AddStartPos(Vector3 startPos) //voegt de instellingen van het grid van de huidige figuur toe en het startpunt van de figuur
     {
         if (!Directory.Exists(Path.Combine(Application.persistentDataPath, "figures"))) //maakt de map voor figuren op te slaan aan als deze nog niet bestaat
@@ -248,12 +309,42 @@ public class DrawFigure : MonoBehaviour
 
     private void AddLineSegment(string direction) //voegt de delen van de figuur toe aan het figuurbestand
     {
+        Actions.Add(direction);
         NoLines = false;
         string filePath = Path.Combine(Application.persistentDataPath, "figures", FigureName);
 
         using (StreamWriter writer = new StreamWriter(filePath, true))
         {
             writer.WriteLine(direction);
+        }
+    }
+
+    private void RemoveLineSegment(string direction, Vector3 position) //voegt de delen van de figuur toe aan het figuurbestand
+    {
+        Actions.RemoveAt(Actions.Count - 1);
+        UndoneActions.Add((direction, position));
+        if (Actions.Count == 0)
+        {
+            NoLines = true;
+        }
+        string filePath = Path.Combine(Application.persistentDataPath, "figures", FigureName);
+
+        List<string> lines = File.ReadAllLines(filePath).ToList();
+
+        // Check if there are any lines to remove
+        if (lines.Count > 5)
+        {
+            // Remove the last line
+            lines.RemoveAt(lines.Count - 1);
+
+            // Open the file for writing and write the modified lines back
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                foreach (string line in lines)
+                {
+                    writer.WriteLine(line);
+                }
+            }
         }
     }
 
