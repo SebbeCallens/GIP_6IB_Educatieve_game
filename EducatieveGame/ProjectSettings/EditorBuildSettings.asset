@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/ReactieGame/Scenes/ReactionGame.unity
+    guid: 75db9ac02b8efec43ac85f2ebfdc906f
+  - enabled: 1
     path: Assets/TekenGame/Scenes/SelectMode.unity
     guid: c98df8c41a6726d479e6d192da163fa1
   - enabled: 1

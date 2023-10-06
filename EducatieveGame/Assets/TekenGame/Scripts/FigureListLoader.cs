@@ -8,15 +8,14 @@ using UnityEngine.UI;
 public class FigureListLoader : MonoBehaviour
 {
     [SerializeField] private GameObject _figureButton;
-    [SerializeField] private GameObject _figureButtonOriginal;
     [SerializeField] private GameObject _noFigures;
-
     [SerializeField] private bool _original;
+    [SerializeField] private Gradient _difficultyColor;
 
     private GameObject FigureButton { get => _figureButton; set => _figureButton = value; }
-    private GameObject FigureButtonOriginal { get => _figureButtonOriginal; set => _figureButtonOriginal = value; }
     private GameObject NoFigures { get => _noFigures; set => _noFigures = value; }
     private bool Original { get => _original; set => _original = value; }
+    private Gradient DifficultyColor { get => _difficultyColor; set => _difficultyColor = value; }
 
     private void Awake()
     {
@@ -82,6 +81,7 @@ public class FigureListLoader : MonoBehaviour
                 figureText[0].text = Path.GetFileNameWithoutExtension(figurePath);
                 Image[] difficultyImages = figureBut.GetComponentsInChildren<Image>();
                 difficultyImages[1].fillAmount = difficulty;
+                difficultyImages[0].color = DifficultyColor.Evaluate(difficulty);
                 i++;
             }
         }

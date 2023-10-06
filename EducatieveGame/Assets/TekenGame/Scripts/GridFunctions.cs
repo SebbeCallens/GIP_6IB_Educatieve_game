@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridFunctions : MonoBehaviour
@@ -8,7 +10,7 @@ public class GridFunctions : MonoBehaviour
 
     private void Awake()
     {
-        _gridGen = GetComponent<GridGenerator>();
+        GridGen = GetComponent<GridGenerator>();
     }
 
     public bool MouseInGrid(Vector3 position) //kijkt na of de muis zich in het grid bevindt
@@ -18,6 +20,44 @@ public class GridFunctions : MonoBehaviour
         float maxX = GridGen.GridPoints[^1].x;
         float maxY = GridGen.GridPoints[^1].y;
         return position.x >= minX && position.x <= maxX && position.y >= minY && position.y <= maxY;
+    }
+
+    public bool MouseInGridCell(Vector3 position, Vector3 gridCellLeftBottom, Vector3 gridCellRightTop)
+    {
+        float minX = gridCellLeftBottom.x;
+        float minY = gridCellLeftBottom.y;
+        float maxX = gridCellRightTop.x;
+        float maxY = gridCellRightTop.y;
+        return position.x >= minX && position.x <= maxX && position.y >= minY && position.y <= maxY;
+    }
+
+    public Vector3[] CenterGridPoints(int cellSize)
+    {
+        List<Vector3> centerPoints = new List<Vector3>();
+
+        HashSet<float> uniqueXValues = new HashSet<float>();
+        HashSet<float> uniqueYValues = new HashSet<float>();
+
+        foreach (Vector3 point in GridGen.GridPoints)
+        {
+            uniqueXValues.Add(point.x);
+            uniqueYValues.Add(point.y);
+        }
+
+        float maxX = uniqueXValues.Max();
+        float maxY = uniqueYValues.Max();
+
+        foreach (Vector3 cornerPoint in GridGen.GridPoints)
+        {
+            if (cornerPoint.x != maxX && cornerPoint.y != maxY)
+            {
+                Vector3 centerPoint = new Vector3(cornerPoint.x + 0.5f * cellSize, cornerPoint.y + 0.5f * cellSize, 0);
+
+                centerPoints.Add(centerPoint);
+            }
+        }
+
+        return centerPoints.ToArray();
     }
 
     public Vector3 ClosestPositionOnGrid(Vector3 position) //berekent de dichtste plaats op het grid voor het startpunt

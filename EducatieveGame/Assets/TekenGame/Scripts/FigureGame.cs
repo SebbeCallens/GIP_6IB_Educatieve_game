@@ -17,15 +17,15 @@ public class FigureGame : MonoBehaviour
     [SerializeField] private Material _lineCorrect;
     [SerializeField] private Material _lineWrong;
     [SerializeField] private bool _assistMode;
-    [SerializeField] private string _figureName; //later laten kiezen door gebruiker in menu
     private LineRenderer _lineRend;
     private GridGenerator _gridGen;
     private GridFunctions _gridFuncs;
+    private string _figureName;
     private int _width;
     private int _height;
     private int _cellSize;
     private int i = 0;
-    private int original;
+    private int _original;
     private List<Vector3> _linePoints;
     private List<(int, int)> _arrows;
     private Dictionary<(float, float), string> _directions = new Dictionary<(float, float), string>
@@ -58,7 +58,7 @@ public class FigureGame : MonoBehaviour
     private int Height { get => _height; set => _height = value; }
     private int CellSize { get => _cellSize; set => _cellSize = value; }
     private int I { get => i; set => i = value; }
-    private int Original { get => original; set => original = value; }
+    private int Original { get => _original; set => _original = value; }
     private List<Vector3> LinePoints { get => _linePoints; set => _linePoints = value; }
     private List<(int, int)> Arrows { get => _arrows; set => _arrows = value; }
     private Dictionary<(float, float), string> Directions { get => _directions; set => _directions = value; }
@@ -203,31 +203,18 @@ public class FigureGame : MonoBehaviour
             }
             else
             {
-                if (count > 1)
+                for (int j = 0; j < count; j++)
                 {
-                    for (int j = 0; j < count; j++)
-                    {
-                        transformedList.Add((count, inputList[i - 1].Item2));
-                    }
+                    transformedList.Add((count, inputList[i - 1].Item2));
                 }
-                else
-                {
-                    transformedList.Add((1, inputList[i - 1].Item2));
-                }
+
                 count = 1;
             }
         }
 
-        if (count > 1)
+        for (int j = 0; j < count; j++)
         {
-            for (int j = 0; j < count; j++)
-            {
-                transformedList.Add((count, inputList[inputList.Count - 1].Item2));
-            }
-        }
-        else
-        {
-            transformedList.Add((1, inputList[inputList.Count - 1].Item2));
+            transformedList.Add((count, inputList[inputList.Count - 1].Item2));
         }
 
         return transformedList;
