@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class ObjectSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject _meat;
+    [SerializeField] private GameObject _meat; //de prefab voor een vlees object
     [SerializeField] private int _cellSize; //later laten instellen door gebruiker
     [SerializeField] private int _width; //later laten instellen door moeilijkheidsgraad
     [SerializeField] private int _height; //later laten instellen door moeilijkheidsgraad
-    private GameObject[] _gridCells;
-    private GridGenerator _gridGen;
-    private GridFunctions _gridFunc;
-    private Vector3[] _gridPoints;
-    private float _spawnRate = 1f;
-    private float _lastSpawnTime;
+    private GameObject[] _gridCells; //lijst met de gridcellen
+    private GridGenerator _gridGen; //de gridgenerator
+    private GridFunctions _gridFunc; //de gridfuncties
+    private Vector3[] _gridPoints; //lijst met de gridpunten
+    private float _spawnRate = 1f; //hoe vlug er vlees spawned op de barbecue
+    private float _lastSpawnTime; //de laatste tijd wanneer er vlees gespawned is
 
     private GameObject Meat { get => _meat; set => _meat = value; }
     public int CellSize { get => _cellSize; private set => _cellSize = value; }
@@ -26,7 +26,7 @@ public class ObjectSpawner : MonoBehaviour
     private float LastSpawnTime { get => _lastSpawnTime; set => _lastSpawnTime = value; }
 
 
-    private void Awake()
+    private void Awake() //grid genereren
     {
         GridGen = GetComponent<GridGenerator>();
         GridFunc = GetComponent<GridFunctions>();
@@ -41,7 +41,7 @@ public class ObjectSpawner : MonoBehaviour
         LastSpawnTime = Time.time;
     }
 
-    private void Update()
+    private void Update() //vlees spawnen op de barbecue
     {
         if (Time.time - LastSpawnTime > SpawnRate)
         {

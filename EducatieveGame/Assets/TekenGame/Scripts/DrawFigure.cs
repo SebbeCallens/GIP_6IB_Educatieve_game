@@ -3,43 +3,43 @@ using System.IO;
 using UnityEngine;
 using TMPro;
 using System.Linq;
-using UnityEngine.UIElements;
 
 public class DrawFigure : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] private TMP_InputField _figureNameText;
-    [SerializeField] private TextMeshProUGUI _widthText;
-    [SerializeField] private TextMeshProUGUI _heightText;
-    [SerializeField] private TextMeshProUGUI _cellSizeText;
-    [SerializeField] private GameObject _gridSettings;
-    [SerializeField] private GameObject _drawMode;
-    [SerializeField] private GameObject _warning;
-    [SerializeField] private GameObject _noLinesWarning;
+    [SerializeField] private TMP_InputField _figureNameText; //invoervak voor de figuurnaam
+    [SerializeField] private TextMeshProUGUI _widthText; //text voor breedte grid
+    [SerializeField] private TextMeshProUGUI _heightText; //text voor hoogte grid
+    [SerializeField] private TextMeshProUGUI _cellSizeText; //text voor celgrootte grid
+    [SerializeField] private GameObject _gridSettings; //object van de gridinstellingen
+    [SerializeField] private GameObject _drawMode; //object van alle functies in tekenmodus
+    [SerializeField] private GameObject _warning; //object voor waarschuwing aanmaken figuur
+    [SerializeField] private GameObject _noLinesWarning; //object voor waarschuwing geen lijnen getekend
     [Header("Settings")]
-    [SerializeField] private int _minWidth;
-    [SerializeField] private int _minHeight;
-    [SerializeField] private int _maxWidth;
-    [SerializeField] private int _maxHeight;
+    [SerializeField] private int _minWidth; //minimum breedte grid
+    [SerializeField] private int _minHeight; //minimum hoogte grid
+    [SerializeField] private int _maxWidth; //maximum breedte grid
+    [SerializeField] private int _maxHeight; //maximum hoogte grid
     [Header("Other")]
-    [SerializeField] private GameObject _startDot;
-    [SerializeField] private GameObject _menuLogObject;
-    private string _figureName;
-    private List<string> _actions;
-    private List<(string, Vector3)> _undoneActions;
-    private int _width;
-    private int _height;
-    private int _cellSize = 1;
-    private bool _settingGridValues = true;
-    private bool _startDotPlaced = false;
-    private bool _noLines = true;
-    private Vector3 _undoneStartDot = Vector3.zero;
-    private GameObject _start;
-    private LineRenderer _lineRend;
-    private GridGenerator _gridGen;
-    private GridFunctions _gridFuncs;
-    private MenuLogic _menuLog;
-    private Dictionary<(float, float), string> _directions = new Dictionary<(float, float), string>
+    [SerializeField] private GameObject _startDot; //startpunt object
+    [SerializeField] private GameObject _menuLogObject; //script voor menu logica
+    private string _figureName; //de figuurnaam
+    private string[] _figures; //lijst met alle figuren
+    private List<string> _actions; //lijst met alle genomen acties
+    private List<(string, Vector3)> _undoneActions; //lijst met acties die ongedaan zijn gemaakt
+    private int _width; //breedte grid
+    private int _height; //hoogte grid
+    private int _cellSize = 1; //grootte cel grid
+    private bool _settingGridValues = true; //of je het grid aan het instelllen bent
+    private bool _startDotPlaced = false; //of het startpunt al geplaatst is
+    private bool _noLines = true; //of er geen lijnen zijn
+    private Vector3 _undoneStartDot = Vector3.zero; //houd het verwijderde startpunt bij
+    private GameObject _start; //Het object voor het startpunt
+    private LineRenderer _lineRend; //de linerenderer voor de figuur
+    private GridGenerator _gridGen; //de gridgenerator
+    private GridFunctions _gridFuncs; //de gridfuncties
+    private MenuLogic _menuLog; //de menu logica
+    private Dictionary<(float, float), string> _directions = new Dictionary<(float, float), string>  //een dictionary om de tekst uit het figuurbestand om te zetten naar ints voor de richtingen of omgekeerd
     {
         { (-1, -1), "Left-Down" },
         { (0, -1), "Down" },
@@ -66,6 +66,7 @@ public class DrawFigure : MonoBehaviour
     private GameObject StartDot { get => _startDot; set => _startDot = value; }
     private GameObject MenuLogObject { get => _menuLogObject; set => _menuLogObject = value; }
     private string FigureName { get => _figureName; set => _figureName = value; }
+    private string[] Figures { get => _figures; set => _figures = value; }
     private List<string> Actions { get => _actions; set => _actions = value; }
     private List<(string, Vector3)> UndoneActions { get => _undoneActions; set => _undoneActions = value; }
     private int Width { get => _width; set => _width = value; }
@@ -82,7 +83,7 @@ public class DrawFigure : MonoBehaviour
     private MenuLogic MenuLog { get => _menuLog; set => _menuLog = value; }
     private Dictionary<(float, float), string> Directions { get => _directions; set => _directions = value; }
 
-    private void Awake()
+    private void Awake() //instellingen toepassen
     {
         LineRend = GetComponent<LineRenderer>();
         GridGen = GetComponent<GridGenerator>();
@@ -96,6 +97,7 @@ public class DrawFigure : MonoBehaviour
         WidthText.text = Width.ToString();
         HeightText.text = Height.ToString();
         CellSizeText.text = CellSize.ToString();
+        LoadFigures();
     }
 
     private void Update()
@@ -103,7 +105,7 @@ public class DrawFigure : MonoBehaviour
         if (!SettingGridValues)
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (GridFuncs.MouseInGrid(mousePosition))
+            if (GridFuncs.PositionInGrid(mousePosition)) //logica voor de figuur te tekenen
             {
                 if (!StartDotPlaced)
                 {
@@ -151,7 +153,7 @@ public class DrawFigure : MonoBehaviour
 
     public void GenerateGrid() //genereer het grid, verberg de gridinstellingen en maak de instellingen voor tekenmodus zichtbaar
     {
-        if (!string.IsNullOrWhiteSpace(FigureNameText.text))
+        if (!string.IsNullOrWhiteSpace(FigureNameText.text) && !Figures.Contains(FigureNameText.text)) //kijkt na of de figuurnaam niet leeg is of geen spaties zijn en of de figuurnaam nog niet bestaat
         {
             SettingGridValues = false;
             GridSettings.SetActive(false);
@@ -165,7 +167,7 @@ public class DrawFigure : MonoBehaviour
         }
     }
 
-    public void ValueUp(int index)
+    public void ValueUp(int index) //functie voor grid in te stellen
     {
         if (index == 0)
         {
@@ -203,7 +205,7 @@ public class DrawFigure : MonoBehaviour
         }
     }
 
-    public void ValueDown(int index)
+    public void ValueDown(int index) //functie voor grid in te stellen
     {
         if (index == 0)
         {
@@ -241,7 +243,7 @@ public class DrawFigure : MonoBehaviour
         }
     }
 
-    public void Undo()
+    public void Undo() //laatste actie ongedaan maken
     {
         if (StartDotPlaced)
         {
@@ -262,7 +264,7 @@ public class DrawFigure : MonoBehaviour
         }
     }
 
-    public void Redo()
+    public void Redo() //laatste actie die ongedaan gemaakt is herstellen
     {
         if (UndoneStartDot != Vector3.zero)
         {
@@ -345,6 +347,17 @@ public class DrawFigure : MonoBehaviour
                     writer.WriteLine(line);
                 }
             }
+        }
+    }
+
+    private void LoadFigures() //laad de lijst met bestaande figuren
+    {
+        string figureDirectory = Path.Combine(Application.persistentDataPath, "figures");
+
+        if (Directory.Exists(figureDirectory))
+        {
+            string[] allFiles = Directory.GetFiles(figureDirectory, "*.txt");
+            Figures = allFiles.Select(Path.GetFileNameWithoutExtension).ToArray();
         }
     }
 

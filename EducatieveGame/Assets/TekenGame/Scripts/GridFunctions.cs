@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+//functies voor het grid
 public class GridFunctions : MonoBehaviour
 {
     private GridGenerator _gridGen;
@@ -13,7 +14,7 @@ public class GridFunctions : MonoBehaviour
         GridGen = GetComponent<GridGenerator>();
     }
 
-    public bool MouseInGrid(Vector3 position) //kijkt na of de muis zich in het grid bevindt
+    public bool PositionInGrid(Vector3 position) //kijkt na of de gegeven positie zich in het grid bevindt
     {
         float minX = GridGen.GridPoints[0].x;
         float minY = GridGen.GridPoints[0].y;
@@ -22,16 +23,7 @@ public class GridFunctions : MonoBehaviour
         return position.x >= minX && position.x <= maxX && position.y >= minY && position.y <= maxY;
     }
 
-    public bool MouseInGridCell(Vector3 position, Vector3 gridCellLeftBottom, Vector3 gridCellRightTop)
-    {
-        float minX = gridCellLeftBottom.x;
-        float minY = gridCellLeftBottom.y;
-        float maxX = gridCellRightTop.x;
-        float maxY = gridCellRightTop.y;
-        return position.x >= minX && position.x <= maxX && position.y >= minY && position.y <= maxY;
-    }
-
-    public Vector3[] CenterGridPoints(int cellSize)
+    public Vector3[] CenterGridPoints(int cellSize) //geeft een array terug met de middelpunten van elke cel in het grid
     {
         List<Vector3> centerPoints = new List<Vector3>();
 
@@ -60,7 +52,7 @@ public class GridFunctions : MonoBehaviour
         return centerPoints.ToArray();
     }
 
-    public Vector3 ClosestPositionOnGrid(Vector3 position) //berekent de dichtste plaats op het grid voor het startpunt
+    public Vector3 ClosestPositionOnGrid(Vector3 position) //berekent de dichtste plaats op het grid tegenover een positie
     {
         Vector3 closestGridPoint = GridGen.GridPoints[0];
         float closestDistance = Vector3.Distance(position, closestGridPoint);
@@ -79,22 +71,22 @@ public class GridFunctions : MonoBehaviour
         return closestGridPoint;
     }
 
-    public Vector3 ClosestPosition(Vector3 position, Vector3 targetGridPoint, int cellSize) //berekent de dichtste plaats op het grid voor de volgende lijn
+    public Vector3 ClosestPosition(Vector3 position, Vector3 targetGridPoint, int cellSize) //berekent de dichtste plaats op het grid maximum 1y en 1x van een gridpunt en dichste bij een gegeven positie
     {
         Vector3 closestGridPoint = Vector3.zero;
-        float closestDistanceToMouse = Vector3.Distance(position, closestGridPoint);
+        float closestDistance = Vector3.Distance(position, closestGridPoint);
 
         for (int i = 0; i < GridGen.GridPoints.Length; i++)
         {
             Vector3 gridPoint = GridGen.GridPoints[i];
-            float distanceToMouse = Vector3.Distance(position, gridPoint);
+            float distance = Vector3.Distance(position, gridPoint);
 
             if (Mathf.Abs(gridPoint.x - targetGridPoint.x) <= cellSize && Mathf.Abs(gridPoint.y - targetGridPoint.y) <= cellSize)
             {
-                if (distanceToMouse < closestDistanceToMouse)
+                if (distance < closestDistance)
                 {
                     closestGridPoint = gridPoint;
-                    closestDistanceToMouse = distanceToMouse;
+                    closestDistance = distance;
                 }
             }
         }

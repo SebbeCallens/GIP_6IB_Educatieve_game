@@ -15,7 +15,7 @@ public class FigureButton : MonoBehaviour
         MenuLog = MenuLogObject.GetComponent<MenuLogic>();
     }
 
-    public void LoadFigure(bool original)
+    public void LoadFigure(bool original) //laad de figuur en open het confirmatie menu
     {
         if (original)
         {

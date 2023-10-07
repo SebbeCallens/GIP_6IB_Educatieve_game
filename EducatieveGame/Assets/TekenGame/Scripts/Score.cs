@@ -9,7 +9,7 @@ public class Score : MonoBehaviour
     private TextMeshProUGUI ScoreText { get => _scoreText; set => _scoreText = value; }
     private int ScoreCount { get => _scoreCount; set => _scoreCount = value; }
 
-    private void Awake()
+    private void Awake() //score instellen
     {
         ScoreText = GetComponent<TextMeshProUGUI>();
         ScoreCount = 0;
@@ -20,7 +20,7 @@ public class Score : MonoBehaviour
         }
     }
 
-    public void AddScore(int score)
+    public void AddScore(int score) //voeg score toe
     {
         ScoreCount += score;
         ScoreText.text = "Score: " + ScoreCount.ToString();

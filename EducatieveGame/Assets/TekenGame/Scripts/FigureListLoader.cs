@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,7 +16,7 @@ public class FigureListLoader : MonoBehaviour
     private bool Original { get => _original; set => _original = value; }
     private Gradient DifficultyColor { get => _difficultyColor; set => _difficultyColor = value; }
 
-    private void Awake()
+    private void Awake() //datapad instellen en figuurknoppen aanmaken
     {
         string figureDirectory;
 
@@ -33,21 +32,21 @@ public class FigureListLoader : MonoBehaviour
         }
     }
 
-    private void AddButtons(string figureDirectory)
+    private void AddButtons(string figureDirectory) //functie die een figuurknop aanmaakt voor elke figuur in het datapad, stelt de naam en de moeilijkheid in voor de knop
     {
         if (Directory.Exists(figureDirectory))
         {
-            string[] figures = Directory.GetFiles(figureDirectory, "*.txt");
-            List<(string figurePath, float difficulty)> figureList = new List<(string, float)>();
+            string[] figures = Directory.GetFiles(figureDirectory, "*.txt"); //lijst met de figuren
+            List<(string figurePath, float difficulty)> figureList = new List<(string, float)>(); //lijst die voor elke figuur de moeilijkheidsgraad bijhoud
 
-            foreach (string figure in figures)
+            foreach (string figure in figures) //berekent moeilijkheid voor elke figuur en voegt het toe aan een lijst
             {
                 float difficult;
 
-                using (StreamReader reader = new StreamReader(figure))
+                using (StreamReader reader = new StreamReader(figure)) //leest het figuurbestand uit
                 {
                     string line;
-                    float lines = 0;
+                    float lines = -5; //ingesteld op -5 want de eerste 5 lijnen zijn info over de figuur
                     float cellSize = 0;
 
                     while ((line = reader.ReadLine()) != null)
@@ -60,9 +59,9 @@ public class FigureListLoader : MonoBehaviour
                         lines++;
                     }
 
-                    difficult = lines / cellSize / 100;
+                    difficult = lines / cellSize / 100; //moeilijkheid hangt af van uit hoeveel lijnen de figuur bestaat en de celgrootte
 
-                    if (difficult > 1)
+                    if (difficult > 1) //moeilijkheid 1 is het maximum
                     {
                         difficult = 1;
                     }
@@ -71,10 +70,10 @@ public class FigureListLoader : MonoBehaviour
                 figureList.Add((figure, difficult));
             }
 
-            figureList.Sort((a, b) => a.difficulty.CompareTo(b.difficulty));
+            figureList.Sort((a, b) => a.difficulty.CompareTo(b.difficulty)); //sorteer de figuren op moeilijkheidsgraad
 
             int i = 0;
-            foreach ((string figurePath, float difficulty) in figureList)
+            foreach ((string figurePath, float difficulty) in figureList) //leest de lijst met figuren en hun moeilijkheidsgraad en maakt voor elke figuur een knop aan
             {
                 GameObject figureBut = Instantiate(FigureButton, transform);
                 TextMeshProUGUI[] figureText = figureBut.GetComponentsInChildren<TextMeshProUGUI>();
@@ -85,7 +84,7 @@ public class FigureListLoader : MonoBehaviour
                 i++;
             }
         }
-        else
+        else //als er geen figuren zijn wordt het geen figuren object geplaaatst
         {
             Instantiate(NoFigures, transform);
         }

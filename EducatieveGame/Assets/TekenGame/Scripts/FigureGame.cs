@@ -6,29 +6,29 @@ using TMPro;
 public class FigureGame : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] private GameObject _end;
-    [SerializeField] private GameObject _instructions;
-    [SerializeField] private TextMeshProUGUI _count;
-    [SerializeField] private RectTransform _arrow;
-    [SerializeField] private Score _scoreObj;
+    [SerializeField] private GameObject _end; //object voor als de figuur af is
+    [SerializeField] private GameObject _instructions; //object van de instructies
+    [SerializeField] private TextMeshProUGUI _count; //de tekst voor het pijltje dat aanduid hoeveel keer die richting uit
+    [SerializeField] private RectTransform _arrow; //het pijltje dat de richting voor de volgende lijn aanduid
+    [SerializeField] private Score _scoreObj; //scorescript
     [Header("Other")]
-    [SerializeField] private GameObject _startDot;
-    [SerializeField] private LineRenderer _assistLineRend; //de linerenderer om te gebruiken in assist modus
-    [SerializeField] private Material _lineCorrect;
-    [SerializeField] private Material _lineWrong;
-    [SerializeField] private bool _assistMode;
-    private LineRenderer _lineRend;
-    private GridGenerator _gridGen;
-    private GridFunctions _gridFuncs;
-    private string _figureName;
-    private int _width;
-    private int _height;
-    private int _cellSize;
-    private int i = 0;
-    private int _original;
-    private List<Vector3> _linePoints;
-    private List<(int, int)> _arrows;
-    private Dictionary<(float, float), string> _directions = new Dictionary<(float, float), string>
+    [SerializeField] private GameObject _startDot; //startpunt object
+    [SerializeField] private LineRenderer _assistLineRend; //de linerenderer om te gebruiken in hulpmodus
+    [SerializeField] private Material _lineCorrect; //material voor in hulpmodus
+    [SerializeField] private Material _lineWrong; //material voor in hulpmodus
+    private LineRenderer _lineRend; //de linerenderer voor de figuur
+    private GridGenerator _gridGen; //de gridgenerator
+    private GridFunctions _gridFuncs; //de functies van het grid
+    private string _figureName; //de naam van de figuur
+    private bool _assistMode; //hulpmodus aan/uit
+    private int _width; //breedte grid
+    private int _height; //hoogte grid
+    private int _cellSize; //grootte cel grid
+    private int i = 0; //houd bij aan welke lijn je zit
+    private int _original; //of het een originele figuur is
+    private List<Vector3> _linePoints; //lijst met alle punten voor de linerenderer
+    private List<(int, int)> _arrows; //lijst die bijhoud hoeveel keer je elke kant op moet
+    private Dictionary<(float, float), string> _directions = new Dictionary<(float, float), string> //een dictionary om de tekst uit het figuurbestand om te zetten naar ints voor de richtingen of omgekeerd
     {
         { (-1, -1), "Left-Down" },
         { (0, -1), "Down" },
@@ -44,16 +44,16 @@ public class FigureGame : MonoBehaviour
     private GameObject Instructions { get => _instructions; set => _instructions = value; }
     private TextMeshProUGUI Count { get => _count; set => _count = value; }
     private RectTransform Arrow { get => _arrow; set => _arrow = value; }
-    public Score ScoreObj { get => _scoreObj; set => _scoreObj = value; }
+    private Score ScoreObj { get => _scoreObj; set => _scoreObj = value; }
     private GameObject StartDot { get => _startDot; set => _startDot = value; }
     private LineRenderer AssistLineRend { get => _assistLineRend; set => _assistLineRend = value; }
     private Material LineCorrect { get => _lineCorrect; set => _lineCorrect = value; }
     private Material LineWrong { get => _lineWrong; set => _lineWrong = value; }
-    private bool AssistMode { get => _assistMode; set => _assistMode = value; }
-    private string FigureName { get => _figureName; set => _figureName = value; }
     private LineRenderer LineRend { get => _lineRend; set => _lineRend = value; }
     private GridGenerator GridGen { get => _gridGen; set => _gridGen = value; }
-    public GridFunctions GridFuncs { get => _gridFuncs; set => _gridFuncs = value; }
+    private GridFunctions GridFuncs { get => _gridFuncs; set => _gridFuncs = value; }
+    private string FigureName { get => _figureName; set => _figureName = value; }
+    private bool AssistMode { get => _assistMode; set => _assistMode = value; }
     private int Width { get => _width; set => _width = value; }
     private int Height { get => _height; set => _height = value; }
     private int CellSize { get => _cellSize; set => _cellSize = value; }
@@ -63,7 +63,7 @@ public class FigureGame : MonoBehaviour
     private List<(int, int)> Arrows { get => _arrows; set => _arrows = value; }
     private Dictionary<(float, float), string> Directions { get => _directions; set => _directions = value; }
 
-    private void Awake()
+    private void Awake() //het figuurbestand uitlezen en het grid aanmaken + het startpunt plaatsen
     {
         LineRend = gameObject.GetComponent<LineRenderer>();
         GridGen = gameObject.GetComponent<GridGenerator>();
@@ -74,6 +74,7 @@ public class FigureGame : MonoBehaviour
         LinePoints = new List<Vector3>();
         Arrows = new List<(int, int)>();
         ReadFigure();
+        GridGen.GenerateGrid(Width, Height, CellSize);
 
         if (PlayerPrefs.GetInt("assist") == 1)
         {
@@ -90,21 +91,16 @@ public class FigureGame : MonoBehaviour
         if (I == 0) //startpunt plaatsen zodat de gebruiker weet waar de figuur begint
         {
             Arrows = TransformList(Arrows);
-            LineRend.positionCount++;
-            LineRend.SetPosition(LineRend.positionCount - 1, LinePoints[I]);
+            AddLinePoint(LineRend);
             if (AssistMode)
             {
-                AssistLineRend.positionCount++;
-                AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, LinePoints[I]);
-                AssistLineRend.positionCount++;
-                AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, LinePoints[I]);
+                AddLinePoint(AssistLineRend);
+                AddLinePoint(AssistLineRend);
             }
             else
             {
-                AssistLineRend.positionCount++;
-                AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, LinePoints[I]);
-                LineRend.positionCount++;
-                LineRend.SetPosition(LineRend.positionCount - 1, LinePoints[I]);
+                AddLinePoint(AssistLineRend);
+                AddLinePoint(LineRend);
             }
             I++;
         }
@@ -119,7 +115,7 @@ public class FigureGame : MonoBehaviour
             Count.text = count.ToString();
             Arrow.localEulerAngles = new Vector3(Arrow.localEulerAngles.x, Arrow.localEulerAngles.y, rotation);
 
-            if (GridFuncs.MouseInGrid(mousePosition))
+            if (GridFuncs.PositionInGrid(mousePosition))
             {
                 Vector3 closestPositionOnGrid;
 
@@ -150,8 +146,7 @@ public class FigureGame : MonoBehaviour
                             ScoreObj.AddScore(1);
                         }
 
-                        LineRend.positionCount++;
-                        LineRend.SetPosition(LineRend.positionCount - 1, LinePoints[I]);
+                        AddLinePoint(LineRend);
                         I++;
                     }
                 }
@@ -220,7 +215,13 @@ public class FigureGame : MonoBehaviour
         return transformedList;
     }
 
-    private void ReadFigure() //leest de lijnen van het figuurbestand
+    private void AddLinePoint(LineRenderer lineRenderer) //hulpfunctie om dubbele code te vermijden
+    {
+        lineRenderer.positionCount++;
+        lineRenderer.SetPosition(lineRenderer.positionCount - 1, LinePoints[I]);
+    }
+
+    private void ReadFigure() //leest het figuurbestand uit
     {
         string filePath;
         if (Original == 0)
@@ -259,8 +260,6 @@ public class FigureGame : MonoBehaviour
                     }
                     else if (line.StartsWith("StartPos: "))
                     {
-                        GridGen.GenerateGrid(Width, Height, CellSize);
-
                         string startPosString = line.Substring("StartPos: ".Length);
                         string[] startPosParts = startPosString.Split(',');
                         if (startPosParts.Length == 3)
@@ -324,7 +323,7 @@ public class FigureGame : MonoBehaviour
         }
     }
 
-    private Vector3 ComputeNextPoint(Vector3 startPoint, string direction)
+    private Vector3 ComputeNextPoint(Vector3 startPoint, string direction) //bereken het volgende punt voor de linerenderer
     {
         float dx = 0, dy = 0;
         foreach (var entry in Directions)
