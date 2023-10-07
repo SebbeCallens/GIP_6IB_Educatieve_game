@@ -80,4 +80,9 @@ public class MenuLogic : MonoBehaviour
             }
         }
     }
+
+    public void Quit() //sluit het spel af
+    {
+        Application.Quit();
+    }
 }
