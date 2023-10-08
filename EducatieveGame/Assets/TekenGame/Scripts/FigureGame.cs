@@ -10,7 +10,7 @@ public class FigureGame : MonoBehaviour
     [SerializeField] private GameObject _instructions; //object van de instructies
     [SerializeField] private TextMeshProUGUI _count; //de tekst voor het pijltje dat aanduid hoeveel keer die richting uit
     [SerializeField] private RectTransform _arrow; //het pijltje dat de richting voor de volgende lijn aanduid
-    [SerializeField] private Score _scoreObj; //scorescript
+    [SerializeField] private Stats _statsObj; //scorescript
     [Header("Other")]
     [SerializeField] private GameObject _startDot; //startpunt object
     [SerializeField] private LineRenderer _assistLineRend; //de linerenderer om te gebruiken in hulpmodus
@@ -44,7 +44,7 @@ public class FigureGame : MonoBehaviour
     private GameObject Instructions { get => _instructions; set => _instructions = value; }
     private TextMeshProUGUI Count { get => _count; set => _count = value; }
     private RectTransform Arrow { get => _arrow; set => _arrow = value; }
-    private Score ScoreObj { get => _scoreObj; set => _scoreObj = value; }
+    private Stats StatsObj { get => _statsObj; set => _statsObj = value; }
     private GameObject StartDot { get => _startDot; set => _startDot = value; }
     private LineRenderer AssistLineRend { get => _assistLineRend; set => _assistLineRend = value; }
     private Material LineCorrect { get => _lineCorrect; set => _lineCorrect = value; }
@@ -79,6 +79,7 @@ public class FigureGame : MonoBehaviour
         if (PlayerPrefs.GetInt("assist") == 1)
         {
             AssistMode = true;
+            StatsObj.gameObject.SetActive(false);
         }
         else
         {
@@ -143,7 +144,7 @@ public class FigureGame : MonoBehaviour
                         }
                         else
                         {
-                            ScoreObj.AddScore(1);
+                            StatsObj.AddStat(0, 1);
                         }
 
                         AddLinePoint(LineRend);
@@ -155,9 +156,9 @@ public class FigureGame : MonoBehaviour
                 {
                     AssistLineRend.sharedMaterial = LineWrong;
                     
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButtonDown(0) && !AssistMode)
                     {
-                        ScoreObj.AddScore(-1);
+                        StatsObj.AddStat(0, -1);
                     }
                 }
             }

@@ -3,6 +3,7 @@ using UnityEngine;
 public class ObjectSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject _meat; //de prefab voor een vlees object
+    [SerializeField] private GameObject _statistics; //de statistieken
     [SerializeField] private int _cellSize; //later laten instellen door gebruiker
     [SerializeField] private int _width; //later laten instellen door moeilijkheidsgraad
     [SerializeField] private int _height; //later laten instellen door moeilijkheidsgraad
@@ -11,12 +12,14 @@ public class ObjectSpawner : MonoBehaviour
     private GridGenerator _gridGen; //de gridgenerator
     private GridFunctions _gridFunc; //de gridfuncties
     private Vector3[] _gridPoints; //lijst met de gridpunten
+    private bool _gameActive = true; //of het spel bezig is of al gedaan is
     private float _spawnRate; //hoe vlug er vlees spawned op de barbecue
     private float _lastSpawnTime; //de laatste tijd wanneer er vlees gespawned is
     private float _lastDecreaseTime; //de laatste tijd wanneer de moeilijkheid hoger gezet is
     private float _difficulty; //moeilijkheid van het spel
 
     private GameObject Meat { get => _meat; set => _meat = value; }
+    private GameObject Statistics { get => _statistics; set => _statistics = value; }
     public int CellSize { get => _cellSize; private set => _cellSize = value; }
     private int Width { get => _width; set => _width = value; }
     private int Height { get => _height; set => _height = value; }
@@ -25,6 +28,7 @@ public class ObjectSpawner : MonoBehaviour
     private GridGenerator GridGen { get => _gridGen; set => _gridGen = value; }
     private GridFunctions GridFunc { get => _gridFunc; set => _gridFunc = value; }
     private Vector3[] GridPoints { get => _gridPoints; set => _gridPoints = value; }
+    private bool GameActive { get => _gameActive; set => _gameActive = value; }
     private float SpawnRate { get => _spawnRate; set => _spawnRate = value; }
     private float LastSpawnTime { get => _lastSpawnTime; set => _lastSpawnTime = value; }
     private float LastDecreaseTime { get => _lastDecreaseTime; set => _lastDecreaseTime = value; }
@@ -50,7 +54,7 @@ public class ObjectSpawner : MonoBehaviour
 
     private void Update() //vlees spawnen op de barbecue
     {
-        if (Time.time - LastSpawnTime > SpawnRate)
+        if (Time.time - LastSpawnTime > SpawnRate && GameActive)
         {
             bool meatSpawned = false;
             int i = 0;
@@ -74,6 +78,14 @@ public class ObjectSpawner : MonoBehaviour
                 SpawnRate -= 0.05f * Difficulty;
                 LastDecreaseTime = Time.time;
             }
+        }
+        else if (Time.time - LastDecreaseTime > 60 * MinutesUntilFastest - Difficulty * 2 - 1 && GameActive)
+        {
+            GameActive = false;
+        }
+        else if (Time.time - LastDecreaseTime > 60 * MinutesUntilFastest)
+        {
+            Statistics.SetActive(true);
         }
     }
 }

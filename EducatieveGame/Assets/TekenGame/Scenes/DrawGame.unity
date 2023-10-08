@@ -289,7 +289,7 @@ MonoBehaviour:
   _instructions: {fileID: 857653916}
   _count: {fileID: 587221649}
   _arrow: {fileID: 905028694}
-  _scoreObj: {fileID: 2081246241}
+  _statsObj: {fileID: 2081246241}
   _startDot: {fileID: 8834923150338136657, guid: d875a4ad402573349bf88b2cf0e022bd, type: 3}
   _assistLineRend: {fileID: 858743159}
   _lineCorrect: {fileID: 2100000, guid: 832dd54aa8aeb594da5dfc1e387a5d14, type: 2}
@@ -1726,7 +1726,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Score: 0'
+  m_text: Score
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1812,9 +1812,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2081246237}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a48130afb6a9ff49b35eb4a350842d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e6d6de66fe154a40864c02a6243ada5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _statTexts:
+  - {fileID: 2081246239}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

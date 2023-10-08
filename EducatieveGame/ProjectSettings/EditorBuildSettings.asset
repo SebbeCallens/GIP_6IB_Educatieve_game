@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/MainMenu.unity
     guid: a7a0b5ae08b089b439327c831c8e23ef
   - enabled: 1
+    path: Assets/ReactieGame/Scenes/SelectDifficulty.unity
+    guid: 0e112b449786bfb4199bba243160039c
+  - enabled: 1
     path: Assets/ReactieGame/Scenes/ReactionGame.unity
     guid: 75db9ac02b8efec43ac85f2ebfdc906f
   - enabled: 1
@@ -23,7 +26,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/TekenGame/Scenes/DrawFigure.unity
     guid: c93153617f0ac0f47aebb3fcf60251fc
-  - enabled: 1
-    path: Assets/ReactieGame/Scenes/SelectDifficulty.unity
-    guid: 0e112b449786bfb4199bba243160039c
   m_configObjects: {}
