@@ -9,7 +9,7 @@ public class MeatScript : MonoBehaviour
     [SerializeField] private Sprite[] _meats; //alle mogelijke sprites voor het vlees
     private Score _scoreObj; //het scorescript
     private ObjectSpawner _spawner; //de spawner die het vlees spawned
-    private float _rotationSpeed = -40f; //hoe vlug het vlees kookt
+    private float _rotationSpeed = -80f; //hoe vlug het vlees kookt
 
     private float RotationSpeed { get => _rotationSpeed; set => _rotationSpeed = value; }
     private Gradient MeatColor { get => _meatColor; set => _meatColor = value; }
@@ -25,6 +25,7 @@ public class MeatScript : MonoBehaviour
         Spawner = GameObject.Find("Grid").GetComponent<ObjectSpawner>();
         int randomIndex = Random.Range(0, Meats.Length);
         Meat.sprite = Meats[randomIndex];
+        RotationSpeed *= 1 / (float)PlayerPrefs.GetInt("difficulty");
     }
 
     private void Update()
