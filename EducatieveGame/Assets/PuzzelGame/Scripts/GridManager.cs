@@ -32,6 +32,7 @@ public class GridManager2 : MonoBehaviour
                 spawnedTile.name = $"Tile {IntToChar(x)} {y}";
                 var isOffset = (x + y) % 2 == 1;
                 spawnedTile.Init(isOffset);
+                spawnedTile._position.transform.position = spawnedTile.transform.position;
                 _tiles[new Vector2(x, y)] = spawnedTile;
             }
         }

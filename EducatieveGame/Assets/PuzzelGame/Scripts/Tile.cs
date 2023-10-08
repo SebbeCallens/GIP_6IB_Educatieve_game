@@ -7,6 +7,7 @@ public class Tile : MonoBehaviour
     public Color _baseColor, _offsetColor;
     public SpriteRenderer _renderer;
     public GameObject _highlight;
+    public GameObject _position;
 
     // Start is called before the first frame update
     void Start()
