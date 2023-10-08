@@ -1,11 +1,9 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class DifficultyButton : MonoBehaviour
 {
-    public void LoadDifficulty(int difficulty) //stel moeilijkheid in en laad het spel
+    public void SetDifficulty(int difficulty) //stel moeilijkheid in
     {
         PlayerPrefs.SetInt("difficulty", difficulty);
-        SceneManager.LoadScene("ReactionGame");
     }
 }

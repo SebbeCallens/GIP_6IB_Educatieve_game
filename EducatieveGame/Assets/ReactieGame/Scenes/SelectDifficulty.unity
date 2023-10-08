@@ -778,7 +778,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 652568423}
         m_TargetAssemblyTypeName: DifficultyButton, Assembly-CSharp
-        m_MethodName: LoadDifficulty
+        m_MethodName: SetDifficulty
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -786,6 +786,18 @@ MonoBehaviour:
           m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2053311070}
+        m_TargetAssemblyTypeName: MenuLogic, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ReactionGame
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &652568421
@@ -1577,7 +1589,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 652568423}
         m_TargetAssemblyTypeName: DifficultyButton, Assembly-CSharp
-        m_MethodName: LoadDifficulty
+        m_MethodName: SetDifficulty
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1585,6 +1597,18 @@ MonoBehaviour:
           m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2053311070}
+        m_TargetAssemblyTypeName: MenuLogic, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ReactionGame
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1291714825
@@ -2067,7 +2091,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 652568423}
         m_TargetAssemblyTypeName: DifficultyButton, Assembly-CSharp
-        m_MethodName: LoadDifficulty
+        m_MethodName: SetDifficulty
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2075,6 +2099,18 @@ MonoBehaviour:
           m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2053311070}
+        m_TargetAssemblyTypeName: MenuLogic, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ReactionGame
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1555969462
@@ -2447,7 +2483,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 652568423}
         m_TargetAssemblyTypeName: DifficultyButton, Assembly-CSharp
-        m_MethodName: LoadDifficulty
+        m_MethodName: SetDifficulty
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2455,6 +2491,18 @@ MonoBehaviour:
           m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2053311070}
+        m_TargetAssemblyTypeName: MenuLogic, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ReactionGame
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1979391187
@@ -3133,7 +3181,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 652568423}
         m_TargetAssemblyTypeName: DifficultyButton, Assembly-CSharp
-        m_MethodName: LoadDifficulty
+        m_MethodName: SetDifficulty
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3141,6 +3189,18 @@ MonoBehaviour:
           m_IntArgument: 5
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2053311070}
+        m_TargetAssemblyTypeName: MenuLogic, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ReactionGame
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!222 &4600169297404256454

@@ -340,7 +340,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 550, y: 160}
+  m_AnchoredPosition: {x: 550, y: -160}
   m_SizeDelta: {x: 500, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &265450206
@@ -900,7 +900,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 550, y: -160}
+  m_AnchoredPosition: {x: 550, y: 160}
   m_SizeDelta: {x: 500, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &734917924
@@ -956,7 +956,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: MainMenu
+          m_StringArgument: RotateFigure
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &734917925
@@ -1630,10 +1630,10 @@ RectTransform:
   - {fileID: 1561073288}
   - {fileID: 1141492116}
   - {fileID: 1691560119}
-  - {fileID: 265450205}
+  - {fileID: 734917923}
   - {fileID: 277341210}
   - {fileID: 1770144964}
-  - {fileID: 734917923}
+  - {fileID: 265450205}
   - {fileID: 711526326}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
