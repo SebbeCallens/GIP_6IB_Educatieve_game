@@ -3,19 +3,18 @@ using UnityEngine;
 
 public class RotateGame : MonoBehaviour
 {
-    [SerializeField] private GameObject _correctGrid;
-    [SerializeField] private GameObject _gameGrid;
-    [SerializeField] private GameObject _checkFigure;
-    [SerializeField] private GameObject _statistics;
-    [SerializeField] private TextMeshProUGUI _scoreText;
-    [SerializeField] private Camera _cam;
-    private GridGenerator _correctGridGen;
-    private GridGenerator _gameGridGen;
-    private GridFunctions _correctGridFunc;
-    private GridFunctions _gameGridFunc;
-    private int _width;
-    private int _height;
-    private int _cellSize;
+    [SerializeField] private GameObject _correctGrid; //object van het voorbeeld grid
+    [SerializeField] private GameObject _gameGrid; //object van het game grid
+    [SerializeField] private GameObject _checkFigure; //object van de controleerknop
+    [SerializeField] private GameObject _statistics; //object van de statistieken
+    [SerializeField] private TextMeshProUGUI _scoreText; //de text van de score
+    [SerializeField] private Camera _cam; //de camera van de scene
+    private GridGenerator _correctGridGen; //gridgenerator van het voorbeeldgrid
+    private GridGenerator _gameGridGen; //gridgenerator van het gamegrid
+    private bool _gameInProgress = true; //zorgen dat je geen vakjes meer kunt draaien als het spel gedaan is
+    private int _width; //breedte grid
+    private int _height; //hoogte grid
+    private int _cellSize; //grootte cel grid
 
     private GameObject CorrectGrid { get => _correctGrid; set => _correctGrid = value; }
     private GameObject GameGrid { get => _gameGrid; set => _gameGrid = value; }
@@ -25,18 +24,15 @@ public class RotateGame : MonoBehaviour
     private Camera Cam { get => _cam; set => _cam = value; }
     private GridGenerator CorrectGridGen { get => _correctGridGen; set => _correctGridGen = value; }
     private GridGenerator GameGridGen { get => _gameGridGen; set => _gameGridGen = value; }
-    private GridFunctions CorrectGridFunc { get => _correctGridFunc; set => _correctGridFunc = value; }
-    private GridFunctions GameGridFunc { get => _gameGridFunc; set => _gameGridFunc = value; }
+    public bool GameInProgress { get => _gameInProgress; private set => _gameInProgress = value; }
     private int Width { get => _width; set => _width = value; }
     private int Height { get => _height; set => _height = value; }
     public int CellSize { get => _cellSize; private set => _cellSize = value; }
 
-    private void Awake()
+    private void Awake() //grid instellen op moeilijkheid
     {
         CorrectGridGen = CorrectGrid.GetComponent<GridGenerator>();
-        CorrectGridFunc = CorrectGrid.GetComponent<GridFunctions>();
         GameGridGen = GameGrid.GetComponent<GridGenerator>();
-        GameGridFunc = GameGrid.GetComponent<GridFunctions>();
 
         if (PlayerPrefs.GetInt("difficulty") == 5)
         {
@@ -87,13 +83,13 @@ public class RotateGame : MonoBehaviour
         CorrectGridGen.GenerateGrid(Width, Height, CellSize);
         GameGridGen.GenerateGrid(Width, Height, CellSize);
 
-        for (int i = 0; i < CorrectGrid.transform.childCount; i++)
+        for (int i = 0; i < CorrectGrid.transform.childCount; i++) //figuurstukken van voorbeeldgrid een willekeurige rotatie geven
         {
             CorrectGrid.transform.GetChild(i).transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 4) * 90.0f);
         }
     }
 
-    public void CheckGameGrid()
+    public void CheckGameGrid() //figuurstukken uit het voorbeeld grid vergelijken met het game grid, ze groen of rood kleuren en de score teruggeven
     {
         int correctCells = 0;
         for (int i = 0; i < CorrectGrid.transform.childCount; i++)
@@ -110,6 +106,7 @@ public class RotateGame : MonoBehaviour
         }
 
         ScoreText.text = "Score: " + correctCells + "/" + CorrectGrid.transform.childCount;
+        GameInProgress = false;
         CheckFigure.SetActive(false);
         Statistics.SetActive(true);
     }

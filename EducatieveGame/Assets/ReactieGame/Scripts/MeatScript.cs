@@ -24,7 +24,24 @@ public class MeatScript : MonoBehaviour
         Spawner = GameObject.Find("Grid").GetComponent<ObjectSpawner>();
         int randomIndex = Random.Range(0, Meats.Length);
         Meat.sprite = Meats[randomIndex];
-        RotationSpeed *= 1 / (float)PlayerPrefs.GetInt("difficulty");
+
+        //voor elk vlees een andere kooksnelheid
+        if (Meat.sprite == Meats[0])
+        {
+            RotationSpeed *= 1 / (float)PlayerPrefs.GetInt("difficulty") * 1.4f;
+        }
+        else if (Meat.sprite == Meats[1])
+        {
+            RotationSpeed *= 1 / (float)PlayerPrefs.GetInt("difficulty") * 1.2f;
+        }
+        else if (Meat.sprite == Meats[2])
+        {
+            RotationSpeed *= 1 / (float)PlayerPrefs.GetInt("difficulty") * 1.6f;
+        }
+        else
+        {
+            RotationSpeed *= 1 / (float)PlayerPrefs.GetInt("difficulty");
+        }
     }
 
     private void Update()

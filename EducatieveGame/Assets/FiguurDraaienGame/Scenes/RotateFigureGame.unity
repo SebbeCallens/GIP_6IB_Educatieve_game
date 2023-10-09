@@ -525,7 +525,6 @@ GameObject:
   m_Component:
   - component: {fileID: 830923368}
   - component: {fileID: 830923367}
-  - component: {fileID: 830923366}
   m_Layer: 0
   m_Name: GameGrid
   m_TagString: Untagged
@@ -533,18 +532,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &830923366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 830923365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ae188d858f39f349ad097471f3d7043, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &830923367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -764,7 +751,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1334663497}
   - component: {fileID: 1334663496}
-  - component: {fileID: 1334663495}
   m_Layer: 0
   m_Name: CorrectGrid
   m_TagString: Untagged
@@ -772,18 +758,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1334663495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1334663492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ae188d858f39f349ad097471f3d7043, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1334663496
 MonoBehaviour:
   m_ObjectHideFlags: 0

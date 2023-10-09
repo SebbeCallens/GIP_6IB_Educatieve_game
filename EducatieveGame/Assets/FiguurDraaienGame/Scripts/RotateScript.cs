@@ -11,11 +11,11 @@ public class RotateScript : MonoBehaviour
         Game = GameObject.Find("GameLogic").GetComponent<RotateGame>();
     }
 
-    private void Update()
+    private void Update() //de gridcel 90 graden draaien wanneer de muis erop klikt
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        
-        if (Input.GetMouseButtonDown(0) && MouseInCell(mousePosition))
+
+        if (Input.GetMouseButtonDown(0) && MouseInCell(mousePosition) && Game.GameInProgress)
         {
             transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z - 90f);
         }

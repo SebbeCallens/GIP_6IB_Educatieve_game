@@ -331,9 +331,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _meat: {fileID: 3101725654179713124, guid: 9ff8d1f85737f6a4c82437d4b68c33a4, type: 3}
   _statistics: {fileID: 1602696621}
-  _cellSize: 2
-  _width: 8
-  _height: 8
   _minutesUntilFastest: 1
   _cam: {fileID: 445685166}
 --- !u!114 &257158373
@@ -1324,7 +1321,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 960.916, y: 0}
+  m_AnchoredPosition: {x: 250, y: 0}
   m_SizeDelta: {x: 160, y: 80}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1384559535
