@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GridManager2 : MonoBehaviour
 {
@@ -23,16 +24,17 @@ public class GridManager2 : MonoBehaviour
 
     void GenerateGrid()
     {
+        
         _tiles = new Dictionary<Vector2, Tile>();
-        for (int x = 0; x < _width; x++)
+        for (int y = (_height * -1); y < 0; y++)
         {
-            for (int y = 0;  y < _height; y++)
+            for (int x = 0; x < _width; x++)
             {
-                var spawnedTile = Instantiate(_tilePrefab, new Vector3(x, y), Quaternion.identity);
-                spawnedTile.name = $"Tile {IntToChar(x)} {y}";
+                var spawnedTile = Instantiate(_tilePrefab, new Vector2(x, y), Quaternion.identity);
+                spawnedTile.name = $"Tile {IntToChar(x)} {y * -1}";
                 var isOffset = (x + y) % 2 == 1;
                 spawnedTile.Init(isOffset);
-                spawnedTile._position.transform.position = spawnedTile.transform.position;
+                spawnedTile.GetComponent<Tile>()._tmp.text = IntToChar(x).ToString() + (y * -1).ToString();
                 _tiles[new Vector2(x, y)] = spawnedTile;
             }
         }

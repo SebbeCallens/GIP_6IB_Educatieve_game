@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Tile : MonoBehaviour
 {
     public Color _baseColor, _offsetColor;
     public SpriteRenderer _renderer;
     public GameObject _highlight;
-    public GameObject _position;
+    public TextMeshProUGUI _tmp;
 
     // Start is called before the first frame update
     void Start()
