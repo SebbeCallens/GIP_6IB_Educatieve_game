@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MeatScript : MonoBehaviour
 {
@@ -7,24 +6,42 @@ public class MeatScript : MonoBehaviour
     [SerializeField] private Gradient _meatColor; //de gradient kleur voor het vlees, van rauw naar verbrand
     [SerializeField] private SpriteRenderer _meat; //de spriterenderer van het vlees
     [SerializeField] private Sprite[] _meats; //alle mogelijke sprites voor het vlees
-    private Score _scoreObj; //het scorescript
+    private Stats _statsObj; //het scorescript
     private ObjectSpawner _spawner; //de spawner die het vlees spawned
-    private float _rotationSpeed = -40f; //hoe vlug het vlees kookt
+    private float _rotationSpeed = -80f; //hoe vlug het vlees kookt
 
     private float RotationSpeed { get => _rotationSpeed; set => _rotationSpeed = value; }
     private Gradient MeatColor { get => _meatColor; set => _meatColor = value; }
     private SpriteRenderer Meat { get => _meat; set => _meat = value; }
     private Sprite[] Meats { get => _meats; set => _meats = value; }
-    private Score ScoreObj { get => _scoreObj; set => _scoreObj = value; }
+    private Stats StatsObj { get => _statsObj; set => _statsObj = value; }
     private ObjectSpawner Spawner { get => _spawner; set => _spawner = value; }
     private GameObject Mask { get => _mask; set => _mask = value; }
 
     private void Awake() //random sprite instellen voor het vlees
     {
-        ScoreObj = GameObject.Find("Score").GetComponent<Score>();
+        StatsObj = GameObject.Find("Grid").GetComponent<Stats>();
         Spawner = GameObject.Find("Grid").GetComponent<ObjectSpawner>();
         int randomIndex = Random.Range(0, Meats.Length);
         Meat.sprite = Meats[randomIndex];
+
+        //voor elk vlees een andere kooksnelheid
+        if (Meat.sprite == Meats[0])
+        {
+            RotationSpeed *= 1 / (float)PlayerPrefs.GetInt("difficulty") * 1.4f;
+        }
+        else if (Meat.sprite == Meats[1])
+        {
+            RotationSpeed *= 1 / (float)PlayerPrefs.GetInt("difficulty") * 1.2f;
+        }
+        else if (Meat.sprite == Meats[2])
+        {
+            RotationSpeed *= 1 / (float)PlayerPrefs.GetInt("difficulty") * 1.6f;
+        }
+        else
+        {
+            RotationSpeed *= 1 / (float)PlayerPrefs.GetInt("difficulty");
+        }
     }
 
     private void Update()
@@ -41,19 +58,23 @@ public class MeatScript : MonoBehaviour
             {
                 if (Mask.transform.eulerAngles.z > 190) //-2 score als het vlees nog diepgevroren is
                 {
-                    ScoreObj.AddScore(-2);
+                    StatsObj.AddStat(3, 1);
+                    StatsObj.AddStat(0, -2);
                 }
                 else if (Mask.transform.eulerAngles.z > 135) //-1 score wanneer het vlees nog rauw is
                 {
-                    ScoreObj.AddScore(-1);
+                    StatsObj.AddStat(2, 1);
+                    StatsObj.AddStat(0, -1);
                 }
                 else if (Mask.transform.eulerAngles.z < 75) //-1 score wanneer het vlees aangebrand is
                 {
-                    ScoreObj.AddScore(-1);
+                    StatsObj.AddStat(4, 1);
+                    StatsObj.AddStat(0, -1);
                 }
                 else //+1 score als het vlees goed gebakken is
                 {
-                     ScoreObj.AddScore(1);
+                    StatsObj.AddStat(1, 1);
+                    StatsObj.AddStat(0, 1);
                 }
 
                 Destroy(gameObject);
@@ -61,7 +82,8 @@ public class MeatScript : MonoBehaviour
         }
         else //-3 score wanneer het vlees volledig opgebrand is
         {
-            ScoreObj.AddScore(-3);
+            StatsObj.AddStat(5, 1);
+            StatsObj.AddStat(0, -3);
             Destroy(gameObject);
         }
     }
