@@ -4,28 +4,16 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    private int _width;
-    private int _height;
-    private TIle _tilePrefab;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] private int _width, _height;
+    [SerializeField] private TileScript _tilePrefab;
 
     void GenerateGrid()
     {
         for(int x = 0; x < _width; x++)
         {
-            for(int y = 0; y < _height; y++)
+            for(int y = 0; y < _width; y++)
             {
-
+                
             }
         }
     }
