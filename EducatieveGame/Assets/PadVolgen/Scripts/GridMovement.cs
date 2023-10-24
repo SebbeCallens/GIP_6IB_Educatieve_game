@@ -9,6 +9,16 @@ public class GridMovement : MonoBehaviour
     private Vector2 _origPos, _targetPos;
     private float _timeToMove = 0.2f;
 
+    public bool GetIsMoving()
+    {
+        return _isMoving;
+    }
+
+    public Vector2 GetOrigPos()
+    {
+        return _origPos;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -30,7 +40,7 @@ public class GridMovement : MonoBehaviour
         }
     }
 
-    private IEnumerator MovePlayer(Vector2 direction)
+    public IEnumerator MovePlayer(Vector2 direction)
     {
         _isMoving = true;
 

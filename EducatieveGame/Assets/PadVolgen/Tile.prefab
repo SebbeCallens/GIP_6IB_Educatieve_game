@@ -187,6 +187,7 @@ MonoBehaviour:
   _offsetColor: {r: 0.51183635, g: 0.8773585, b: 0.3034887, a: 1}
   _renderer: {fileID: 3064777467744458538}
   _highlight: {fileID: 5457387005247667060}
+  _player: {fileID: 0}
 --- !u!61 &1280231479460292846
 BoxCollider2D:
   m_ObjectHideFlags: 0
