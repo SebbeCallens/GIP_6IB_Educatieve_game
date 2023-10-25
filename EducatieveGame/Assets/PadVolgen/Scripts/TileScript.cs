@@ -7,7 +7,7 @@ public class TileScript : MonoBehaviour
     [SerializeField] private Color _baseColor, _offsetColor;
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private GameObject _highlight;
-    [SerializeField] private GridMovement _player;
+    [SerializeField] private PlayerScript _player;
 
     public void Init(bool isOffset)
     {

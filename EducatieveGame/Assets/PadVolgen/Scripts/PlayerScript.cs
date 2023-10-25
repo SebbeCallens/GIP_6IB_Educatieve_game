@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
-public class GridMovement : MonoBehaviour
+public class PlayerScript : MonoBehaviour
 {
     private bool _isMoving;
     private Vector2 _origPos, _targetPos;
     private float _timeToMove = 0.2f;
+    [SerializeField] private GameObject _tile;
 
     public bool GetIsMoving()
     {
