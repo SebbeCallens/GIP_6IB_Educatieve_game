@@ -8,7 +8,6 @@ public class PlayerScript : MonoBehaviour
     private bool _isMoving;
     private Vector2 _origPos, _targetPos;
     private float _timeToMove = 0.2f;
-    [SerializeField] private GameObject _tile;
 
     public bool GetIsMoving()
     {
