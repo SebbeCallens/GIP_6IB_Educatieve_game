@@ -6,20 +6,21 @@ using TMPro;
 public class GridManager2 : MonoBehaviour
 {
     public int _width, _height;
-    public Tile _tilePrefab;
+    //public Tile _tilePrefab;
+    public Slot _slotPrefab;
     public Piece _piecePrefab;
     public Texture2D _sourceImage;
-    public Transform _cam;
-    private Dictionary<Vector2, Tile> _tiles;
+    //public Transform _cam;
+    //private Dictionary<Vector2, Tile> _tiles;
     private Texture2D[,] _imagePieces;
     private Dictionary<Vector2, Piece> _pieces;
 
     // Start is called before the first frame update
     void Start()
     {
-        CutImage();
-        GenerateGrid();
-        GeneratePieces();
+        //CutImage();
+        //GenerateGrid();
+        //GeneratePieces();
     }
 
     // Update is called once per frame
@@ -28,7 +29,7 @@ public class GridManager2 : MonoBehaviour
         
     }
 
-    void GenerateGrid()
+    /**void GenerateGrid()
     {
         _tiles = new Dictionary<Vector2, Tile>();
         for (int x = 0; x < _width; x++)
@@ -56,49 +57,7 @@ public class GridManager2 : MonoBehaviour
         {
             return null;
         }
-    }
-
-    public void CutImage()
-    {
-        int pieceWidth = _sourceImage.width / _width;
-        int pieceHeight = _sourceImage.height / _height;
-
-        _imagePieces = new Texture2D[_width, _height];
-
-        for (int x = 0; x < _width; x++)
-        {
-            for (int y = 0; y < _height; y++)
-            {
-                _imagePieces[x, y] = new Texture2D(pieceWidth, pieceHeight);
-                _imagePieces[x, y].Apply();
-            }
-        }
-    }
-
-    void GeneratePieces()
-    {
-        _pieces = new Dictionary<Vector2, Piece>();
-        for (int x = 0; x < _width; x++)
-        {
-            for (int y = 0; y < _height; y++)
-            {
-                int imagePiecesX = x;
-                int imagePiecesY = y;
-
-                Texture2D texturePiece = _imagePieces[imagePiecesX, imagePiecesY];
-
-                Sprite spritePiece = Sprite.Create(texturePiece, new Rect(0, 0, texturePiece.width, texturePiece.height), Vector2.one * 0.5f);
-
-                var spawnedPiece = Instantiate(_piecePrefab, new Vector2(x, y), Quaternion.identity);
-
-                spawnedPiece.name = $"Piece {IntToChar(x)} {y + 1}";
-                spawnedPiece.GetComponent<Piece>()._renderer.sprite = spritePiece;
-
-                _pieces[new Vector2(x, y)] = spawnedPiece;
-            }
-        }
-        _cam.transform.position = new Vector3((float)_width / 2 - 0.5f, -(float)_height / 2 + 0.5f, -10);
-    }
+    }**/
 
     private char IntToChar(int num)
     {
