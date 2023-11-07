@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class EndMenuScript : MonoBehaviour
 {
-    [SerializeField] GameObject _pointsTextObject;
+    //[SerializeField] Text _pointsTextObject;
 
     // Start is called before the first frame update
     void Start()
@@ -19,10 +19,7 @@ public class EndMenuScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SavingVariables._timerEnded)
-        {
-            _pointsTextObject.GetComponent<TextMeshPro>().text = SavingVariables._totalPoints.ToString();
-        }
+        
     }
 
     public void EndGame()
@@ -32,6 +29,6 @@ public class EndMenuScript : MonoBehaviour
 
     public void ReplayGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
+        SceneManager.LoadScene("Startscherm");
     }
 }

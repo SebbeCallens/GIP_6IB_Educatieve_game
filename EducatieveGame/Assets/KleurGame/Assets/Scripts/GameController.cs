@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class SavingVariables : MonoBehaviour
+public class GameController : MonoBehaviour
 {
-    [SerializeField] public static int _totalPoints;
-
+    [SerializeField] public GameObject _totalPointsObject;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +18,6 @@ public class SavingVariables : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
+       _totalPointsObject.GetComponent<TextMeshPro>().text = "Je hebt " + SavingVariables._totalPoints.ToString() + " punten verzameld!";
     }
 }

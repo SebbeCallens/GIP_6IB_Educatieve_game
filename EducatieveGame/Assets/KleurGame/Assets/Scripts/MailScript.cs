@@ -60,7 +60,8 @@ public class MailScript : MonoBehaviour
 
         string chosenColor = possibleColors[UnityEngine.Random.Range(0, possibleColors.Count)];
         
-        for (int i = 0; i < possibleColors.Count; i++)
+        //omgekeerd checken van elke kleur om fouten te voorkomen.
+        for (int i = possibleColors.Count - 1; i >= 0; i--)
         {
             if (possibleColors[i] == chosenColor)
             {
