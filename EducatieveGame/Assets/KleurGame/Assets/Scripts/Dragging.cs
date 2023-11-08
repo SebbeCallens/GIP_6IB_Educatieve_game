@@ -28,4 +28,9 @@ public class Dragging : MonoBehaviour
     {
         _dragging = false;
     }
+
+    public void SetDragging(bool value)
+    {
+        _dragging = value;
+    }
 }

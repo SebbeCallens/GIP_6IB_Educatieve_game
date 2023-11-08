@@ -115,6 +115,13 @@ public class SpawnMailScript : MonoBehaviour
 
     public void SetPoints(int value)
     {
-        _points = value;
+        if (GetPoints() + value >= 0)
+        {
+            _points = value;
+        }
+        else
+        {
+            _points = 0;
+        }
     }
 }

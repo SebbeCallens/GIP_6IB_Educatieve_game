@@ -58,7 +58,10 @@ public class MailChecker : MonoBehaviour
                 }
                 else
                 {
+                    collision.gameObject.GetComponent<Dragging>().SetDragging(false);
                     collision.gameObject.transform.position = collision.gameObject.GetComponent<MailScript>().GetoriginalPosition();
+
+                    LosePoints();
                 }
             }
             else
@@ -70,7 +73,10 @@ public class MailChecker : MonoBehaviour
                 }
                 else
                 {
+                    collision.gameObject.GetComponent<Dragging>().SetDragging(false);
                     collision.gameObject.transform.position = collision.gameObject.GetComponent<MailScript>().GetoriginalPosition();
+
+                    LosePoints();
                 }
             }
         }
@@ -87,6 +93,16 @@ public class MailChecker : MonoBehaviour
 
         //aantal punten verhogen met 1.
         spawnMailScript.SetPoints(spawnMailScript.GetPoints() + 1);
+
+        _pointsCounterObject.GetComponent<Text>().text = "punten: " + spawnMailScript.GetPoints().ToString();
+    }
+
+    public void LosePoints()
+    {
+        SpawnMailScript spawnMailScript = _gameScriptManager.GetComponent<SpawnMailScript>();
+
+        //aantal punten verlagen met 1.
+        spawnMailScript.SetPoints(spawnMailScript.GetPoints() - 1);
 
         _pointsCounterObject.GetComponent<Text>().text = "punten: " + spawnMailScript.GetPoints().ToString();
     }
