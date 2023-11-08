@@ -24,7 +24,7 @@ public class GridManager : MonoBehaviour
         {
             for(int y = 0; y < _height; y++)
             {
-                var randomTile = Random.Range(0, 9) == 3 ? _obstacleTile : _groundTile;
+                var randomTile = Random.Range(0, 6) == 3 ? _obstacleTile : _groundTile;
                 var spawnedTile = Instantiate(randomTile, new Vector3(x, y), Quaternion.identity);
                 spawnedTile.name = $"Tile {x} {y}";
 
@@ -42,12 +42,12 @@ public class GridManager : MonoBehaviour
 
     public TileScript GetPlayerSpawnTile()
     {
-        return _tiles.Where(t => t.Key.x < _width / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+        return _tiles.Where(t => t.Key.x == 0 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
     }
 
     public TileScript GetFinishSpawnTile()
     {
-        return _tiles.Where(t => t.Key.x > _width / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+        return _tiles.Where(t => t.Key.x == 7 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
     }
 
     public TileScript GetTileAtPosition(Vector2 pos)

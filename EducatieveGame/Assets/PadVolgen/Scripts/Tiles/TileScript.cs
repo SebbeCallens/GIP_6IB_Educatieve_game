@@ -11,6 +11,14 @@ public abstract class TileScript : MonoBehaviour
     public BaseUnit OccupiedUnit;
     public bool Walkable => _isWalkable && OccupiedUnit == null;
 
+    void Update()
+    {
+        if(OccupiedUnit != null)
+        {
+            if (OccupiedUnit.Faction == Faction.Player) UnitManager.Instance.SetSelectedPlayer((BasePlayer)OccupiedUnit);
+        }
+    }
+
     public virtual void Init(int x, int y)
     {
         
@@ -24,6 +32,34 @@ public abstract class TileScript : MonoBehaviour
     void OnMouseExit()
     {
         _highlight.SetActive(false);
+    }
+
+    void OnMouseDown()
+    {
+        if(OccupiedUnit != null)
+        {
+            if (UnitManager.Instance.SelectedPlayer != null)
+            {
+                if (((UnitManager.Instance.SelectedPlayer.transform.position.x == transform.position.x + 1 || UnitManager.Instance.SelectedPlayer.transform.position.x == transform.position.x - 1) && UnitManager.Instance.SelectedPlayer.transform.position.y == transform.position.y) || ((UnitManager.Instance.SelectedPlayer.transform.position.y == transform.position.y + 1 || UnitManager.Instance.SelectedPlayer.transform.position.y == transform.position.y - 1) && UnitManager.Instance.SelectedPlayer.transform.position.x == transform.position.x))
+                {
+                    var finish = (BaseFinish)OccupiedUnit;
+                    Destroy(finish.gameObject);
+                    SetUnit(UnitManager.Instance.SelectedPlayer);
+                }
+            }
+        }
+
+        if(OccupiedUnit == null && _isWalkable)
+        {
+            if(UnitManager.Instance.SelectedPlayer != null)
+            {
+                if (((UnitManager.Instance.SelectedPlayer.transform.position.x == transform.position.x + 1 || UnitManager.Instance.SelectedPlayer.transform.position.x == transform.position.x - 1) && UnitManager.Instance.SelectedPlayer.transform.position.y == transform.position.y) || ((UnitManager.Instance.SelectedPlayer.transform.position.y == transform.position.y + 1 || UnitManager.Instance.SelectedPlayer.transform.position.y == transform.position.y - 1) && UnitManager.Instance.SelectedPlayer.transform.position.x == transform.position.x))
+                {
+                    SetUnit(UnitManager.Instance.SelectedPlayer);
+                }
+                
+            }
+        }
     }
 
     public void SetUnit(BaseUnit unit)
