@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: badd58ecc98fbf747935b15b59a71189, type: 3}
   m_Name: Finish
   m_EditorClassIdentifier: 
-  Faction: 0
+  Faction: 1
+  UnitPrefab: {fileID: 3205811205362248693, guid: b00111c8ad596bd439904287197475ab, type: 3}
