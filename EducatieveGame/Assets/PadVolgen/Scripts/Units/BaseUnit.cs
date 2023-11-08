@@ -4,15 +4,7 @@ using UnityEngine;
 
 public class BaseUnit : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public TileScript OccupiedTile;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
