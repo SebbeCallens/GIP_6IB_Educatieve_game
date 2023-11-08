@@ -25,7 +25,7 @@ public class SortingOnScript : MonoBehaviour
     }
 
     //het kiezen van als er moet worden gesorteerd op woord of kleur & past het aan in de tekst
-    private void ChooseSortingMethod()
+    public void ChooseSortingMethod()
     {
         string[] sortingMethods = new string[] { "woord", "kleur" };
 

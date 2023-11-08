@@ -8,6 +8,8 @@ public class SpawnMailScript : MonoBehaviour
     double _xScreenSize = 17;
     //double _yScreenSize = 10;
 
+    [SerializeField] GameObject _organisingOnObject;
+
     [SerializeField] GameObject _mailbox;
     [SerializeField] GameObject _mailItem;
     [SerializeField] int _amountOfMailboxes = 3;
@@ -45,6 +47,7 @@ public class SpawnMailScript : MonoBehaviour
     {
         if (_amountOfMailItemsLeft == 0)
         {
+            _organisingOnObject.GetComponent<SortingOnScript>().ChooseSortingMethod();
             GenerateNewMail();
         }
     }

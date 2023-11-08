@@ -11,13 +11,13 @@ public class TimerScript : MonoBehaviour
     private float targetTime = 60.0f;
 
     [SerializeField] GameObject _timer;
-    //[SerializeField] GameObject _scriptManager;
+    //[SerializeField] GameObject _gameScriptManager;
     
 
     // Start is called before the first frame update
     void Start()
     {
-
+       
     }
 
     // Update is called once per frame

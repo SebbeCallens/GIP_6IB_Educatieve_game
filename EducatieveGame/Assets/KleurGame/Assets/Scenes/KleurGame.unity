@@ -521,6 +521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 262cad6b67f13114bbd690a258e622cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _organisingOnObject: {fileID: 574099744}
   _mailbox: {fileID: 4188673394859744971, guid: 8e89e56bfad761d4b805c11ba22f8ff8, type: 3}
   _mailItem: {fileID: 4693146641142316485, guid: ff4d76d1ea77e27409be489110fff2e7, type: 3}
   _amountOfMailboxes: 3
