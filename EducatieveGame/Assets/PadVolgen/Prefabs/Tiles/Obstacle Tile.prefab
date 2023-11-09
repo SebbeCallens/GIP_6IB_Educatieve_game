@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 203717722597101235, guid: 0991760bd7dd1974fbb6ff0402ec2819, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3064777467744458538, guid: 0991760bd7dd1974fbb6ff0402ec2819, type: 3}
       propertyPath: m_Color.b
       value: 0
@@ -18,6 +22,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3064777467744458538, guid: 0991760bd7dd1974fbb6ff0402ec2819, type: 3}
       propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3113754768836684596, guid: 0991760bd7dd1974fbb6ff0402ec2819, type: 3}
+      propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4078708315110821251, guid: 0991760bd7dd1974fbb6ff0402ec2819, type: 3}
@@ -90,9 +98,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 4665886848232660517}
-  _highlight: {fileID: 5334496809514950908, guid: eb56d06a1d727b446a3b5b4a459b9ae9, type: 3}
+  _highlight: {fileID: 7537629053227796412}
+  _isWalkable: 0
+  OccupiedUnit: {fileID: 0}
 --- !u!212 &4665886848232660517 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 3064777467744458538, guid: 0991760bd7dd1974fbb6ff0402ec2819, type: 3}
+  m_PrefabInstance: {fileID: 7658592719808530703}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7537629053227796412 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 203717722597101235, guid: 0991760bd7dd1974fbb6ff0402ec2819, type: 3}
   m_PrefabInstance: {fileID: 7658592719808530703}
   m_PrefabAsset: {fileID: 0}

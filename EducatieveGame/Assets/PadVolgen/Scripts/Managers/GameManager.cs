@@ -30,9 +30,10 @@ public class GameManager : MonoBehaviour
                 GridManager.Instance.GenerateGrid();
                 break;
             case GameState.SpawnPlayer:
-
+                UnitManager.Instance.SpawnPlayer();
                 break;
             case GameState.SpawnFinish:
+                UnitManager.Instance.SpawnFinish();
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);

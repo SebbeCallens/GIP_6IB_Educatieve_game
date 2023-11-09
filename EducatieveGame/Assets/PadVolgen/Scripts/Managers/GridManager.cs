@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
@@ -23,7 +24,7 @@ public class GridManager : MonoBehaviour
         {
             for(int y = 0; y < _height; y++)
             {
-                var randomTile = Random.Range(0, 9) == 3 ? _obstacleTile : _groundTile;
+                var randomTile = Random.Range(0, 6) == 3 ? _obstacleTile : _groundTile;
                 var spawnedTile = Instantiate(randomTile, new Vector3(x, y), Quaternion.identity);
                 spawnedTile.name = $"Tile {x} {y}";
 
@@ -37,6 +38,16 @@ public class GridManager : MonoBehaviour
         _cam.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
 
         GameManager.Instance.ChangeState(GameState.SpawnPlayer);
+    }
+
+    public TileScript GetPlayerSpawnTile()
+    {
+        return _tiles.Where(t => t.Key.x == 0 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+    }
+
+    public TileScript GetFinishSpawnTile()
+    {
+        return _tiles.Where(t => t.Key.x == 7 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
     }
 
     public TileScript GetTileAtPosition(Vector2 pos)
