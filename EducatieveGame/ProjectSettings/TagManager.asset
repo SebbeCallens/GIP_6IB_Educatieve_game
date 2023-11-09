@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Canvas
   - TMP
+  - PuzzelGrid
+  - PiecesGrid
+  - Logic
+  - MenuScript
   layers:
   - Default
   - TransparentFX

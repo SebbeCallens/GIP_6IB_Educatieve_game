@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,17 +6,9 @@ using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour, IDropHandler
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private string _coords;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public string Coords { get { return _coords; } set { _coords = value; } }
 
     public void OnDrop(PointerEventData eventData)
     {

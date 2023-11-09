@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +11,8 @@ public class Piece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHan
     private Image _imageRenderer;
     private Sprite _img;
     private RectTransform _rectTransform;
+    private string _coords;
 
-    // Start is called before the first frame update
     void Start()
     {
         _imageRenderer = this.GetComponent<Image>();
@@ -19,13 +20,8 @@ public class Piece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHan
         _rectTransform = GetComponent<RectTransform>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public Sprite Img { get { return _img; } set { _img = value; } }
+    public string Coords { get { return _coords; } set { _coords = value; } }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
