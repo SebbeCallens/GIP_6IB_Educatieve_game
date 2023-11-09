@@ -20,6 +20,8 @@ public class GridManager2 : MonoBehaviour
     public GameObject _logic;
     private PuzzelMenu _menu;
 
+    //Cédric als je dit leest: sorry voor de spaghetti code...
+
     void Start()
     {
         _menu = GameObject.FindGameObjectWithTag("MenuScript").GetComponent<PuzzelMenu>();
@@ -55,11 +57,6 @@ public class GridManager2 : MonoBehaviour
         _pieces = new GameObject[_width, _height];
         GenerateBoxes();
         _logic.GetComponent<LogicScript>().MoveMenus();
-    }
-
-    void Update()
-    {
-        
     }
 
     public void GenerateBoxes()
@@ -219,36 +216,6 @@ public class GridManager2 : MonoBehaviour
         string score = "Je hebt " + currentScore.ToString() + "/" + maxScore.ToString() + " gescoort. (" + procent.ToString() + "%)";
         return score;
     }
-
-    /**void GenerateGrid()
-    {
-        _tiles = new Dictionary<Vector2, Tile>();
-        for (int x = 0; x < _width; x++)
-        {
-            for (int y = (_height * -1); y < 0; y++)
-            {
-                var spawnedTile = Instantiate(_tilePrefab, new Vector2(x, y), Quaternion.identity);
-                spawnedTile.name = $"Tile {IntToChar(x)} {y * -1}";
-                var isOffset = (x + (y * -1)) % 2 == 1;
-                spawnedTile.Init(isOffset);
-                spawnedTile.GetComponent<Tile>()._tmp.text = IntToChar(x).ToString() + (y * -1).ToString();
-                _tiles[new Vector2(x, y)] = spawnedTile;
-            }
-        }
-        _cam.transform.position = new Vector3((float)_width / 2 - 0.5f, ((float)_height * -1) / 2 - 0.5f, -10);
-    }
-
-    public Tile GetTileAtPos(Vector2 pos)
-    {
-        if (_tiles.TryGetValue(pos, out var tile))
-        {
-            return tile;
-        }
-        else
-        {
-            return null;
-        }
-    }**/
 
     private char IntToChar(int num)
     {
