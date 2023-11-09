@@ -165,8 +165,8 @@ public class GridManager2 : MonoBehaviour
                 PieceSlot.name = $"Stuk Slot {IntToChar(i)} {j}";
                 PuzzelSlot.GetComponent<Slot>().Coords = IntToChar(i).ToString() + j.ToString();
                 PieceSlot.GetComponent<Slot>().Coords = "n/a";
-                PuzzelSlot.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = PuzzelSlot.GetComponent<Slot>().Coords;
-                PieceSlot.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
+                //PuzzelSlot.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = PuzzelSlot.GetComponent<Slot>().Coords;
+                //PieceSlot.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
                 PuzzelSlot.GetComponent<GridLayoutGroup>().cellSize = new Vector2(58f * csx, 58f * csy);
                 PieceSlot.GetComponent<GridLayoutGroup>().cellSize = new Vector2(58f * csx, 58f * csy);
                 //PuzzelSlot.transform.GetChild(0).GetComponent<GridLayoutGroup>().cellSize = new Vector2(58f * csx, 58f * csy);
@@ -187,7 +187,7 @@ public class GridManager2 : MonoBehaviour
                             int pbRow = Random.Range(0, _height);
                             if (PiecesBox.GetComponent<PieceBoxScript>().Slots[pbCol, pbRow].transform.childCount == 0)
                             {
-                                _pieces[col, row].transform.SetParent(PiecesBox.GetComponent<PieceBoxScript>().Slots[pbCol, pbRow].transform.GetChild(0).transform, false);
+                                _pieces[col, row].transform.SetParent(PiecesBox.GetComponent<PieceBoxScript>().Slots[pbCol, pbRow].transform, false);
                             }
                             else
                             {
