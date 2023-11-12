@@ -536,7 +536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &499134615
 RectTransform:
   m_ObjectHideFlags: 0
@@ -705,7 +705,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82a3f50c7414cfe4c8f7fa06d5d35ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pointsTextObject: {fileID: 499134614}
 --- !u!114 &537601290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -986,7 +985,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82a3f50c7414cfe4c8f7fa06d5d35ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pointsTextObject: {fileID: 499134614}
 --- !u!114 &670159205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1401,7 +1399,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82a3f50c7414cfe4c8f7fa06d5d35ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pointsTextObject: {fileID: 499134614}
 --- !u!114 &1074143149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1585,7 +1582,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1715335729}
-  - component: {fileID: 1715335730}
   m_Layer: 0
   m_Name: GameScriptManager
   m_TagString: Untagged
@@ -1608,19 +1604,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1715335730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1715335728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7600ae88a2550b4429d799e109084670, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _totalPointsObject: {fileID: 499134614}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

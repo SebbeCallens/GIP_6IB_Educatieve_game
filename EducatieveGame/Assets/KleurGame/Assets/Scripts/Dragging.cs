@@ -33,4 +33,9 @@ public class Dragging : MonoBehaviour
     {
         _dragging = value;
     }
+
+    public bool GetDragging()
+    {
+        return _dragging;
+    }
 }

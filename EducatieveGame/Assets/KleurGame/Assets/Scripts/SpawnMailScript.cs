@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SpawnMailScript : MonoBehaviour
 {
@@ -8,7 +9,8 @@ public class SpawnMailScript : MonoBehaviour
     double _xScreenSize = 17;
     //double _yScreenSize = 10;
 
-    [SerializeField] GameObject _organisingOnObject;
+    //[SerializeField] GameObject _organisingOnObject;
+    [SerializeField] GameObject _gameScriptManager;
 
     [SerializeField] GameObject _mailbox;
     [SerializeField] GameObject _mailItem;
@@ -18,25 +20,14 @@ public class SpawnMailScript : MonoBehaviour
     
     private int _points = 0;
 
-    List<Color> _colors;
-    List<string> _colorsString;
-    
+    private Color[] _colors;
+    private string[] _colorsString;
+
     // Start is called before the first frame update
     void Start()
-    {
-        //chooses the color of the mailbox
-        //important!!! the possible color values have to be the same in MailScript in colors array!!!
-
-        Color groen = new Color(0, 255, 0);
-        Color rood = new Color(255, 0, 0);
-        Color blauw = new Color(0, 0, 255);
-
-
-        List<Color> allColors = new List<Color> { rood, groen, blauw };
-        List<string> allColorsString = new List<string> { "rood", "groen", "blauw"};
-
-        _colors = allColors;
-        _colorsString = allColorsString;
+    {   
+        _colors = _gameScriptManager.GetComponent<StatsScript>().GetColors();
+        _colorsString = _gameScriptManager.GetComponent<StatsScript>().GetColorsString();
 
         SpawnMailItems();
         SpawnMailboxes();
@@ -47,7 +38,7 @@ public class SpawnMailScript : MonoBehaviour
     {
         if (_amountOfMailItemsLeft == 0)
         {
-            _organisingOnObject.GetComponent<SortingOnScript>().ChooseSortingMethod();
+            _gameScriptManager.GetComponent<StatsScript>().ChooseSortingMethod();
             GenerateNewMail();
         }
     }
@@ -65,6 +56,12 @@ public class SpawnMailScript : MonoBehaviour
             GameObject newMailItem = Instantiate(_mailItem);
             newMailItem.transform.position = new Vector3((float) (currentXValue - _xScreenSize / 2), (float) yValue, 1);
 
+            int colorIndex = Random.Range(0, _colors.Length - 1);
+            int textIndex = Random.Range(0, _colorsString.Length - 1);
+
+            _mailItem.GetComponent<MailScript>().SetColor(_colors[colorIndex]);
+            _mailItem.GetComponent<MailScript>().SetText(_colorsString[textIndex]);
+
             currentXValue += distanceBetween;
         }
     }
@@ -80,13 +77,8 @@ public class SpawnMailScript : MonoBehaviour
             GameObject newMailbox = Instantiate(_mailbox);
             newMailbox.transform.position = new Vector3((float) (currentXValue - _xScreenSize / 2), (float) yValue, 1);
 
-            newMailbox.GetComponent<SpriteRenderer>().color = _colors[0];
-            newMailbox.GetComponent<MailChecker>().SetMailboxColor(_colorsString[0]);
-
-            Debug.Log(_colors[0]);
-
-            _colors.RemoveAt(0);
-            _colorsString.RemoveAt(0);
+            newMailbox.GetComponent<SpriteRenderer>().color = _colors[i];
+            newMailbox.GetComponent<MailChecker>().SetMailboxColor(_colorsString[i]);
 
             currentXValue += distanceBetween;
         }

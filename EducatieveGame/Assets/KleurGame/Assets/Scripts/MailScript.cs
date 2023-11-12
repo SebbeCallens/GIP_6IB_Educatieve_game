@@ -21,7 +21,7 @@ public class MailScript : MonoBehaviour
     {
         _originalPosition = transform.position;
         
-        ChooseTextAndColor();
+        //ChooseTextAndColor();
     }
 
     // Update is called once per frame
@@ -45,14 +45,15 @@ public class MailScript : MonoBehaviour
         return _originalPosition;
     }
 
-    private void ChooseTextAndColor()
+    //moet deels herschreven worden, de mogelijke kleuren moeten komen van StatsScript.
+    /*private void ChooseTextAndColor()
     {
         //color of text
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        
 
-        Color groen = new Color(0, 255, 0);
-        Color rood = new Color(255, 0, 0);
-        Color blauw = new Color(0, 0, 255);
+        //Color groen = new Color(0, 255, 0);
+        //Color rood = new Color(255, 0, 0);
+        //Color blauw = new Color(0, 0, 255);
 
         //these arrays have to be keep on updated so the values in them are the same
         Color[] colors = new Color[] { rood, groen, blauw };
@@ -80,5 +81,19 @@ public class MailScript : MonoBehaviour
 
         _textObject.text = _text;
         Debug.Log("text chosen: " + _text);
+    }*/
+
+    public void SetColor(Color value)
+    {
+        _color = value;
+
+        _textObject.color = value;
+    }
+
+    public void SetText(string value)
+    {
+        _text = value;
+
+        _textObject.text = value;
     }
 }

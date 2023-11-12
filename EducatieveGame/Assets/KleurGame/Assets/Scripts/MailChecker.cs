@@ -49,7 +49,7 @@ public class MailChecker : MonoBehaviour
         if (collision.gameObject.CompareTag("MailItem"))
         {
             //checkt als er wordt gesorteerd op kleur of tekst
-            if (_organisingOnTextObject.GetComponent<SortingOnScript>().GetSortingMethod().Equals("kleur"))
+            if (_gameScriptManager.GetComponent<StatsScript>().GetSortingMethod().Equals("kleur"))
             {
                 //checkt als de kleur van de postbus overeenkomt met de kleur van het woord
                 if (collision.gameObject.GetComponent<MailScript>().GetColor() == gameObject.GetComponent<SpriteRenderer>().color)
