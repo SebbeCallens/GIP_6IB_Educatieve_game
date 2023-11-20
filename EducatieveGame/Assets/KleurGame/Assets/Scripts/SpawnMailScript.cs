@@ -56,11 +56,13 @@ public class SpawnMailScript : MonoBehaviour
             GameObject newMailItem = Instantiate(_mailItem);
             newMailItem.transform.position = new Vector3((float) (currentXValue - _xScreenSize / 2), (float) yValue, 1);
 
-            int colorIndex = Random.Range(0, _colors.Length - 1);
-            int textIndex = Random.Range(0, _colorsString.Length - 1);
+            int colorIndex = Random.Range(0, _colors.Length);
+            int textIndex = Random.Range(0, _colorsString.Length);
 
             _mailItem.GetComponent<MailScript>().SetColor(_colors[colorIndex]);
             _mailItem.GetComponent<MailScript>().SetText(_colorsString[textIndex]);
+
+            Debug.Log(textIndex);
 
             currentXValue += distanceBetween;
         }
