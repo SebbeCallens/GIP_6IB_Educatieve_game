@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEditor.SearchService;
 using Unity.VisualScripting;
+using SFB;
 
 public class GridManager2 : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class GridManager2 : MonoBehaviour
     public GameObject _piecePrefab;
     public GameObject _pieceBoxPrefab;
     public Sprite _sourceImage;
-    private Sprite[,] _imagePieces;
     private GameObject[,] _pieces;
     private GameObject _puzzelBox;
     public GameObject _logic;
@@ -53,7 +53,6 @@ public class GridManager2 : MonoBehaviour
             _width = 10;
             _height = 6;
         }
-        _imagePieces = new Sprite[_width, _height];
         _pieces = new GameObject[_width, _height];
         GenerateBoxes();
         _logic.GetComponent<LogicScript>().MoveMenus();
@@ -150,6 +149,11 @@ public class GridManager2 : MonoBehaviour
         PiecesBox.GetComponent<PieceBoxScript>().BuildSlotMatrix(_width, _height);
         PuzzelBox.transform.GetChild(0).GetComponent<GridLayoutGroup>().cellSize = new Vector2(103f * csx, 103f * csy);
         PiecesBox.transform.GetChild(0).GetComponent<GridLayoutGroup>().cellSize = new Vector2(103f * csx, 103f * csy);
+
+        Sprite image = _sourceImage;
+        float imgWidth = image.rect.width / _width;
+        float imgHeight = image.rect.height / _height;
+
         for (int i = 1; i <= _width; i++)
         {
             for (int j = 1; j <= _height; j++)
@@ -173,6 +177,14 @@ public class GridManager2 : MonoBehaviour
                 var PuzzelPiece = Instantiate(_piecePrefab, new Vector2(0, 0), Quaternion.identity);
                 PuzzelPiece.name = $"Puzzel Stuk {IntToChar(i)} {j}";
                 PuzzelPiece.GetComponent<Piece>().Coords = IntToChar(i).ToString() + j.ToString();
+
+                Texture2D sprite = new Texture2D((int)imgWidth, (int)imgHeight);
+                Color[] pixels = SpriteToTexture2DConverter(image).GetPixels(i * (int)imgWidth, j * (int)imgHeight, (int)imgWidth, (int)imgHeight);
+                sprite.SetPixels(pixels);
+                sprite.Apply();
+                sprite.filterMode = FilterMode.Point;
+                PuzzelPiece.GetComponent<Piece>().Img = sprite.ConvertTo<Sprite>();
+                
                 _pieces[i - 1, j - 1] = PuzzelPiece;
                 if (i == _width && j == _height)
                 {
@@ -215,6 +227,20 @@ public class GridManager2 : MonoBehaviour
         int procent = (currentScore / maxScore) * 100;
         string score = "Je hebt " + currentScore.ToString() + "/" + maxScore.ToString() + " gescoort. (" + procent.ToString() + "%)";
         return score;
+    }
+
+    Texture2D SpriteToTexture2DConverter(Sprite sprite)
+    {
+        // Create a new Texture2D with the same dimensions as the sprite
+        Texture2D texture = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
+
+        // Get the pixels from the sprite and apply them to the texture
+        texture.SetPixels(sprite.texture.GetPixels((int)sprite.rect.x, (int)sprite.rect.y, (int)sprite.rect.width, (int)sprite.rect.height));
+
+        // Apply changes to the texture
+        texture.Apply();
+
+        return texture;
     }
 
     private char IntToChar(int num)

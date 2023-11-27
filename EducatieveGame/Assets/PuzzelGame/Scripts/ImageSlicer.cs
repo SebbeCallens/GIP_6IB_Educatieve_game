@@ -18,7 +18,7 @@ public class ImageSlicer : MonoBehaviour
     {
         var extensions = new[] { new ExtensionFilter("Image Files", "png", "jpg", "jpeg") }; //hier kan je meer afbeelding extensies toevoegen als dat nodig is
 
-        string[] filePaths = StandaloneFileBrowser.OpenFilePanel("Kies een afbeelding", "", extensions, false); //dit opent de standalone filebrowser
+        string[] filePaths = StandaloneFileBrowser.OpenFilePanel("Kies een afbeelding", "C:\\Users\\Gebruiker\\Desktop\\School\\Informatica\\Programmeren\\GIP\\Educatieve Game\\GIP_6IB_Educatieve_game\\EducatieveGame\\Assets\\PuzzelGame\\Images\\Puzzels", extensions, false); //dit opent de standalone filebrowser
 
         if (filePaths != null && filePaths.Length > 0 && !string.IsNullOrEmpty(filePaths[0])) //nakijken of er effectief een afbeelding is gekozen en deze dan snijden
         {
