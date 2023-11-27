@@ -31,7 +31,7 @@ public class ImageSlicer : MonoBehaviour
         }
     }
 
-    private void SliceImage(Texture2D image) //de afbeelding snijden
+    public void SliceImage(Texture2D image) //de afbeelding snijden
     {
         for (int i = 0; i < transform.childCount; i++) //haalt de oude stukken weg voor de nieuwe
         {
