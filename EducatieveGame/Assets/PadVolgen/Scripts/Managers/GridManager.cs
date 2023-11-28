@@ -47,7 +47,7 @@ public class GridManager : MonoBehaviour
 
     public TileScript GetFinishSpawnTile()
     {
-        return _tiles.Where(t => t.Key.x == 7 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+        return _tiles.Where(t => t.Key.x == _width - 1 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
     }
 
     public TileScript GetTileAtPosition(Vector2 pos)

@@ -46,4 +46,5 @@ public enum GameState
     GenerateGrid = 0,
     SpawnPlayer = 1,
     SpawnFinish = 2,
+    GeneratePath = 3
 }
