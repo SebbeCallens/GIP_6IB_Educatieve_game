@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 1959407022425659645}
   - component: {fileID: 2072181519242116706}
   - component: {fileID: 470010215021263970}
+  - component: {fileID: -1224430569725552791}
   m_Layer: 0
-  m_Name: ImagePart
+  m_Name: PuzzlePart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,3 +76,16 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &-1224430569725552791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645198387972814143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa9455d3ae05f8d4ba68faca271c59ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _img: {fileID: 470010215021263970}

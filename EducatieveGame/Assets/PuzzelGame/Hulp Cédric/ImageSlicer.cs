@@ -1,13 +1,14 @@
 using SFB;
 using System.IO;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ImageSlicer : MonoBehaviour
+public class ImageSlicer : MonoBehaviour, IDropHandler
 {
-    [SerializeField] private GameObject _imagePart; //prefab voor een deel van de afbeelding waar de texture van een gesneden stuk op komt te staan
+    [SerializeField] private GameObject _puzzlePart; //prefab voor een deel van de afbeelding waar de texture van een gesneden stuk op komt te staan
 
-    private GameObject ImagePart { get => _imagePart; set => _imagePart = value; }
+    private GameObject PuzzlePart { get => _puzzlePart; set => _puzzlePart = value; }
 
     public void SelectImage() //functie om een afbeelding te selecteren om te snijden, deze kan je gebruiken in het menu als de speler zelf een afbeelding wilt kiezen
     {
@@ -64,7 +65,7 @@ public class ImageSlicer : MonoBehaviour
                 texture.filterMode = FilterMode.Point;
 
                 //het stuk instellen met gegeven positie
-                GameObject imagePart = Instantiate(ImagePart, Vector3.zero, Quaternion.identity, transform);
+                GameObject imagePart = Instantiate(PuzzlePart, Vector3.zero, Quaternion.identity, transform);
 
                 //de schaal en sprite van het stuk instellen
                 Sprite sprite = Sprite.Create(texture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 100);
@@ -74,5 +75,16 @@ public class ImageSlicer : MonoBehaviour
         }
 
         return (columns, rows);
+    }
+
+    //zorgen dat je stukjes terug kunt steken
+    public void OnDrop(PointerEventData eventData)
+    {
+        GameObject dropped = eventData.pointerDrag;
+        if (dropped.GetComponent<PuzzlePiece>() != null)
+        {
+            PuzzlePiece piece = dropped.GetComponent<PuzzlePiece>();
+            piece.ParentAfterDrag = transform;
+        }
     }
 }
