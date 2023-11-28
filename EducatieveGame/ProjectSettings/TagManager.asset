@@ -10,6 +10,10 @@ TagManager:
   - PiecesGrid
   - Logic
   - MenuScript
+  - TextObject
+  - GameScriptManager
+  - MailItem
+  - ColorMenu
   layers:
   - Default
   - TransparentFX
