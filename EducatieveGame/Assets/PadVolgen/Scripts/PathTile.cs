@@ -4,10 +4,14 @@ public class PathTile : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private GameObject _highlight;
-    private bool _hasPlayer;
-    private bool _isObstacle;
-    private bool _isLocation;
-    private string _locationName;
+    private bool _hasPlayer = false;
+    private bool _isFinish = false;
+    private bool _isObstacle = false;
+    private bool _isLocation = false;
+    private string _locationName = "";
+
+    public bool HasPlayer { get => _hasPlayer; set => _hasPlayer = value; }
+    public bool IsFinish { get => _isFinish; set => _isFinish = value; }
 
     private void Awake()
     {
