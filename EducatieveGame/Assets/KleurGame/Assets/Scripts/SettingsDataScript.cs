@@ -9,15 +9,18 @@ using UnityEngine.UIElements;
 
 public class SettingsDataScript : MonoBehaviour
 {
+    //data to be transfered to the other scene
     public static bool _trashcanSetting = false;
     public static bool _testModeSetting = false;
     public static string _chosenDifficulty;
 
+    public static List<bool> _colorButtonValues = new List<bool>();
+
+    //referencing values
     [SerializeField] private GameObject _colorButton;
     [SerializeField] private UnityEngine.UI.Image _checkmark;
 
     //color setting variables
-
     private GameObject _colorsSetting;
     private GameObject _settingsMenu;
     private GameObject _normalMenu;
@@ -151,7 +154,14 @@ public class SettingsDataScript : MonoBehaviour
     public void ColorMenuButtonClicked()
     {
         Debug.Log(EventSystem.current.currentSelectedGameObject.gameObject.GetComponent<UnityEngine.UI.Image>().color);
-        _lastClickedColorButton.GetComponent<UnityEngine.UI.Image>().color = EventSystem.current.currentSelectedGameObject.gameObject.GetComponent<UnityEngine.UI.Image>().color;
+
+        //de knop togglet als de afbeelding active is of niet
+        EventSystem.current.currentSelectedGameObject.gameObject.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().enabled = !EventSystem.current.currentSelectedGameObject.gameObject.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().enabled;
+
+        //deze data verandering (hierboven) moet ergens opgeslaan worden!!! TBA
+
+
+        //_lastClickedColorButton.GetComponent<UnityEngine.UI.Image>().color = EventSystem.current.currentSelectedGameObject.gameObject.GetComponent<UnityEngine.UI.Image>().color;
     }
 
     public void ColorButtonClicked()
