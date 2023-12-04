@@ -1,146 +1,94 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
+//dit script zorgt voor een pad in het grid
 public class PathManager : MonoBehaviour
 {
-    [SerializeField] private int _width;
-    [SerializeField] private int _height;
-    [SerializeField] private GameObject _tile;
-    [SerializeField] private Transform _cam;
-    private Dictionary<Vector2, PathTile> _tiles;
-    private List<PathTile> _visitedTiles = new List<PathTile>();
+    [SerializeField] private int _minLength; //minimum lengte pad
+    [SerializeField] private int _maxLength; //maximum lengte pad
+    [SerializeField] private float _minDistance; //minimum afstand tussen spawn en finish
+    [SerializeField] private PathGrid _grid; //het grid
+    [SerializeField] private PathFunctions _pathFnc; //functies voor het pad
+    [SerializeField] private GameObject _player; //de speler
+    [SerializeField] private GameObject _finish; //de finish
+    private List<PathTile> _visitedTiles = new List<PathTile>(); //lijst met tiles van het pad
 
-    private void Awake()
+    public List<PathTile> VisitedTiles { get => _visitedTiles; set => _visitedTiles = value; }
+
+    private void Awake() //grid en pad aanmaken
     {
-        GenerateGrid();
+        _grid.GenerateGrid();
         GeneratePath(SpawnPlayer());
     }
 
-    public void GenerateGrid()
-    {
-        _tiles = new Dictionary<Vector2, PathTile>();
-        for(int x = 0; x < _width; x++)
-        {
-            for(int y = 0; y < _height; y++)
-            {
-                var spawnedTile = Instantiate(_tile, new Vector2(x, y), Quaternion.identity, transform);
-                spawnedTile.name = x + "-" + y;
-
-                _tiles[new Vector2(x, y)] = spawnedTile.GetComponent<PathTile>();
-                spawnedTile.GetComponent<PathTile>().SetTile(Color.green, false, false , "");
-            }
-        }
-
-        _cam.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
-    }
-
-    public PathTile GetTileAtPosition(Vector2 pos)
-    {
-        if (_tiles.TryGetValue(pos, out var tile))
-        {
-            return tile;
-        }
-
-        return null;
-    }
-
-    public Vector2 GetTilePosition(PathTile tile)
-    {
-        foreach (var kvp in _tiles)
-        {
-            if (kvp.Value == tile)
-            {
-                return kvp.Key;
-            }
-        }
-
-        return Vector2.zero;
-    }
-
-    public PathTile SpawnPlayer()
+    public PathTile SpawnPlayer() //speler spawnen
     {
         List<PathTile> _possibleTiles = new List<PathTile>();
 
-        for (int x = 0; x < _width; x++)
+        //tiles van boven en onder zijkant toevoegen incl. tiles op hoeken
+        for (int x = 0; x < _grid.Width; x++)
         {
-            _possibleTiles.Add(GetTileAtPosition(new(x, 0)));
-            _possibleTiles.Add(GetTileAtPosition(new(x, _height -1)));
+            _possibleTiles.Add(_grid.GetTileAtPosition(new Vector2(x, 0)));
+            _possibleTiles.Add(_grid.GetTileAtPosition(new Vector2(x, _grid.Height - 1)));
         }
 
-        for (int y = 1; y < _height; y++)
+        //tiles van linker en rechter zijkant toevoegen excl. tiles op hoeken
+        for (int y = 1; y < _grid.Height - 1; y++)
         {
-            _possibleTiles.Add(GetTileAtPosition(new(0, y)));
-            _possibleTiles.Add(GetTileAtPosition(new(_width - 1, y)));
+            _possibleTiles.Add(_grid.GetTileAtPosition(new Vector2(0, y)));
+            _possibleTiles.Add(_grid.GetTileAtPosition(new Vector2(_grid.Width - 1, y)));
         }
 
-        foreach (var tile in _possibleTiles)
-        {
-            tile.SetTile(Color.red, false, false, "");
-        }
-
+        //een random tile kiezen voor de speler op te spawnen en de speler er op spawnen
         PathTile _playerSpawn = _possibleTiles[Random.Range(0, _possibleTiles.Count)];
-        _playerSpawn.SetTile(Color.blue, false, false, "");
-        _playerSpawn.HasPlayer = true;
+        Player character = Instantiate(_player, _playerSpawn.transform.position, Quaternion.identity, _playerSpawn.transform).GetComponent<Player>();
+        character.CurrentPositon = _grid.GetTilePosition(_playerSpawn);
+
         return _playerSpawn;
     }
 
-    public List<PathTile> GetPossibleTiles(PathTile currentTile)
+
+    public void GeneratePath(PathTile spawnTile) //random pad genereren
     {
-        Vector2 currentTilePos = GetTilePosition(currentTile);
-        List<Vector2> adjacentPositions = new List<Vector2>
-    {
-        new Vector2(currentTilePos.x + 1, currentTilePos.y),
-        new Vector2(currentTilePos.x - 1, currentTilePos.y),
-        new Vector2(currentTilePos.x, currentTilePos.y + 1),
-        new Vector2(currentTilePos.x, currentTilePos.y - 1)
-    };
-
-        List<PathTile> possibleTiles = adjacentPositions
-            .Where(pos => GetTileAtPosition(pos) != null && !_visitedTiles.Contains(GetTileAtPosition(pos)))
-            .Select(pos => GetTileAtPosition(pos))
-            .ToList();
-
-        return possibleTiles;
-    }
-
-
-    public void GeneratePath(PathTile spawnTile)
-    {
-        int length = Random.Range(400, 401);
-        if (length > (_width * _height) / 2)
-        {
-            length = (_width * _height) / 2;
-        }
-        bool reset = false;
+        int length = Random.Range(_minLength, Mathf.Min(_maxLength + 1, _grid.Width * _grid.Height / 2)); //random lengte kiezen en zorgen dat deze niet te lang is
         PathTile currentTile = spawnTile;
-        _visitedTiles.Add(currentTile);
+        bool reset = false;
 
+        VisitedTiles.Add(currentTile);
+
+        //pad genereren
         for (int i = 0; i < length; i++)
         {
-            List<PathTile> _possibleTiles = GetPossibleTiles(currentTile);
+            List<PathTile> _possibleTiles = _pathFnc.GetPossibleTiles(currentTile);
 
+            //wanneer er geen mogelijke tiles meer zijn, dan is het pad gefaald en moet er gereset worden
             if (_possibleTiles.Count == 0)
             {
                 reset = true;
+                break;
             }
 
-            else
-            {
-                foreach (var tile in _possibleTiles)
-                {
-                    tile.SetTile(Color.yellow, false, false, "");
-                }
-
-                currentTile = _possibleTiles[Random.Range(0, _possibleTiles.Count)];
-                currentTile.SetTile(Color.grey, false, false, "");
-                _visitedTiles.Add(currentTile);
-            }
+            //huidige tile instellen
+            currentTile = _pathFnc.GetRandomTile(_possibleTiles, _grid.GetTilePosition(spawnTile));
+            currentTile.SetTile(new Color(0f, 0f, 0f, 1) + new Color(i * 0.04f, i * 0.04f, i * 0.04f, 0), false, false, "");
+            VisitedTiles.Add(currentTile);
         }
 
-        currentTile.SetTile(Color.cyan, false, false, "");
+        //laatste tile instellen als finish
         currentTile.IsFinish = true;
+        Instantiate(_finish, currentTile.transform.position, Quaternion.identity, currentTile.transform);
 
+        //nakijken of er genoeg x en y afstand is tussen spawn en finish
+        float distanceX = Mathf.Abs(spawnTile.transform.position.x - currentTile.transform.position.x);
+        float distanceY = Mathf.Abs(spawnTile.transform.position.y - currentTile.transform.position.y);
+
+        if (distanceX < _minDistance || distanceY < _minDistance)
+        {
+            reset = true;
+        }
+
+
+        //resetten wanneer gefaald, obstakels plaatsen bij succes
         if (reset)
         {
             Reset();
@@ -151,42 +99,42 @@ public class PathManager : MonoBehaviour
         }
     }
 
-    public void GenerateObstacles()
+    public void GenerateObstacles() //obstakels plaatsen
     {
         List<PathTile> _possibleTiles = new List<PathTile>();
 
-        for (int x = 0; x < _width; x++)
+        //mogelijk tiles voor obstakels toevoegen in lijst
+        for (int x = 0; x < _grid.Width; x++)
         {
-            for (int y = 0; y < _height; y++)
+            for (int y = 0; y < _grid.Height; y++)
             {
-                if (!_visitedTiles.Contains(GetTileAtPosition(new(x, y))))
+                PathTile currentTile = _grid.GetTileAtPosition(new Vector2(x, y));
+                if (!VisitedTiles.Contains(currentTile)) //tile toevoegen in lijst wanneer deze zich niet op het pad bevind
                 {
-                    _possibleTiles.Add(GetTileAtPosition(new(x, y)));
+                    _possibleTiles.Add(currentTile);
                 }
             }
         }
 
-        foreach (var tile in _possibleTiles)
+        //random mogelijke tiles obstakels van maken
+        foreach (PathTile tile in _possibleTiles)
         {
-            if (Random.value > 0.5)
+            if (Random.value > 0.5f) //50% kans per tile
             {
-                tile.SetTile(Color.black, true, false, "");
+                tile.SetTile(Color.yellow, true, false, "");
             }
         }
     }
 
-    public void Reset()
+
+    public void Reset() //wanneer het pad faalt om te genereren
     {
         Debug.Log("Generation fail");
-        _visitedTiles.Clear();
-        _tiles.Clear();
-        for (int i = 0; i < transform.childCount;  i++)
-        {
-            Destroy(transform.GetChild(i).gameObject);
-        }
+        //lijsten leegmaken
+        VisitedTiles.Clear();
 
-        GenerateGrid();
+        //opnieuw een pad maken
+        _grid.GenerateGrid();
         GeneratePath(SpawnPlayer());
-        GenerateObstacles();
     }
 }
