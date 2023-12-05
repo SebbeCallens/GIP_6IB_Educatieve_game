@@ -9,22 +9,22 @@ public class V02_Piece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
 {
     [SerializeField] private Image _img;
     private Transform _parentAfterDrag;
-    private TextMeshProUGUI _currentCoords;
+    [SerializeField] private GameObject _currentCoords;
     public Image Img { get { return _img; } }
     public Transform ParentAfterDrag { get { return _parentAfterDrag; } set { _parentAfterDrag = value; } }
-    public TextMeshProUGUI CurrentCoords { get { return _currentCoords; } set { _currentCoords = value; } }
+    public GameObject CurrentCoords { get { return _currentCoords; } set { _currentCoords = value; } }
 
     void Start()
     {
-        CurrentCoords = GameObject.FindGameObjectWithTag("TMP").GetComponent<TextMeshProUGUI>();
+        CurrentCoords = GameObject.FindGameObjectWithTag("TMP");
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
+        CurrentCoords.GetComponent<TextMeshProUGUI>().text = name;
         ParentAfterDrag = transform.parent;
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
         Img.raycastTarget = false;
-        CurrentCoords.text = this.name;
     }
     public void OnDrag(PointerEventData eventData)
     {
@@ -32,9 +32,8 @@ public class V02_Piece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
     }
     public void OnEndDrag(PointerEventData eventData)
     {
+        CurrentCoords.GetComponent<TextMeshProUGUI>().text = "";
         transform.SetParent(ParentAfterDrag);
         Img.raycastTarget = true;
-        transform.position = new(transform.parent.position.x, transform.parent.position.y, 0);
-        CurrentCoords.text = "";
     }
 }
