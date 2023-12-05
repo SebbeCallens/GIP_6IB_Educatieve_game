@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class V02_LogicScript : MonoBehaviour
 {
@@ -25,5 +26,6 @@ public class V02_LogicScript : MonoBehaviour
     public void MenuKnop()
     {
         CancelKnop();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 }

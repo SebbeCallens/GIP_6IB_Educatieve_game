@@ -54,14 +54,14 @@ public class V02_Slicer : MonoBehaviour, IDropHandler
                 //de schaal en sprite van het stuk instellen
                 Sprite sprite = Sprite.Create(texture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 100);
                 imagePart.GetComponent<Image>().sprite = sprite;
-                imagePart.name = $"{col}-{IntToChar(rows - 1 - row)}"; //naam van afbeelding stuk instellen met coordinaten
+                imagePart.name = $"{col + 1}-{IntToChar(row + 1)}"; //naam van afbeelding stuk instellen met coordinaten
             }
         }
 
         return (columns, rows);
     }
     
-    private char IntToChar(int num)
+    public char IntToChar(int num)
     {
         return (char)('A' + num - 1);
     }

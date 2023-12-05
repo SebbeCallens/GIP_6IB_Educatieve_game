@@ -992,8 +992,7 @@ MonoBehaviour:
   _puzzelHotbar: {fileID: 267287307}
   _puzzelSlot: {fileID: 4878747074764176159, guid: eafb086557165c54598499fb3b699176, type: 3}
   _puzzelPiece: {fileID: 2001799040387839661, guid: d15285ef0ef98a74caaf6d9f49d55c38, type: 3}
-  _sourceImage: {fileID: 0}
-  _image: {fileID: 0}
+  _sourceImage: {fileID: 21300000, guid: f6644028c15286842bc29322739659fd, type: 3}
   _width: 4
   _height: 4
 --- !u!4 &493070616
@@ -2429,7 +2428,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1500, y: 800}
+  m_SizeDelta: {x: 800, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1641565355
 MonoBehaviour:
@@ -3120,7 +3119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08f354fc73b11da46abf9047d24f95e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _puzzelPiece: {fileID: 0}
+  _puzzelPiece: {fileID: 2001799040387839661, guid: d15285ef0ef98a74caaf6d9f49d55c38, type: 3}
 --- !u!1 &1926099019
 GameObject:
   m_ObjectHideFlags: 0
@@ -3332,7 +3331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 267287308}
-  m_Horizontal: 1
+  m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 1
   m_Elasticity: 0.1

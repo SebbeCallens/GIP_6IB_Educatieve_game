@@ -33,12 +33,6 @@ EditorBuildSettings:
     path: Assets/FiguurDraaienGame/Scenes/RotateFigureGame.unity
     guid: 35d5f5f899c9c0940b59222033a44006
   - enabled: 1
-    path: Assets/PuzzelGame/Scenes/PuzzelGameMenu.unity
-    guid: 2a7cd87c37f42924192a80c6d3f2b3b7
-  - enabled: 1
-    path: Assets/PuzzelGame/Scenes/PuzzelGame.unity
-    guid: 28724cad8be30484898b2590581472f6
-  - enabled: 1
     path: Assets/KleurGame/Assets/Scenes/Startscherm.unity
     guid: 2c305bd9910f1d94fb65060ac0b78b93
   - enabled: 1
@@ -47,4 +41,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/KleurGame/Assets/Scenes/Eindscherm.unity
     guid: 0991decdf1fe39a4e93d3e892bc56cfc
+  - enabled: 1
+    path: Assets/PuzzelGame/Scenes/PuzzelGameMenu.unity
+    guid: 2a7cd87c37f42924192a80c6d3f2b3b7
+  - enabled: 1
+    path: Assets/PuzzelGame/Scenes/V0.2_PuzzelGame.unity
+    guid: 2cfd977fc4521c94d80cbe71872c0f37
   m_configObjects: {}
