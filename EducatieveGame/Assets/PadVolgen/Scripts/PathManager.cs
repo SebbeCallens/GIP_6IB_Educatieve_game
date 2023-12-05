@@ -96,15 +96,14 @@ public class PathManager : MonoBehaviour
         Instantiate(_finish, currentTile.transform.position, Quaternion.identity, currentTile.transform);
         _locations.Add(currentTile);
 
-        //nakijken of er genoeg x en y afstand is tussen spawn en finish
-        float distanceX = Mathf.Abs(spawnTile.transform.position.x - currentTile.transform.position.x);
-        float distanceY = Mathf.Abs(spawnTile.transform.position.y - currentTile.transform.position.y);
+        //nakijken of er genoeg afstand is tussen spawn en finish
+        float distance = Mathf.Sqrt(Mathf.Pow(spawnTile.transform.position.x - currentTile.transform.position.x, 2)
+                                   + Mathf.Pow(spawnTile.transform.position.y - currentTile.transform.position.y, 2));
 
-        if (distanceX < _minDistance || distanceY < _minDistance)
+        if (distance < _minDistance)
         {
             reset = true;
         }
-
 
         //resetten wanneer gefaald, obstakels plaatsen bij succes
         if (reset)
