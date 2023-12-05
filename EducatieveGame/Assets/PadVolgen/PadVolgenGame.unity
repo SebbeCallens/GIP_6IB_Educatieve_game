@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 2122425348}
   - component: {fileID: 2122425345}
   - component: {fileID: 2122425347}
+  - component: {fileID: 2122425349}
   m_Layer: 0
   m_Name: Path
   m_TagString: Untagged
@@ -248,11 +249,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minLength: 20
   _maxLength: 26
-  _minDistance: 8
+  _minDistance: 4
   _grid: {fileID: 2122425348}
   _pathFnc: {fileID: 2122425347}
   _player: {fileID: 7572155353509324413, guid: 116985c6e8debcb43b07bed813ee1875, type: 3}
   _finish: {fileID: 7279476843127333383, guid: b00111c8ad596bd439904287197475ab, type: 3}
+  _aStar: {fileID: 2122425349}
 --- !u!4 &2122425346
 Transform:
   m_ObjectHideFlags: 0
@@ -297,6 +299,21 @@ MonoBehaviour:
   _width: 10
   _height: 10
   _tile: {fileID: 6906169124038179260, guid: 0991760bd7dd1974fbb6ff0402ec2819, type: 3}
+--- !u!114 &2122425349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122425344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab7853e6529094b47af29d192c0fc1ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _grid: {fileID: 2122425348}
+  _path: {fileID: 2122425345}
+  _pathFnc: {fileID: 2122425347}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

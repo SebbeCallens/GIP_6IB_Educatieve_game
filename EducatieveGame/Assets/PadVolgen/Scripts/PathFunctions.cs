@@ -71,13 +71,83 @@ public class PathFunctions : MonoBehaviour
         {
             PathTile tileAtPosition = _grid.GetTileAtPosition(position);
 
-            //tile toevoegen wanneer deze bestaat en deze nog niet gebruikt is in het pad
-            if (tileAtPosition != null && !_path.VisitedTiles.Contains(tileAtPosition))
+            //tile toevoegen wanneer deze bestaat en deze nog niet gebruikt is in het pad, en deze tile geen aanliggende tile die bij het pad hoort heeft
+            if (tileAtPosition != null && !_path.VisitedTiles.Contains(tileAtPosition) && TileNeighborCount(tileAtPosition) < 2)
             {
                 possibleTiles.Add(tileAtPosition);
             }
         }
 
         return possibleTiles;
+    }
+
+    public int TileNeighborCount(PathTile tile) //aantal buren van een tile die bij het random pad horen
+    {
+        int neighbors = 0;
+        Vector2 tilePos = _grid.GetTilePosition(tile); //positie huidige tile
+
+        List<Vector2> adjacentPositions = new List<Vector2>
+    {
+        new Vector2(tilePos.x + 1, tilePos.y),
+        new Vector2(tilePos.x - 1, tilePos.y),
+        new Vector2(tilePos.x, tilePos.y + 1),
+        new Vector2(tilePos.x, tilePos.y - 1)
+    };
+
+        foreach (Vector2 position in adjacentPositions)
+        {
+            PathTile tileAtPosition = _grid.GetTileAtPosition(position);
+
+            //tile toevoegen wanneer deze bij het pad hoort
+            if (_path.VisitedTiles.Contains(tileAtPosition))
+            {
+                neighbors++;
+            }
+        }
+
+        return neighbors;
+    }
+
+    public List<PathTile> GetNeighbors(PathTile currentTile) //buren van een tile vinden die geen obstakel zijn
+    {
+        Vector2 currentTilePos = _grid.GetTilePosition(currentTile);
+
+        List<Vector2> adjacentPositions = new List<Vector2>
+    {
+        new Vector2(currentTilePos.x + 1, currentTilePos.y),
+        new Vector2(currentTilePos.x - 1, currentTilePos.y),
+        new Vector2(currentTilePos.x, currentTilePos.y + 1),
+        new Vector2(currentTilePos.x, currentTilePos.y - 1)
+    };
+
+        List<PathTile> neighbors = new List<PathTile>();
+
+        foreach (Vector2 position in adjacentPositions)
+        {
+            PathTile tileAtPosition = _grid.GetTileAtPosition(position);
+
+            if (tileAtPosition != null && !tileAtPosition.IsObstacle)
+            {
+                neighbors.Add(tileAtPosition);
+            }
+        }
+
+        return neighbors;
+    }
+
+    public float GetDistance(PathTile tileA, PathTile tileB) //hulpfunctie A Star
+    {
+        Vector2 posA = _grid.GetTilePosition(tileA);
+        Vector2 posB = _grid.GetTilePosition(tileB);
+
+        return Mathf.Abs(posA.x - posB.x) + Mathf.Abs(posA.y - posB.y);
+    }
+
+    public float GetHeuristic(PathTile currentTile, PathTile goalTile) //hulpfunctie A Star
+    {
+        Vector2 currentPos = _grid.GetTilePosition(currentTile);
+        Vector2 goalPos = _grid.GetTilePosition(goalTile);
+
+        return Mathf.Abs(currentPos.x - goalPos.x) + Mathf.Abs(currentPos.y - goalPos.y);
     }
 }

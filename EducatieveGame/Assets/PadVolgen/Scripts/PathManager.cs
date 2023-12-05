@@ -11,11 +11,15 @@ public class PathManager : MonoBehaviour
     [SerializeField] private PathFunctions _pathFnc; //functies voor het pad
     [SerializeField] private GameObject _player; //de speler
     [SerializeField] private GameObject _finish; //de finish
+    [SerializeField] private PathAStar _aStar; //script A Star
     private List<PathTile> _visitedTiles = new List<PathTile>(); //lijst met tiles van het pad
+    private int _paths = 0; //hoeveel paden er geprobeerd zijn
+    private PathTile _start; //startTile
+    private PathTile _end; //endTile
 
     public List<PathTile> VisitedTiles { get => _visitedTiles; set => _visitedTiles = value; }
 
-    private void Awake() //grid en pad aanmaken
+    private void Start() //grid en pad aanmaken
     {
         _grid.GenerateGrid();
         GeneratePath(SpawnPlayer());
@@ -43,6 +47,7 @@ public class PathManager : MonoBehaviour
         PathTile _playerSpawn = _possibleTiles[Random.Range(0, _possibleTiles.Count)];
         Player character = Instantiate(_player, _playerSpawn.transform.position, Quaternion.identity, _playerSpawn.transform).GetComponent<Player>();
         character.CurrentPositon = _grid.GetTilePosition(_playerSpawn);
+        _start = _playerSpawn;
 
         return _playerSpawn;
     }
@@ -50,6 +55,8 @@ public class PathManager : MonoBehaviour
 
     public void GeneratePath(PathTile spawnTile) //random pad genereren
     {
+        _paths++;
+
         int length = Random.Range(_minLength, Mathf.Min(_maxLength + 1, _grid.Width * _grid.Height / 2)); //random lengte kiezen en zorgen dat deze niet te lang is
         PathTile currentTile = spawnTile;
         bool reset = false;
@@ -77,6 +84,7 @@ public class PathManager : MonoBehaviour
         //laatste tile instellen als finish
         currentTile.IsFinish = true;
         Instantiate(_finish, currentTile.transform.position, Quaternion.identity, currentTile.transform);
+        _end = currentTile;
 
         //nakijken of er genoeg x en y afstand is tussen spawn en finish
         float distanceX = Mathf.Abs(spawnTile.transform.position.x - currentTile.transform.position.x);
@@ -119,10 +127,28 @@ public class PathManager : MonoBehaviour
         //random mogelijke tiles obstakels van maken
         foreach (PathTile tile in _possibleTiles)
         {
-            if (Random.value > 0.5f) //50% kans per tile
+            if (Random.value > 0.75f) //25% kans per tile
             {
                 tile.SetTile(Color.yellow, true, false, "");
             }
+        }
+
+        FindShortestPath();
+    }
+
+    public void FindShortestPath() //kortste pad met a star vinden
+    {
+        List<PathTile> shortestPath = _aStar.FindShortestPath(_grid.GetTilePosition(_start), _grid.GetTilePosition(_end));
+        if (shortestPath != null)
+        {
+            foreach (PathTile tile in shortestPath) //elke tile van het korste pad blauw maken
+            {
+                tile.SetTile(Color.blue, false, false, "");
+            }
+        }
+        else
+        {
+            Debug.Log("A star error");
         }
     }
 
@@ -130,11 +156,19 @@ public class PathManager : MonoBehaviour
     public void Reset() //wanneer het pad faalt om te genereren
     {
         Debug.Log("Generation fail");
-        //lijsten leegmaken
-        VisitedTiles.Clear();
 
-        //opnieuw een pad maken
-        _grid.GenerateGrid();
-        GeneratePath(SpawnPlayer());
+        if (_paths >= 100) //maxium 100 paden proberen voor oneindige loop tegen te gaan
+        {
+            Debug.Log("maximum tries exceeded");
+        }
+        else
+        {
+            //lijsten leegmaken
+            VisitedTiles.Clear();
+
+            //opnieuw een pad maken
+            _grid.GenerateGrid();
+            GeneratePath(SpawnPlayer());
+        }
     }
 }
