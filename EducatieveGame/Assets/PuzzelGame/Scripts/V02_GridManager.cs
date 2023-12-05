@@ -43,12 +43,12 @@ public class V02_GridManager : MonoBehaviour
         //posities stukjes randomiseren
         for (int i = parts.Count - 1; i >= 0; i--)
         {
-            GameObject slot = Instantiate(PuzzelSlot, new Vector2(0f, 0f), Quaternion.identity, PuzzelHotbar.transform);
-            slot.name = "Hotbar Slot " + i;
+            //GameObject slot = Instantiate(PuzzelSlot, new Vector2(0f, 0f), Quaternion.identity, PuzzelHotbar.transform);
+            //slot.name = "Hotbar Slot " + i;
             int randomIndex = Random.Range(0, parts.Count);
-            //parts[randomIndex].transform.SetAsFirstSibling();
-            slot.transform.SetAsFirstSibling();
-            parts[randomIndex].transform.SetParent(slot.transform);
+            parts[randomIndex].transform.SetAsFirstSibling();
+            //slot.transform.SetAsFirstSibling();
+            parts[randomIndex].transform.SetParent(PuzzelHotbar.transform);
             parts.RemoveAt(randomIndex);
         }
 
@@ -58,7 +58,7 @@ public class V02_GridManager : MonoBehaviour
             for (int col = 0; col < cols; col++)
             {
                 GameObject slot = Instantiate(PuzzelSlot, new Vector2(0f, 0f), Quaternion.identity, PuzzelBox.transform);
-                slot.name = $"{col}-{Slicer.IntToChar(row)}";
+                slot.name = $"{col + 1}-{Slicer.IntToChar(row + 1)}";
             }
         }
     }

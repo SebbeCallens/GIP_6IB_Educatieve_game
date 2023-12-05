@@ -8,9 +8,9 @@ public class V02_Slot : MonoBehaviour, IDropHandler
         if (transform.childCount == 0)
         {
             GameObject dropped = eventData.pointerDrag;
-            if (dropped.GetComponent<PuzzlePiece>() != null)
+            if (dropped.GetComponent<V02_Piece>() != null)
             {
-                PuzzlePiece piece = dropped.GetComponent<PuzzlePiece>();
+                V02_Piece piece = dropped.GetComponent<V02_Piece>();
                 piece.ParentAfterDrag = transform;
             }
         }

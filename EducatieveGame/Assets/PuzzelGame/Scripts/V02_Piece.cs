@@ -35,5 +35,7 @@ public class V02_Piece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
         CurrentCoords.GetComponent<TextMeshProUGUI>().text = "";
         transform.SetParent(ParentAfterDrag);
         Img.raycastTarget = true;
+        transform.SetAsFirstSibling();
+        //transform.position = new(transform.parent.position.x, transform.parent.position.y, 0);
     }
 }
