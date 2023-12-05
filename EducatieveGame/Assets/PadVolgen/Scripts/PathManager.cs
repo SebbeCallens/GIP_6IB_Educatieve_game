@@ -14,8 +14,7 @@ public class PathManager : MonoBehaviour
     [SerializeField] private PathAStar _aStar; //script A Star
     private List<PathTile> _visitedTiles = new List<PathTile>(); //lijst met tiles van het pad
     private int _paths = 0; //hoeveel paden er geprobeerd zijn
-    private PathTile _start; //startTile
-    private PathTile _end; //endTile
+    private List<PathTile> _locations = new List<PathTile>(); //tiles start, locaties en einde
 
     public List<PathTile> VisitedTiles { get => _visitedTiles; set => _visitedTiles = value; }
 
@@ -44,12 +43,12 @@ public class PathManager : MonoBehaviour
         }
 
         //een random tile kiezen voor de speler op te spawnen en de speler er op spawnen
-        PathTile _playerSpawn = _possibleTiles[Random.Range(0, _possibleTiles.Count)];
-        Player character = Instantiate(_player, _playerSpawn.transform.position, Quaternion.identity, _playerSpawn.transform).GetComponent<Player>();
-        character.CurrentPositon = _grid.GetTilePosition(_playerSpawn);
-        _start = _playerSpawn;
+        PathTile playerSpawn = _possibleTiles[Random.Range(0, _possibleTiles.Count)];
+        Player character = Instantiate(_player, playerSpawn.transform.position, Quaternion.identity, playerSpawn.transform).GetComponent<Player>();
+        character.CurrentPositon = _grid.GetTilePosition(playerSpawn);
+        _locations.Add(playerSpawn);
 
-        return _playerSpawn;
+        return playerSpawn;
     }
 
 
@@ -75,16 +74,27 @@ public class PathManager : MonoBehaviour
                 break;
             }
 
-            //huidige tile instellen
-            currentTile = _pathFnc.GetRandomTile(_possibleTiles, _grid.GetTilePosition(spawnTile));
-            currentTile.SetTile(new Color(0f, 0f, 0f, 1) + new Color(i * 0.04f, i * 0.04f, i * 0.04f, 0), false, false, "");
-            VisitedTiles.Add(currentTile);
+            if (i == 10) //tile op index 10 wordt nu altijd een locatie
+            {
+                //huidige tile instellen
+                currentTile = _pathFnc.GetRandomTile(_possibleTiles, _grid.GetTilePosition(spawnTile));
+                currentTile.SetTile(Color.grey, false, true, "random");
+                VisitedTiles.Add(currentTile);
+                _locations.Add(currentTile);
+            }
+            else
+            {
+                //huidige tile instellen
+                currentTile = _pathFnc.GetRandomTile(_possibleTiles, _grid.GetTilePosition(spawnTile));
+                currentTile.SetTile(Color.red, false, false, "");
+                VisitedTiles.Add(currentTile);
+            }
         }
 
         //laatste tile instellen als finish
         currentTile.IsFinish = true;
         Instantiate(_finish, currentTile.transform.position, Quaternion.identity, currentTile.transform);
-        _end = currentTile;
+        _locations.Add(currentTile);
 
         //nakijken of er genoeg x en y afstand is tussen spawn en finish
         float distanceX = Mathf.Abs(spawnTile.transform.position.x - currentTile.transform.position.x);
@@ -136,19 +146,30 @@ public class PathManager : MonoBehaviour
         FindShortestPath();
     }
 
-    public void FindShortestPath() //kortste pad met a star vinden
+    public void FindShortestPath() //kortste pad zoeken
     {
-        List<PathTile> shortestPath = _aStar.FindShortestPath(_grid.GetTilePosition(_start), _grid.GetTilePosition(_end));
-        if (shortestPath != null)
+        for (int i = 0; i < _locations.Count - 1; i++)
         {
-            foreach (PathTile tile in shortestPath) //elke tile van het korste pad blauw maken
+            List<PathTile> shortestPath = _aStar.FindShortestPath(_locations[i], _locations[i + 1]);
+
+            if (shortestPath != null)
             {
-                tile.SetTile(Color.blue, false, false, "");
+                foreach (PathTile tile in shortestPath)
+                {
+                    if (!tile.IsLocation && !VisitedTiles.Contains(tile))
+                    {
+                        tile.SetTile(Color.blue, false, false, "");
+                    }
+                    else if (!tile.IsLocation && VisitedTiles.Contains(tile))
+                    {
+                        tile.SetTile(Color.cyan, false, false, "");
+                    }
+                }
             }
-        }
-        else
-        {
-            Debug.Log("A star error");
+            else
+            {
+                Debug.Log("A star error");
+            }
         }
     }
 
@@ -165,6 +186,7 @@ public class PathManager : MonoBehaviour
         {
             //lijsten leegmaken
             VisitedTiles.Clear();
+            _locations.Clear();
 
             //opnieuw een pad maken
             _grid.GenerateGrid();

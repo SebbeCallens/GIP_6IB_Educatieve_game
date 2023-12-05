@@ -1,12 +1,10 @@
+using System;
 using System.Collections.Generic;
-using UnityEngine;
-
 
 //hulpklasse A Star
 public class PriorityQueue<T>
 {
-    private List<T> elements = new List<T>();
-    private Dictionary<T, float> priorities = new Dictionary<T, float>();
+    private List<Tuple<T, float>> elements = new List<Tuple<T, float>>();
 
     public int Count
     {
@@ -15,22 +13,19 @@ public class PriorityQueue<T>
 
     public void Enqueue(T item, float priority)
     {
-        elements.Add(item);
-        priorities[item] = priority;
-        elements.Sort((a, b) => priorities[a].CompareTo(priorities[b]));
+        elements.Add(new Tuple<T, float>(item, priority));
+        elements.Sort((x, y) => x.Item2.CompareTo(y.Item2));
     }
 
     public T Dequeue()
     {
-        if (Count == 0)
+        if (elements.Count == 0)
         {
-            Debug.LogError("PriorityQueue is empty");
-            return default(T);
+            throw new InvalidOperationException("Queue is empty");
         }
 
-        T item = elements[0];
+        T item = elements[0].Item1;
         elements.RemoveAt(0);
-        priorities.Remove(item);
         return item;
     }
 }

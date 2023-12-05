@@ -11,6 +11,7 @@ public class PathTile : MonoBehaviour
 
     public bool IsFinish { get => _isFinish; set => _isFinish = value; }
     public bool IsObstacle { get => _isObstacle; set => _isObstacle = value; }
+    public bool IsLocation { get => _isLocation; set => _isLocation = value; }
 
     private void Awake() //highlight uitzetten
     {
@@ -36,7 +37,7 @@ public class PathTile : MonoBehaviour
     {
         _renderer.color = color;
         IsObstacle = isObstacle;
-        _isLocation = isLocation;
+        IsLocation = isLocation;
         _locationName = locationName;
     }
 }

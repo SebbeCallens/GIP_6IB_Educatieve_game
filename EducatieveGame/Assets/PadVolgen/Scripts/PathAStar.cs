@@ -7,14 +7,11 @@ public class PathAStar : MonoBehaviour
     [SerializeField] private PathManager _path; //het pad
     [SerializeField] private PathFunctions _pathFnc; //de functies van het pad
 
-    public List<PathTile> FindShortestPath(Vector2 startPos, Vector2 endPos) //kortste pad vinden tussen 2 posities op het grid
+    public List<PathTile> FindShortestPath(PathTile startTile, PathTile endTile) //kortste pad vinden tussen 2 posities op het grid
     {
         PriorityQueue<PathTile> openSet = new PriorityQueue<PathTile>();
         Dictionary<PathTile, float> gScore = new Dictionary<PathTile, float>();
         Dictionary<PathTile, PathTile> cameFrom = new Dictionary<PathTile, PathTile>();
-
-        PathTile startTile = _grid.GetTileAtPosition(startPos);
-        PathTile endTile = _grid.GetTileAtPosition(endPos);
 
         openSet.Enqueue(startTile, 0);
         gScore[startTile] = 0;
