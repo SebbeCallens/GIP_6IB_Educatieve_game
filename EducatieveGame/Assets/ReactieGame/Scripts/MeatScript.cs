@@ -28,19 +28,19 @@ public class MeatScript : MonoBehaviour
         //voor elk vlees een andere kooksnelheid
         if (Meat.sprite == Meats[0])
         {
-            RotationSpeed *= 1 / (float)PlayerPrefs.GetInt("difficulty") * 1.4f;
+            RotationSpeed *= PlayerPrefs.GetInt("meat") * 1.2f / 4f;
         }
         else if (Meat.sprite == Meats[1])
         {
-            RotationSpeed *= 1 / (float)PlayerPrefs.GetInt("difficulty") * 1.2f;
+            RotationSpeed *= PlayerPrefs.GetInt("meat") * 1.1f / 4f;
         }
         else if (Meat.sprite == Meats[2])
         {
-            RotationSpeed *= 1 / (float)PlayerPrefs.GetInt("difficulty") * 1.6f;
+            RotationSpeed *= PlayerPrefs.GetInt("meat") * 1.3f / 4f;
         }
         else
         {
-            RotationSpeed *= 1 / (float)PlayerPrefs.GetInt("difficulty");
+            RotationSpeed *= PlayerPrefs.GetInt("meat") / 4f;
         }
     }
 

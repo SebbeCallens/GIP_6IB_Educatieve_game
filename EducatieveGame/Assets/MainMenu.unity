@@ -155,6 +155,7 @@ MonoBehaviour:
   _menus: []
   _assistToggle: {fileID: 0}
   _confirmationWarning: {fileID: 0}
+  _assist: 1
 --- !u!4 &2732507
 Transform:
   m_ObjectHideFlags: 0

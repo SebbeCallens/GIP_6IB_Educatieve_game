@@ -9,6 +9,7 @@ public class RotateGame : MonoBehaviour
     [SerializeField] private GameObject _statistics; //object van de statistieken
     [SerializeField] private TextMeshProUGUI _scoreText; //de text van de score
     [SerializeField] private Camera _cam; //de camera van de scene
+    [SerializeField] private Sprite _partSprite; //part sprite zonder rooster
     private GridGenerator _correctGridGen; //gridgenerator van het voorbeeldgrid
     private GridGenerator _gameGridGen; //gridgenerator van het gamegrid
     private bool _gameInProgress = true; //zorgen dat je geen vakjes meer kunt draaien als het spel gedaan is
@@ -22,6 +23,7 @@ public class RotateGame : MonoBehaviour
     private GameObject Statistics { get => _statistics; set => _statistics = value; }
     private TextMeshProUGUI ScoreText { get => _scoreText; set => _scoreText = value; }
     private Camera Cam { get => _cam; set => _cam = value; }
+    private Sprite PartSprite { get => _partSprite; set => _partSprite = value; }
     private GridGenerator CorrectGridGen { get => _correctGridGen; set => _correctGridGen = value; }
     private GridGenerator GameGridGen { get => _gameGridGen; set => _gameGridGen = value; }
     public bool GameInProgress { get => _gameInProgress; private set => _gameInProgress = value; }
@@ -86,6 +88,18 @@ public class RotateGame : MonoBehaviour
         for (int i = 0; i < CorrectGrid.transform.childCount; i++) //figuurstukken van voorbeeldgrid een willekeurige rotatie geven
         {
             CorrectGrid.transform.GetChild(i).transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 4) * 90.0f);
+        }
+
+        if (PlayerPrefs.GetInt("assist") == 1)
+        {
+            for (int i = 0; i < CorrectGrid.transform.childCount; i++)
+            {
+                CorrectGrid.transform.GetChild(i).GetComponent<SpriteRenderer>().sprite = PartSprite;
+            }
+            for (int i = 0; i < GameGrid.transform.childCount; i++)
+            {
+                GameGrid.transform.GetChild(i).GetComponent<SpriteRenderer>().sprite = PartSprite;
+            }
         }
     }
 

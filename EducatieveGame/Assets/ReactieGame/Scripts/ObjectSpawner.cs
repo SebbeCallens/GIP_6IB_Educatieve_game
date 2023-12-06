@@ -39,30 +39,31 @@ public class ObjectSpawner : MonoBehaviour
     {
         GridGen = GetComponent<GridGenerator>();
         GridFunc = GetComponent<GridFunctions>();
-        Difficulty = PlayerPrefs.GetInt("difficulty");
+        Difficulty = PlayerPrefs.GetInt("rate");
+        int gridSize = PlayerPrefs.GetInt("size");
 
-        if (Difficulty == 5)
+        if (gridSize == 1)
         {
             CellSize = 2;
             Width = 4;
             Height = 4;
             Cam.orthographicSize = 6;
         }
-        else if (Difficulty == 4)
+        else if (gridSize == 2)
         {
             CellSize = 2;
             Width = 5;
             Height = 5;
             Cam.orthographicSize = 7.5f;
         }
-        else if (Difficulty == 3)
+        else if (gridSize == 3)
         {
             CellSize = 1;
             Width = 6;
             Height = 6;
             Cam.orthographicSize = 4.5f;
         }
-        else if (Difficulty == 2)
+        else if (gridSize == 4)
         {
             CellSize = 1;
             Width = 7;
@@ -93,7 +94,7 @@ public class ObjectSpawner : MonoBehaviour
 
     private void Update() //vlees spawnen op de barbecue
     {
-        if (Time.time - LastSpawnTime > SpawnRate && GameActive)
+        if (Time.time - LastSpawnTime > SpawnRate / 1.5f && GameActive)
         {
             bool meatSpawned = false;
             int i = 0;
@@ -110,7 +111,7 @@ public class ObjectSpawner : MonoBehaviour
             LastSpawnTime = Time.time;
         }
 
-        if (SpawnRate > 0.4f * Difficulty)
+        if (SpawnRate < 0.4f * Difficulty)
         {
             if (Time.time - LastDecreaseTime > 5 * MinutesUntilFastest)
             {
