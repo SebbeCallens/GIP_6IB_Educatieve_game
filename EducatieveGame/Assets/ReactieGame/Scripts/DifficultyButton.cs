@@ -14,9 +14,9 @@ public class DifficultyButton : MonoBehaviour
     public void SetDifficulty(int difficulty) //stel moeilijkheid in
     {
         PlayerPrefs.SetInt(Name, difficulty);
-        _nextText.text = _nextDescription;
         if (_next != null)
         {
+            _nextText.text = _nextDescription;
             _next.SetActive(true);
             transform.parent.gameObject.SetActive(false);
         }

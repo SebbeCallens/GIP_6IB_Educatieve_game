@@ -9,13 +9,13 @@ EditorBuildSettings:
     path: Assets/MainMenu.unity
     guid: a7a0b5ae08b089b439327c831c8e23ef
   - enabled: 1
-    path: Assets/ReactieGame/Scenes/SelectDifficulty.unity
+    path: Assets/ReactieGame/Scenes/ReactionMenu.unity
     guid: 0e112b449786bfb4199bba243160039c
   - enabled: 1
     path: Assets/ReactieGame/Scenes/ReactionGame.unity
     guid: 75db9ac02b8efec43ac85f2ebfdc906f
   - enabled: 1
-    path: Assets/TekenGame/Scenes/SelectMode.unity
+    path: Assets/TekenGame/Scenes/SelectDrawMode.unity
     guid: c98df8c41a6726d479e6d192da163fa1
   - enabled: 1
     path: Assets/TekenGame/Scenes/SelectFigure.unity
@@ -47,4 +47,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/PuzzelGame/Scenes/V0.2_PuzzelGame.unity
     guid: 2cfd977fc4521c94d80cbe71872c0f37
+  - enabled: 1
+    path: Assets/PadVolgen/PadVolgenGame.unity
+    guid: e87c0d5732f3cb94e8c165db16421b2d
   m_configObjects: {}
