@@ -5,7 +5,6 @@ public class ObjectSpawner : MonoBehaviour
     [SerializeField] private GameObject _meat; //de prefab voor een vlees object
     [SerializeField] private GameObject _statistics; //de statistieken
     [SerializeField] private int _minutesUntilFastest; //hoeveel minuten tot de snelste spawnrate:
-    [SerializeField] private Camera _cam; //de camera van de scene
     private GameObject[] _gridCells; //lijst met de gridcellen
     private GridGenerator _gridGen; //de gridgenerator
     private GridFunctions _gridFunc; //de gridfuncties
@@ -15,13 +14,10 @@ public class ObjectSpawner : MonoBehaviour
     private float _lastSpawnTime; //de laatste tijd wanneer er vlees gespawned is
     private float _lastDecreaseTime; //de laatste tijd wanneer de moeilijkheid hoger gezet is
     private float _difficulty; //moeilijkheid van het spel
-    private int _cellSize; //instellingen grid
-    private int _width; //instellingen grid
-    private int _height; //instellingen grid
+
     private GameObject Meat { get => _meat; set => _meat = value; }
     private GameObject Statistics { get => _statistics; set => _statistics = value; }
     private int MinutesUntilFastest { get => _minutesUntilFastest; set => _minutesUntilFastest = value; }
-    private Camera Cam { get => _cam; set => _cam = value; }
     private GameObject[] GridCells { get => _gridCells; set => _gridCells = value; }
     private GridGenerator GridGen { get => _gridGen; set => _gridGen = value; }
     private GridFunctions GridFunc { get => _gridFunc; set => _gridFunc = value; }
@@ -31,9 +27,6 @@ public class ObjectSpawner : MonoBehaviour
     private float LastSpawnTime { get => _lastSpawnTime; set => _lastSpawnTime = value; }
     private float LastDecreaseTime { get => _lastDecreaseTime; set => _lastDecreaseTime = value; }
     private float Difficulty { get => _difficulty; set => _difficulty = value; }
-    public int CellSize { get => _cellSize; private set => _cellSize = value; }
-    private int Width { get => _width; set => _width = value; }
-    private int Height { get => _height; set => _height = value; }
 
     private void Awake() //grid genereren
     {
@@ -42,44 +35,32 @@ public class ObjectSpawner : MonoBehaviour
         Difficulty = PlayerPrefs.GetInt("rate");
         int gridSize = PlayerPrefs.GetInt("size");
 
-        if (gridSize == 1)
+        switch (gridSize)
         {
-            CellSize = 2;
-            Width = 4;
-            Height = 4;
-            Cam.orthographicSize = 6;
-        }
-        else if (gridSize == 2)
-        {
-            CellSize = 2;
-            Width = 5;
-            Height = 5;
-            Cam.orthographicSize = 7.5f;
-        }
-        else if (gridSize == 3)
-        {
-            CellSize = 1;
-            Width = 6;
-            Height = 6;
-            Cam.orthographicSize = 4.5f;
-        }
-        else if (gridSize == 4)
-        {
-            CellSize = 1;
-            Width = 7;
-            Height = 7;
-            Cam.orthographicSize = 5.25f;
-        }
-        else
-        {
-            CellSize = 1;
-            Width = 8;
-            Height = 8;
-            Cam.orthographicSize = 6;
+            case 1:
+                SetGridProperties(2, 4, 4, 6);
+                break;
+            case 2:
+                SetGridProperties(2, 5, 5, 7.5f);
+                break;
+            case 3:
+                SetGridProperties(1, 6, 6, 4.5f);
+                break;
+            case 4:
+                SetGridProperties(1, 7, 7, 5.25f);
+                break;
+            default:
+                SetGridProperties(1, 8, 8, 6);
+                break;
         }
 
-        GridGen.GenerateGrid(Width, Height, CellSize);
-        GridPoints = GridFunc.CenterGridPoints(CellSize);
+        void SetGridProperties(int cellSize, int width, int height, float orthographicSize)
+        {
+            GridGen.GenerateGrid(width, height, cellSize);
+            GridPoints = GridFunc.CenterGridPoints(cellSize);
+            Camera.main.orthographicSize = orthographicSize;
+        }
+
         GridCells = new GameObject[transform.childCount];
         SpawnRate = Difficulty;
 
@@ -102,7 +83,7 @@ public class ObjectSpawner : MonoBehaviour
             {
                 if (Random.value >= 1 - 1 / (float)GridPoints.Length && !meatSpawned && GridCells[i].transform.childCount == 0)
                 {
-                    Instantiate(Meat, new Vector3(gridPoint.x + 0.08f, gridPoint.y - 0.08f, gridPoint.z), Quaternion.identity, GridCells[i].transform);
+                    Instantiate(Meat, new Vector3(gridPoint.x + 0.032f, gridPoint.y - 0.032f, gridPoint.z), Quaternion.identity, GridCells[i].transform);
                     meatSpawned = true;
                 }
                 i++;
