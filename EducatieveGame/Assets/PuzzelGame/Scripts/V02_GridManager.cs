@@ -12,6 +12,7 @@ public class V02_GridManager : MonoBehaviour
     private V02_Slicer _slicer;
     [SerializeField] private GameObject _puzzelHotbar;
     [SerializeField] private GameObject _puzzelSlot;
+    private List<GameObject> _slots;
     [SerializeField] private GameObject _puzzelPiece;
     [SerializeField] private Sprite _sourceImage;
     [SerializeField] private int _width = 4;
@@ -24,15 +25,18 @@ public class V02_GridManager : MonoBehaviour
     public Sprite SourceImage { get { return _sourceImage; } set { _sourceImage = value; } }
     public int Width { get { return _width; } set { _width = value; } }
     public int Height { get { return _height; } set { _height = value; } }
+    public List<GameObject> Slots { get { return _slots; } set { _slots = value; } }
 
     void Start()
     {
         Slicer = PuzzelBox.GetComponent<V02_Slicer>();
+        Slots = new();
 
         //hier kan je nog scale, width, height en de afbeelding ophalen
         (int cols, int rows) = Slicer.SliceImage(SourceImage.texture, Width, Height); //slice afbeelding met scale, aantal kolommen en aantal rijen
 
-        List<GameObject> parts = new(); ; //lijst van de de stukjes
+        //lijst van de de stukjes
+        List<GameObject> parts = new();
 
         //lijsten instellen
         for (int i = 0; i < Slicer.transform.childCount; i++)
@@ -43,11 +47,8 @@ public class V02_GridManager : MonoBehaviour
         //posities stukjes randomiseren
         for (int i = parts.Count - 1; i >= 0; i--)
         {
-            //GameObject slot = Instantiate(PuzzelSlot, new Vector2(0f, 0f), Quaternion.identity, PuzzelHotbar.transform);
-            //slot.name = "Hotbar Slot " + i;
             int randomIndex = Random.Range(0, parts.Count);
             parts[randomIndex].transform.SetAsFirstSibling();
-            //slot.transform.SetAsFirstSibling();
             parts[randomIndex].transform.SetParent(PuzzelHotbar.transform);
             parts.RemoveAt(randomIndex);
         }
@@ -59,7 +60,20 @@ public class V02_GridManager : MonoBehaviour
             {
                 GameObject slot = Instantiate(PuzzelSlot, new Vector2(0f, 0f), Quaternion.identity, PuzzelBox.transform);
                 slot.name = $"{col + 1}-{Slicer.IntToChar(row + 1)}";
+                Slots.Add(slot);
             }
         }
+    }
+    public int ReturnScore()
+    {
+        int achieved = 0;
+        foreach (GameObject slot in Slots)
+        {
+            if (slot.transform.childCount > 0 && slot.transform.GetChild(0).name.Equals(slot.name))
+            {
+                achieved++;
+            }
+        }
+        return achieved;
     }
 }
