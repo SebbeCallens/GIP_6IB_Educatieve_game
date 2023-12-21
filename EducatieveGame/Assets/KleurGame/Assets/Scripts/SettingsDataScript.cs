@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Windows.Forms;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -14,11 +16,15 @@ public class SettingsDataScript : MonoBehaviour
     public static bool _testModeSetting = false;
     public static string _chosenDifficulty;
 
-    public static List<bool> _colorButtonValues = new List<bool>();
+    public static List<GameObject> _selectedColorButtons = new List<GameObject>();
+    public static List<Color> _selectedColorButtonsColors = new List<Color>();
+    public static List<string> _selectedColorButtonsNames = new List<string>();
+
 
     //referencing values
     [SerializeField] private GameObject _colorButton;
     [SerializeField] private UnityEngine.UI.Image _checkmark;
+    private TextMeshPro _errorTextObject;
 
     //color setting variables
     private GameObject _colorsSetting;
@@ -40,9 +46,8 @@ public class SettingsDataScript : MonoBehaviour
     {
         DefineMenus();
 
-        LoadColorSettings();
-        UpdateColorButtonsList();
-        
+        SetColorButtonsList();
+
         //dit moet als laatste
         GameObject.Find("SettingsMenu").SetActive(false);
     }
@@ -53,6 +58,11 @@ public class SettingsDataScript : MonoBehaviour
 
     }
 
+    private void Awake()
+    {
+        
+    }
+
     public void DefineMenus()
     {
         _colorsSetting = GameObject.Find("ColorsSetting");
@@ -60,21 +70,47 @@ public class SettingsDataScript : MonoBehaviour
         _normalMenu = GameObject.Find("NormalMenu");
         _colorMenu = GameObject.Find("ColorMenu");
         _colorButtonsObject = GameObject.Find("ColorButtons");
+
+        _errorTextObject = GameObject.Find("ErrorTextObject").GetComponent<TextMeshPro>();
     }
 
     public void SettingsButton()
     {
-        _normalMenu.SetActive(false);
-        _settingsMenu.SetActive(true);
-        _colorMenu.SetActive(false);
+        if (_normalMenu.activeSelf)
+        {
+            _normalMenu.SetActive(false);
+            _settingsMenu.SetActive(true);
+            _colorMenu.SetActive(false);
+        }
+        else
+        {
+            _normalMenu.SetActive(true);
+            _settingsMenu.SetActive(false);
+        }
+        
     }
 
-    public void UpdateColorButtonsList()
+    //voegt de kleurknopwaarden toe op hun juiste index
+    public void SetColorButtonsList()
     {
-        for (int i = 0; i < _colorButtonsObject.transform.childCount; i++)
+        for (int i = 0; i < _colorMenu.transform.childCount; i++)
         {
-            _colorButtons.Add(_colorButtonsObject.transform.GetChild(i).gameObject);
+            GameObject currentColorButton = _colorMenu.transform.GetChild(i).gameObject;
+
+            _colorButtons.Add(currentColorButton);
         }
+    }
+
+    public void LoadKleurgameScene()
+    {
+        for (int i = 0; i < _selectedColorButtons.Count; i++)
+        {
+            Debug.Log("object: " + _selectedColorButtons[i] + "\n" + 
+            "color: " + _selectedColorButtonsColors[i] + "\n" + 
+            "name: " + _selectedColorButtonsNames[i]);
+        }
+
+        SceneManager.LoadScene("KleurGame");
     }
 
     public void ToggleSettingsUI()
@@ -110,19 +146,39 @@ public class SettingsDataScript : MonoBehaviour
         _colorMenu.SetActive(!_colorMenu.activeSelf);
     }
 
-    //zorgt ervoor dat elke knop de juiste kleur krijgt.
-    public void LoadColorSettings()
+    /*IEnumerator DisplayErrorText(string errorText)
     {
-        UnityEngine.UI.Image[] colorObjects = _colorMenu.transform.GetComponentsInChildren<UnityEngine.UI.Image>(true);
+        Debug.Log(_errorTextObject);
 
-        foreach (UnityEngine.UI.Image colorObject in colorObjects)
+        _errorTextObject.text = errorText;
+
+        yield return new WaitForSeconds(3);
+
+        _errorTextObject.text = "";
+    }*/
+
+    //tekst tonen en weer weghalen lukt nog niet.
+    public bool CheckStatsValid()
+    {
+        bool statsValid = true;
+
+        Debug.Log(_selectedColorButtons.Count);
+        
+        //checken als de gebruiker kleuren heeft gekozen
+        if (_selectedColorButtons.Count == 1)
         {
-            if (colorObject.name.Contains("Red")) { colorObject.GetComponent<UnityEngine.UI.Image>().color = Color.red; }
-            if (colorObject.name.Contains("Green")) { colorObject.GetComponent<UnityEngine.UI.Image>().color = Color.green; }
-            if (colorObject.name.Contains("Blue")) { colorObject.GetComponent<UnityEngine.UI.Image>().color = Color.blue; }
-            if (colorObject.name.Contains("Black")) { colorObject.GetComponent<UnityEngine.UI.Image>().color = Color.black; }
-            if (colorObject.name.Contains("Yellow")) { colorObject.GetComponent<UnityEngine.UI.Image>().color = Color.yellow; }
+            //DisplayErrorText("Er moeten minimaal 2 kleuren gekozen worden.");
+
+            statsValid = false;
         }
+        else if (_selectedColorButtons.Count <= 0)
+        {
+            //DisplayErrorText("Kies kleuren in instellingen.");
+
+            statsValid = false;
+        }
+
+        return statsValid;
     }
 
     public void EasyMode()
@@ -146,11 +202,16 @@ public class SettingsDataScript : MonoBehaviour
     public void ModifiedMode()
     {
         //code voor een zelfgekozen modus
+        _chosenDifficulty = "modified";
+        
+        if (CheckStatsValid())
+        {
+            LoadKleurgameScene();
+        }
     }
 
-    public void LoadKleurgameScene() { SceneManager.LoadScene("KleurGame"); }
 
-    //scrapped
+    //deze methode voegt het nieuwe 
     public void ColorMenuButtonClicked()
     {
         Debug.Log(EventSystem.current.currentSelectedGameObject.gameObject.GetComponent<UnityEngine.UI.Image>().color);
@@ -158,10 +219,21 @@ public class SettingsDataScript : MonoBehaviour
         //de knop togglet als de afbeelding active is of niet
         EventSystem.current.currentSelectedGameObject.gameObject.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().enabled = !EventSystem.current.currentSelectedGameObject.gameObject.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().enabled;
 
-        //deze data verandering (hierboven) moet ergens opgeslaan worden!!! TBA
+        //het toevoegen van de waarden van de knop aan de lists als het gameobject aangevinkt is. Anders, verwijder het object
+        if (EventSystem.current.currentSelectedGameObject.gameObject.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().enabled)
+        {
+            _selectedColorButtons.Add(EventSystem.current.currentSelectedGameObject.gameObject);
+            _selectedColorButtonsColors.Add(EventSystem.current.currentSelectedGameObject.gameObject.GetComponent<ColorButtonScript>().Color);
+            _selectedColorButtonsNames.Add(EventSystem.current.currentSelectedGameObject.gameObject.GetComponent<ColorButtonScript>().Name);
+        }
+        else
+        {
+            _selectedColorButtons.Remove(EventSystem.current.currentSelectedGameObject.gameObject);
+            _selectedColorButtonsColors.Remove(EventSystem.current.currentSelectedGameObject.gameObject.GetComponent<ColorButtonScript>().Color);
+            _selectedColorButtonsNames.Remove(EventSystem.current.currentSelectedGameObject.gameObject.GetComponent<ColorButtonScript>().Name);
+        }
 
-
-        //_lastClickedColorButton.GetComponent<UnityEngine.UI.Image>().color = EventSystem.current.currentSelectedGameObject.gameObject.GetComponent<UnityEngine.UI.Image>().color;
+        
     }
 
     public void ColorButtonClicked()
@@ -170,6 +242,23 @@ public class SettingsDataScript : MonoBehaviour
         ToggleColorMenu();
     }
 
+    //dit is nodig om de aantal waarden te weten dat true is in _colorButtonSettings
+    public int GetAmountOfColors()
+    {
+        int amount = 0;
+
+        foreach (GameObject colorButton in _colorButtons)
+        {
+            if (colorButton.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().enabled)
+            {
+                amount++;
+            }
+        }
+
+        return amount;
+    }
+
+    /*
     //verwijdert het laatste toegevoegde knopje
     public void RemoveColorButtonClicked()
     {
@@ -210,4 +299,5 @@ public class SettingsDataScript : MonoBehaviour
         addColorButton.transform.position = new Vector3(addColorButton.transform.position.x + xValue, addColorButton.transform.position.y, addColorButton.transform.position.z);
         removeColorButton.transform.position = new Vector3(removeColorButton.transform.position.x + xValue, removeColorButton.transform.position.y, removeColorButton.transform.position.z);
     }
+    */
 }

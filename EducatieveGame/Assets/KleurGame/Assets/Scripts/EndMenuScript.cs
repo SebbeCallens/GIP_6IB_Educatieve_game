@@ -8,12 +8,12 @@ using UnityEngine.UI;
 
 public class EndMenuScript : MonoBehaviour
 {
-    //[SerializeField] Text _pointsTextObject;
+    [SerializeField] TextMeshProUGUI _pointsTextObject;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        _pointsTextObject.text = "Je hebt " + MailChecker.GetPoints().ToString() + " punten verzameld!";
     }
 
     // Update is called once per frame

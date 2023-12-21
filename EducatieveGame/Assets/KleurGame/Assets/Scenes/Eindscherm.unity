@@ -419,7 +419,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -324, y: 183}
+  m_AnchoredPosition: {x: -324, y: 301}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &470226710
@@ -536,7 +536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &499134615
 RectTransform:
   m_ObjectHideFlags: 0
@@ -553,7 +553,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -190, y: 95}
+  m_AnchoredPosition: {x: -266, y: 169}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &499134616
@@ -665,7 +665,6 @@ GameObject:
   - component: {fileID: 537601292}
   - component: {fileID: 537601291}
   - component: {fileID: 537601290}
-  - component: {fileID: 537601289}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -693,18 +692,6 @@ RectTransform:
   m_AnchoredPosition: {x: -7, y: -207}
   m_SizeDelta: {x: 270.75, y: 60.5}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &537601289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 537601287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82a3f50c7414cfe4c8f7fa06d5d35ffb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &537601290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -749,9 +736,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 537601289}
+      - m_Target: {fileID: 1715335728}
         m_TargetAssemblyTypeName: EndMenuScript, Assembly-CSharp
-        m_MethodName: EndGame
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -985,6 +972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82a3f50c7414cfe4c8f7fa06d5d35ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pointsTextObject: {fileID: 0}
 --- !u!114 &670159205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1399,6 +1387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82a3f50c7414cfe4c8f7fa06d5d35ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pointsTextObject: {fileID: 0}
 --- !u!114 &1074143149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1582,6 +1571,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1715335729}
+  - component: {fileID: 1715335730}
   m_Layer: 0
   m_Name: GameScriptManager
   m_TagString: Untagged
@@ -1604,6 +1594,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1715335730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715335728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82a3f50c7414cfe4c8f7fa06d5d35ffb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pointsTextObject: {fileID: 499134616}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

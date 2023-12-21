@@ -14,11 +14,8 @@ public class SpawnMailScript : MonoBehaviour
 
     [SerializeField] GameObject _mailbox;
     [SerializeField] GameObject _mailItem;
-    [SerializeField] int _amountOfMailboxes = 3;
     [SerializeField] int _amountOfMailItems = 5;
     [SerializeField] int _amountOfMailItemsLeft;
-    
-    private int _points = 0;
 
     private Color[] _colors;
     private string[] _colorsString;
@@ -28,6 +25,15 @@ public class SpawnMailScript : MonoBehaviour
     {   
         _colors = _gameScriptManager.GetComponent<StatsScript>().GetColors();
         _colorsString = _gameScriptManager.GetComponent<StatsScript>().GetColorsString();
+
+        /*Debug.Log("lengte _colors: " + _colors.Length);
+        Debug.Log("lengte _colorsString: " + _colors.Length);
+
+        for (int i = 0; i < _colors.Length; i++)
+        {
+            Debug.Log("Kleur: " + _colors[i]);
+            Debug.Log("KleurString: " + _colorsString[i]);
+        }*/
 
         SpawnMailItems();
         SpawnMailboxes();
@@ -56,13 +62,11 @@ public class SpawnMailScript : MonoBehaviour
             GameObject newMailItem = Instantiate(_mailItem);
             newMailItem.transform.position = new Vector3((float) (currentXValue - _xScreenSize / 2), (float) yValue, 1);
 
-            int colorIndex = Random.Range(0, _colors.Length);
-            int textIndex = Random.Range(0, _colorsString.Length);
+            int colorIndex = Random.Range(0, SettingsDataScript._selectedColorButtons.Count);
+            int textIndex = Random.Range(0, SettingsDataScript._selectedColorButtons.Count);
 
-            _mailItem.GetComponent<MailScript>().SetColor(_colors[colorIndex]);
-            _mailItem.GetComponent<MailScript>().SetText(_colorsString[textIndex]);
-
-            Debug.Log(textIndex);
+            newMailItem.GetComponent<MailScript>().SetColor(new Color(SettingsDataScript._selectedColorButtonsColors[colorIndex].r, SettingsDataScript._selectedColorButtonsColors[colorIndex].g, SettingsDataScript._selectedColorButtonsColors[colorIndex].b));
+            newMailItem.GetComponent<MailScript>().SetText(new string (SettingsDataScript._selectedColorButtonsNames[textIndex]));
 
             currentXValue += distanceBetween;
         }
@@ -71,16 +75,17 @@ public class SpawnMailScript : MonoBehaviour
     public void SpawnMailboxes()
     {
         double yValue = 0;
-        double distanceBetween = _xScreenSize / _amountOfMailboxes;
+        double distanceBetween = _xScreenSize / SettingsDataScript._selectedColorButtons.Count;
         double currentXValue = distanceBetween / 2;
 
-        for (int i = 0; i < _amountOfMailboxes; i++)
+        for (int i = 0; i < SettingsDataScript._selectedColorButtons.Count; i++)
         {
+
             GameObject newMailbox = Instantiate(_mailbox);
             newMailbox.transform.position = new Vector3((float) (currentXValue - _xScreenSize / 2), (float) yValue, 1);
 
-            newMailbox.GetComponent<SpriteRenderer>().color = _colors[i];
-            newMailbox.GetComponent<MailChecker>().SetMailboxColor(_colorsString[i]);
+            newMailbox.GetComponent<SpriteRenderer>().color = new Color(SettingsDataScript._selectedColorButtonsColors[i].r, SettingsDataScript._selectedColorButtonsColors[i].g, SettingsDataScript._selectedColorButtonsColors[i].b);
+            newMailbox.GetComponent<MailChecker>().SetMailboxColor(new string(SettingsDataScript._selectedColorButtonsNames[i]));
 
             currentXValue += distanceBetween;
         }
@@ -100,22 +105,5 @@ public class SpawnMailScript : MonoBehaviour
     public void SetAmountOfMailItemsLeft(int value)
     {
         _amountOfMailItemsLeft = value;
-    }
-
-    public int GetPoints()
-    {
-        return _points;
-    }
-
-    public void SetPoints(int value)
-    {
-        if (GetPoints() + value >= 0)
-        {
-            _points = value;
-        }
-        else
-        {
-            _points = 0;
-        }
     }
 }

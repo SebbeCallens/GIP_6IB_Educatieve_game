@@ -8,8 +8,9 @@ public class StatsScript : MonoBehaviour
     private int _amountOfColors = 3;
 
 
-    private Color[] _allColors = new Color[] { Color.red, Color.green, Color.blue, Color.black, Color.yellow };
-    private string[] _allColorsString = new string[] { "rood", "groen", "blauw", "zwart", "geel" };
+    //private Color[] _allColors = new Color[] { Color.red, Color.green, Color.blue, Color.black, Color.yellow, new Color(1, 0.65f, 0), new Color(0.85f, 0.48f, 0.85f), new Color(1, 0.75f, 0.80f), Color.cyan, Color.red, Color.red, Color.red };
+    //private string[] _allColorsString = new string[] { "rood", "groen", "blauw", "zwart", "geel", "oranje", "violet", "roze", "cyaan", "rood", "rood", "rood" };
+
 
     private string _sortingMethod = "";
     private Color[] _colors;
@@ -23,11 +24,8 @@ public class StatsScript : MonoBehaviour
 
     private void Awake()
     {
-        _colors = new Color[_amountOfColors];
-        _colorsString = new string[_amountOfColors];
-
         ChooseSortingMethod();
-        ChooseColors();
+        //ChooseColors();
     }
 
     // Update is called once per frame
@@ -35,6 +33,8 @@ public class StatsScript : MonoBehaviour
     {
 
     }
+
+
 
     //het kiezen van als er moet worden gesorteerd op woord of kleur & past het aan in de tekst
     public void ChooseSortingMethod()
@@ -46,7 +46,8 @@ public class StatsScript : MonoBehaviour
         GameObject.Find("OrganisingOnText").GetComponent<SortingOnScript>().ChangeSortingText(_sortingMethod);
     }
 
-    public void ChooseColors()
+    //deze methode is voor zelf kleuren te kiezen (als de speler geen kleuren zelf kiest) (niet af)
+    /*public void ChooseColors()
     {
         List<int> chosenIndexes = new List<int>();
         int chosenIndex;
@@ -72,7 +73,7 @@ public class StatsScript : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 
     public Color[] GetColors()
     {

@@ -16,7 +16,9 @@ public class MailChecker : MonoBehaviour
     [SerializeField] GameObject _gameScriptManager;
 
     [SerializeField] string _mailboxColor;
-    
+
+    private static int _points = 0;
+
     void Start()
     {
         _organisingOnTextObject = GameObject.FindGameObjectWithTag("TextObject");
@@ -92,9 +94,9 @@ public class MailChecker : MonoBehaviour
         spawnMailScript.SetAmountOfMailItemsLeft(spawnMailScript.GetAmountOfMailItemsLeft() - 1);
 
         //aantal punten verhogen met 1.
-        spawnMailScript.SetPoints(spawnMailScript.GetPoints() + 1);
+        SetPoints(GetPoints() + 1);
 
-        _pointsCounterObject.GetComponent<Text>().text = "punten: " + spawnMailScript.GetPoints().ToString();
+        _pointsCounterObject.GetComponent<Text>().text = "punten: " + GetPoints().ToString();
     }
 
     public void LosePoints()
@@ -102,8 +104,25 @@ public class MailChecker : MonoBehaviour
         SpawnMailScript spawnMailScript = _gameScriptManager.GetComponent<SpawnMailScript>();
 
         //aantal punten verlagen met 1.
-        spawnMailScript.SetPoints(spawnMailScript.GetPoints() - 1);
+        SetPoints(GetPoints() - 1);
 
-        _pointsCounterObject.GetComponent<Text>().text = "punten: " + spawnMailScript.GetPoints().ToString();
+        _pointsCounterObject.GetComponent<Text>().text = "punten: " + GetPoints().ToString();
+    }
+
+    public static int GetPoints()
+    {
+        return _points;
+    }
+
+    public static void SetPoints(int value)
+    {
+        if (GetPoints() + value >= 0)
+        {
+            _points = value;
+        }
+        else
+        {
+            _points = 0;
+        }
     }
 }

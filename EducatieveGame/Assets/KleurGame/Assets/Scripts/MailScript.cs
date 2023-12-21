@@ -20,8 +20,13 @@ public class MailScript : MonoBehaviour
     void Start()
     {
         _originalPosition = transform.position;
-        
         //ChooseTextAndColor();
+    }
+
+    private void Awake()
+    {
+        //_textObject = transform.GetChild(0).GetComponent<TextMeshPro>();
+        Debug.Log(_textObject);
     }
 
     // Update is called once per frame
