@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -23,7 +24,7 @@ public class Option : MonoBehaviour
         Height = height;
         Menu = menu;
         Image = image;
-        gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Image;
+        gameObject.transform.GetChild(0).GetComponent<Image>().sprite = image;
     }
 
     public int Width {  get { return _width; } set { _width = value; setText(); } }

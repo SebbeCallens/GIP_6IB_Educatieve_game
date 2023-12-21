@@ -20,7 +20,7 @@ public class Piece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHan
         _rectTransform = GetComponent<RectTransform>();
     }
 
-    public Sprite Img { get { return _img; } set { _img = value; } }
+    public Sprite Img { get { return _img; } set { _img = value; _imageRenderer.sprite = value; } }
     public string Coords { get { return _coords; } set { _coords = value; } }
 
     public void OnBeginDrag(PointerEventData eventData)

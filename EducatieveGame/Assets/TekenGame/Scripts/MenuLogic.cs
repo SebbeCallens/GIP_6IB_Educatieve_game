@@ -8,6 +8,7 @@ public class MenuLogic : MonoBehaviour
     [SerializeField] private GameObject[] _menus; //menu op index 0 is het standaard menu
     [SerializeField] private Toggle _assistToggle;
     [SerializeField] private GameObject _confirmationWarning;
+    [SerializeField] private bool _assist = false;
     private bool _firstToggle = true; //dit zorgt ervoor dat wanneer de toggle ingesteld word dit niet de functie ToggleAssistMode triggered
 
     private GameObject[] Menus { get => _menus; set => _menus = value; }
@@ -17,7 +18,12 @@ public class MenuLogic : MonoBehaviour
 
     private void Awake() //stel de toggle voor hulpmodus in
     {
-        if (AssistToggle != null && PlayerPrefs.HasKey("assist"))
+        if (_assist)
+        {
+            PlayerPrefs.SetInt("assist", 0);
+        }
+
+        if (AssistToggle != null)
         {
             if (PlayerPrefs.GetInt("assist") == 0)
             {
@@ -28,10 +34,6 @@ public class MenuLogic : MonoBehaviour
                 AssistToggle.isOn = true;
             }
             FirstToggle = false;
-        }
-        else if (!PlayerPrefs.HasKey("assist"))
-        {
-            PlayerPrefs.SetInt("assist", 0);
         }
     }
 
@@ -55,7 +57,7 @@ public class MenuLogic : MonoBehaviour
         {
             TextMeshProUGUI text = Menus[index].GetComponentInChildren<TextMeshProUGUI>();
             text.text = "Wil je de figuur " + PlayerPrefs.GetString("figure") + " tekenen?";
-            if (PlayerPrefs.GetInt("assist") == 1)
+            if (PlayerPrefs.GetInt("assist") == 1 && ConfirmationWarning != null)
             {
                 ConfirmationWarning.SetActive(true);
             }
