@@ -1038,6 +1038,7 @@ MonoBehaviour:
   - {fileID: 1942477034}
   _assistToggle: {fileID: 1484965911}
   _confirmationWarning: {fileID: 1987368168}
+  _assist: 0
 --- !u!4 &673806402
 Transform:
   m_ObjectHideFlags: 0
@@ -1532,7 +1533,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0.3019608, g: 0.5686275, b: 0.8980392, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2378,7 +2379,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: SelectMode
+          m_StringArgument: SelectDrawMode
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1829130726

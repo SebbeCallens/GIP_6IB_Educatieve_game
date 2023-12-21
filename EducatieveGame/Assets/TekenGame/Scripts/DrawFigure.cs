@@ -369,7 +369,7 @@ public class DrawFigure : MonoBehaviour
         }
         else
         {
-            MenuLog.LoadScene("SelectMode");
+            MenuLog.LoadScene("SelectDrawMode");
         }
     }
 }
