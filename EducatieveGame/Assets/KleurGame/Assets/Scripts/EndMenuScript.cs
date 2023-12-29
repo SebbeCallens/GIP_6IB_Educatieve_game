@@ -13,7 +13,7 @@ public class EndMenuScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _pointsTextObject.text = "Je hebt " + MailChecker.GetPoints().ToString() + " punten verzameld!";
+        _pointsTextObject.text = "Je hebt " + MailChecker.Points.ToString() + " punten verzameld!";
     }
 
     // Update is called once per frame

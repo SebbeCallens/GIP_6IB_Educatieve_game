@@ -20,6 +20,10 @@ public class SettingsDataScript : MonoBehaviour
     public static List<Color> _selectedColorButtonsColors = new List<Color>();
     public static List<string> _selectedColorButtonsNames = new List<string>();
 
+    public static List<GameObject> _colorButtons = new List<GameObject>();
+    public static List<Color> _colorButtonsColors = new List<Color>();
+    public static List<string> _colorButtonsNames = new List<string>();
+
 
     //referencing values
     [SerializeField] private GameObject _colorButton;
@@ -34,8 +38,6 @@ public class SettingsDataScript : MonoBehaviour
     private GameObject _colorButtonsObject;
 
     private GameObject _lastClickedColorButton;
-
-    private List<GameObject> _colorButtons = new List<GameObject>();
 
     private int _xValueLastButton = -125;
     private int _yValue = 250;
@@ -96,8 +98,11 @@ public class SettingsDataScript : MonoBehaviour
         for (int i = 0; i < _colorMenu.transform.childCount; i++)
         {
             GameObject currentColorButton = _colorMenu.transform.GetChild(i).gameObject;
+            _colorButtonsColors.Add(currentColorButton.GetComponent<ColorButtonScript>().Color);
+            _colorButtonsNames.Add(currentColorButton.GetComponent<ColorButtonScript>().Name);
 
             _colorButtons.Add(currentColorButton);
+            Debug.Log(currentColorButton);
         }
     }
 
@@ -174,6 +179,12 @@ public class SettingsDataScript : MonoBehaviour
         else if (_selectedColorButtons.Count <= 0)
         {
             //DisplayErrorText("Kies kleuren in instellingen.");
+
+            statsValid = false;
+        }
+        else if (_selectedColorButtons.Count > 5)
+        {
+            //DisplayErrorText("Er mogen maximaal maar 5 kleuren gekozen worden.");
 
             statsValid = false;
         }
