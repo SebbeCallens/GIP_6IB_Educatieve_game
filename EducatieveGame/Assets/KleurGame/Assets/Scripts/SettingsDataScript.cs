@@ -14,6 +14,10 @@ public class SettingsDataScript : MonoBehaviour
     //data to be transfered to the other scene
     public static bool _trashcanSetting = false;
     public static bool _testModeSetting = false;
+
+    public static bool _timerSetting = true;
+    public static int _timerValue = 60;
+
     public static string _chosenDifficulty;
 
     public static List<GameObject> _selectedColorButtons = new List<GameObject>();
@@ -28,6 +32,7 @@ public class SettingsDataScript : MonoBehaviour
     //referencing values
     [SerializeField] private GameObject _colorButton;
     [SerializeField] private UnityEngine.UI.Image _checkmark;
+    [SerializeField] private TMP_InputField _inputField;
     private TextMeshPro _errorTextObject;
 
     //color setting variables
@@ -36,6 +41,8 @@ public class SettingsDataScript : MonoBehaviour
     private GameObject _normalMenu;
     private GameObject _colorMenu;
     private GameObject _colorButtonsObject;
+
+    private GameObject _timerInputFieldObject;
 
     private GameObject _lastClickedColorButton;
 
@@ -72,6 +79,8 @@ public class SettingsDataScript : MonoBehaviour
         _normalMenu = GameObject.Find("NormalMenu");
         _colorMenu = GameObject.Find("ColorMenu");
         _colorButtonsObject = GameObject.Find("ColorButtons");
+
+        _timerInputFieldObject = GameObject.Find("TijdInputField");
 
         _errorTextObject = GameObject.Find("ErrorTextObject").GetComponent<TextMeshPro>();
     }
@@ -142,6 +151,36 @@ public class SettingsDataScript : MonoBehaviour
     public void ToggleTestModeSetting(bool newValue)
     {
         _testModeSetting = newValue;
+    }
+
+    public void ToggleTimerSetting(bool newValue)
+    {
+        _timerSetting = newValue;
+
+        if (newValue)
+        {
+            _timerInputFieldObject.SetActive(true);
+        }
+        else
+        {
+            _timerInputFieldObject.SetActive(false);
+        }
+    }
+
+    //kennelijk illegaal om aan te passen
+    public void ChangeTime()
+    {
+        Debug.Log(_inputField.text);
+
+        if (int.TryParse(_inputField.text, out int time))
+        {
+            Debug.Log(time);
+
+            if (time > 0 && time < 1000)
+            {
+                _timerValue = time;
+            }
+        }
     }
 
     

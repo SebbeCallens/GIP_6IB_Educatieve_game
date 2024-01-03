@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class TimerScript : MonoBehaviour
 {
 
-    private float targetTime = 60.0f;
+    private float _targetTime;
 
     [SerializeField] GameObject _timer;
     //[SerializeField] GameObject _gameScriptManager;
@@ -23,20 +23,36 @@ public class TimerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        targetTime -= Time.deltaTime;
-        _timer.GetComponent<Text>().text = "tijd: " + Mathf.Round(targetTime).ToString();
-
-        if (targetTime <= 0.0f)
+        if (SettingsDataScript._timerSetting)
         {
-            TimerEnded();
+            _targetTime -= Time.deltaTime;
+            _timer.GetComponent<Text>().text = "tijd: " + Mathf.Round(_targetTime).ToString();
+
+            if (_targetTime <= 0.0f)
+            {
+                TimerEnded();
+            }
+        }
+        else
+        {
+            _timer.GetComponent<Text>().text = "tijd: oneindig";
+        }
+    }
+
+    private void Awake()
+    {
+        if (SettingsDataScript._timerSetting) 
+        {
+            _targetTime = SettingsDataScript._timerValue;
+        }
+        else
+        {
+            _targetTime = 99999999999999f;
         }
     }
 
     public void TimerEnded()
     {
-        //aantal punten op het einde van het spel gelijk zetten aan een statische variabele in SavingVariables script. WIP
-        //SavingVariables._totalPoints = this.gameObject.GetComponent<SpawnMailScript>().GetPoints();
-
         SceneManager.LoadScene("Eindscherm");
     }
 }

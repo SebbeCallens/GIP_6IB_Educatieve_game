@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Dragging : MonoBehaviour
 {
     private bool _dragging = false;
     private Vector3 _offset;
+
+    private int _xScreenSize = 17;
+    private int _yScreenSize = 10;
 
     // Update is called once per frame
     void Update()

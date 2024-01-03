@@ -60,7 +60,7 @@ public class SpawnMailScript : MonoBehaviour
         _amountOfMailItemsLeft = _amountOfMailItems;
         
         //yValue: de y-waarde waarop alle mailItem elementen spawnen    distanceBetween: de hoeveelheid plek tussen elk mailItem    currentXValue: de x-waarde van het volgende mailItem element
-        double yValue = -4;
+        double yValue = -2;
         double distanceBetween = _xScreenSize / _amountOfMailItems;
         double currentXValue = distanceBetween / 2;
 
@@ -125,7 +125,7 @@ public class SpawnMailScript : MonoBehaviour
 
     public void SpawnMailboxes()
     {
-        double yValue = 0;
+        double yValue = 2f;
         double distanceBetween = _xScreenSize / SettingsDataScript._selectedColorButtons.Count;
         double currentXValue = distanceBetween / 2;
 
@@ -144,8 +144,8 @@ public class SpawnMailScript : MonoBehaviour
 
     public void SpawnTrashbin()
     {
-        double yValue = -4.5f;
-        double xValue = -8f;
+        double yValue = -4f;
+        double xValue = -7f;
 
         GameObject newMailbox = Instantiate(_trashbin);
         newMailbox.transform.position = new Vector3((float) xValue, (float) yValue, 1);

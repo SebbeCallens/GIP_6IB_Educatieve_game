@@ -31,4 +31,9 @@ public class EndMenuScript : MonoBehaviour
     {
         SceneManager.LoadScene("Startscherm");
     }
+
+    public void ToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 }
