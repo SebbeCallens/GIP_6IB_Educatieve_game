@@ -20,6 +20,8 @@ public class SettingsDataScript : MonoBehaviour
 
     public static string _chosenDifficulty;
 
+    public static int _pointsPerAnswer = 1;
+
     public static List<GameObject> _selectedColorButtons = new List<GameObject>();
     public static List<Color> _selectedColorButtonsColors = new List<Color>();
     public static List<string> _selectedColorButtonsNames = new List<string>();
@@ -53,8 +55,8 @@ public class SettingsDataScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ResetData();
         DefineMenus();
-
         SetColorButtonsList();
 
         //dit moet als laatste
@@ -114,6 +116,29 @@ public class SettingsDataScript : MonoBehaviour
             Debug.Log(currentColorButton);
         }
     }
+
+    public static void ResetData()
+    {
+        _trashcanSetting = false;
+        _testModeSetting = false;
+
+        _timerSetting = true;
+        _timerValue = 60;
+
+        _pointsPerAnswer = 1;
+
+        _chosenDifficulty = null;
+
+        _selectedColorButtons = new List<GameObject>();
+        _selectedColorButtonsColors = new List<Color>();
+        _selectedColorButtonsNames = new List<string>();
+
+        _colorButtons = new List<GameObject>();
+        _colorButtonsColors = new List<Color>();
+        _colorButtonsNames = new List<string>();
+
+        MailChecker.Points = 0;
+}
 
     public void LoadKleurgameScene()
     {
@@ -234,18 +259,42 @@ public class SettingsDataScript : MonoBehaviour
     public void EasyMode()
     {
         _chosenDifficulty = "easy";
+        _pointsPerAnswer = 1;
+
+        _timerSetting = true;
+        _timerValue = 60;
+        _trashcanSetting = false;
+
+        GenerateColorButtons(3);
+
         LoadKleurgameScene();
     }
 
     public void NormalMode()
     {
         _chosenDifficulty = "normal";
+        _pointsPerAnswer = 2;
+
+        _timerSetting = true;
+        _timerValue = 60;
+        _trashcanSetting = false;
+
+        GenerateColorButtons(4);
+
         LoadKleurgameScene();
     }
 
     public void DifficultMode()
     {
         _chosenDifficulty = "difficult";
+        _pointsPerAnswer = 3;
+
+        _timerSetting = true;
+        _timerValue = 60;
+        _trashcanSetting = true;
+
+        GenerateColorButtons(5);
+
         LoadKleurgameScene();
     }
 
@@ -272,18 +321,49 @@ public class SettingsDataScript : MonoBehaviour
         //het toevoegen van de waarden van de knop aan de lists als het gameobject aangevinkt is. Anders, verwijder het object
         if (EventSystem.current.currentSelectedGameObject.gameObject.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().enabled)
         {
-            _selectedColorButtons.Add(EventSystem.current.currentSelectedGameObject.gameObject);
-            _selectedColorButtonsColors.Add(EventSystem.current.currentSelectedGameObject.gameObject.GetComponent<ColorButtonScript>().Color);
-            _selectedColorButtonsNames.Add(EventSystem.current.currentSelectedGameObject.gameObject.GetComponent<ColorButtonScript>().Name);
+            AddColorButton(EventSystem.current.currentSelectedGameObject.gameObject);
         }
         else
         {
-            _selectedColorButtons.Remove(EventSystem.current.currentSelectedGameObject.gameObject);
-            _selectedColorButtonsColors.Remove(EventSystem.current.currentSelectedGameObject.gameObject.GetComponent<ColorButtonScript>().Color);
-            _selectedColorButtonsNames.Remove(EventSystem.current.currentSelectedGameObject.gameObject.GetComponent<ColorButtonScript>().Name);
+            RemoveColorButton(EventSystem.current.currentSelectedGameObject.gameObject);
+        }
+    }
+
+    public void AddColorButton(GameObject colorButton)
+    {
+        _selectedColorButtons.Add(colorButton);
+        _selectedColorButtonsColors.Add(colorButton.GetComponent<ColorButtonScript>().Color);
+        _selectedColorButtonsNames.Add(colorButton.GetComponent<ColorButtonScript>().Name);
+    }
+
+    public void RemoveColorButton(GameObject colorButton)
+    {
+        _selectedColorButtons.Remove(colorButton);
+        _selectedColorButtonsColors.Remove(colorButton.GetComponent<ColorButtonScript>().Color);
+        _selectedColorButtonsNames.Remove(colorButton.GetComponent<ColorButtonScript>().Name);
+    }
+
+    //Deze methode is voor gemakkelijk, normaal en moeilijk. Deze methode vult '_selectedColorButtons' aan tot een specifiek aantal kleuren meegegeven met de parameter.
+    ///De methode geeft voorrang op kleuren die zijn gekozen in de instellingen.
+    public void GenerateColorButtons(int amountOfColors)
+    {
+        while (amountOfColors < _selectedColorButtons.Count)
+        {
+            RemoveColorButton(_selectedColorButtons[Random.Range(0, _selectedColorButtons.Count)]);
+        }
+        while (amountOfColors > _selectedColorButtons.Count)
+        {
+            GameObject chosenColorButton = null;
+
+            while (chosenColorButton == null || _selectedColorButtons.Contains(chosenColorButton))
+            {
+                chosenColorButton = _colorButtons[Random.Range(0, _colorButtons.Count)];
+            }
+
+            AddColorButton(chosenColorButton);
         }
 
-        
+        Debug.Log(_selectedColorButtons + "         " + _selectedColorButtons.Count.ToString());
     }
 
     public void ColorButtonClicked()

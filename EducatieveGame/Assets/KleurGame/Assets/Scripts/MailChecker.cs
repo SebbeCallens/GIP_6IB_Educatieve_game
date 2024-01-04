@@ -129,7 +129,7 @@ public class MailChecker : MonoBehaviour
         spawnMailScript.SetAmountOfMailItemsLeft(spawnMailScript.GetAmountOfMailItemsLeft() - 1);
 
         //aantal punten verhogen met 1.
-        Points++;
+        Points += SettingsDataScript._pointsPerAnswer;
 
         _pointsCounterObject.GetComponent<Text>().text = "punten: " + Points.ToString();
     }
@@ -140,7 +140,7 @@ public class MailChecker : MonoBehaviour
         SpawnMailScript spawnMailScript = _gameScriptManager.GetComponent<SpawnMailScript>();
 
         //aantal punten verlagen met 1.
-        Points--;
+        Points-= SettingsDataScript._pointsPerAnswer;
 
         _pointsCounterObject.GetComponent<Text>().text = "punten: " + Points.ToString();
     }
@@ -156,6 +156,16 @@ public class MailChecker : MonoBehaviour
     public static int Points
     {
         get { return _points; }
-        set { _points = value; }
+        set 
+        { 
+            if (value > 0)
+            {
+                _points = value;
+            }
+            else
+            {
+                _points = 0;
+            }
+        }
     }
 }
