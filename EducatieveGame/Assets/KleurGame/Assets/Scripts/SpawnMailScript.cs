@@ -19,6 +19,8 @@ public class SpawnMailScript : MonoBehaviour
     [SerializeField] int _amountOfMailItems = 5;
     [SerializeField] int _amountOfMailItemsLeft;
 
+    [SerializeField] Sprite[] _mailImages;
+
     private Color[] _colors;
     private string[] _colorsString;
 
@@ -97,6 +99,8 @@ public class SpawnMailScript : MonoBehaviour
         int textIndex;
 
         GameObject newMailItem = Instantiate(_mailItem);
+        newMailItem.GetComponent<SpriteRenderer>().sprite = GenerateRandomMailImage();
+        newMailItem.GetComponent<SpriteRenderer>().color = Color.gray;
 
         colorIndex = Random.Range(0, SettingsDataScript._selectedColorButtons.Count);
         textIndex = Random.Range(0, SettingsDataScript._selectedColorButtons.Count);
@@ -113,6 +117,7 @@ public class SpawnMailScript : MonoBehaviour
         int textIndex;
 
         GameObject newMailItem = Instantiate(_mailItem);
+        newMailItem.GetComponent<SpriteRenderer>().sprite = GenerateRandomMailImage();
 
         colorIndex = Random.Range(0, SettingsDataScript._colorButtonsColors.Count);
         textIndex = Random.Range(0, SettingsDataScript._colorButtonsNames.Count);
@@ -121,6 +126,11 @@ public class SpawnMailScript : MonoBehaviour
         newMailItem.GetComponent<MailScript>().SetText(new string(SettingsDataScript._colorButtonsNames[textIndex]));
 
         return newMailItem;
+    }
+
+    private Sprite GenerateRandomMailImage()
+    {
+        return _mailImages[Random.Range(0, _mailImages.Length)];
     }
 
     public void SpawnMailboxes()
