@@ -12,8 +12,10 @@ public class V02_GridManager : MonoBehaviour
     private V02_Slicer _slicer;
     [SerializeField] private GameObject _puzzelHotbar;
     [SerializeField] private GameObject _puzzelSlot;
+    [SerializeField] private GameObject _corner;
     private List<GameObject> _slots;
     [SerializeField] private GameObject _puzzelPiece;
+    [SerializeField] private GameObject _coordinaatSlot;
     [SerializeField] private Sprite _sourceImage;
     [SerializeField] private int _width = 4;
     [SerializeField] private int _height = 4;
@@ -22,10 +24,12 @@ public class V02_GridManager : MonoBehaviour
     public GameObject PuzzelHotbar { get { return _puzzelHotbar; } }
     public GameObject PuzzelSlot { get {  return _puzzelSlot; } }
     public GameObject PuzzelPiece { get {  return _puzzelPiece; } }
+    public GameObject CoordinaatSlot { get { return _coordinaatSlot; } }
     public Sprite SourceImage { get { return _sourceImage; } set { _sourceImage = value; } }
     public int Width { get { return _width; } set { _width = value; } }
     public int Height { get { return _height; } set { _height = value; } }
     public List<GameObject> Slots { get { return _slots; } set { _slots = value; } }
+    public GameObject Corner { get { return _corner; } }
 
     void Start()
     {
@@ -54,13 +58,33 @@ public class V02_GridManager : MonoBehaviour
         }
 
         //grid met slots genereren
-        for (int row = 0; row < rows; row++)
+        for (int row = -1; row < rows; row++)
         {
-            for (int col = 0; col < cols; col++)
+            for (int col = -1; col < cols; col++)
             {
-                GameObject slot = Instantiate(PuzzelSlot, new Vector2(0f, 0f), Quaternion.identity, PuzzelBox.transform);
-                slot.name = $"{col + 1}-{Slicer.IntToChar(row + 1)}";
-                Slots.Add(slot);
+                if (row == -1 && col == -1)
+                {
+                    GameObject topLeft = Instantiate(Corner, new Vector2(0f, 0f), Quaternion.identity, PuzzelBox.transform);
+                    topLeft.name = "Corner";
+                }
+                else if (row == -1)
+                {
+                    GameObject coordinaat = Instantiate(CoordinaatSlot, new Vector2(0f, 0f), Quaternion.identity, PuzzelBox.transform);
+                    coordinaat.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{col + 1}";
+                    coordinaat.name = $"{col + 1}";
+                }
+                else if (col == -1)
+                {
+                    GameObject coordinaat = Instantiate(CoordinaatSlot, new Vector2(0f, 0f), Quaternion.identity, PuzzelBox.transform);
+                    coordinaat.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{Slicer.IntToChar(row + 1)}";
+                    coordinaat.name = $"{Slicer.IntToChar(row + 1)}";
+                }
+                else
+                {
+                    GameObject slot = Instantiate(PuzzelSlot, new Vector2(0f, 0f), Quaternion.identity, PuzzelBox.transform);
+                    slot.name = $"{col + 1}-{Slicer.IntToChar(row + 1)}";
+                    Slots.Add(slot);
+                }
             }
         }
     }
@@ -73,7 +97,31 @@ public class V02_GridManager : MonoBehaviour
             {
                 achieved++;
             }
+            else if (slot.transform.childCount > 0)
+            {
+                Color red = new();
+                red.g = 0;
+                red.b = 0;
+                red.r = 225;
+                red.a = 225;
+                slot.transform.GetChild(0).GetComponent<Image>().color = red;
+            }
         }
         return achieved;
+    }
+    public void ClearRedPaint()
+    {
+        foreach (GameObject slot in Slots)
+        {
+            if (slot.transform.childCount > 0 && !(slot.transform.GetChild(0).name.Equals(slot.name)))
+            {
+                Color white = new();
+                white.g = 225;
+                white.b = 225;
+                white.r = 225;
+                white.a = 225;
+                slot.transform.GetChild(0).GetComponent<Image>().color = white;
+            }
+        }
     }
 }

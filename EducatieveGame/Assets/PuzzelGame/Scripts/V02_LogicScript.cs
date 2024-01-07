@@ -30,6 +30,7 @@ public class V02_LogicScript : MonoBehaviour
     }
     public void SluitSchermKnop()
     {
+        GridManger.GetComponent<V02_GridManager>().ClearRedPaint();
         ConfirmScreen.SetActive(false);
         ScoreScreen.SetActive(false);
     }
