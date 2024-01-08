@@ -118,6 +118,7 @@ public class SpawnMailScript : MonoBehaviour
 
         GameObject newMailItem = Instantiate(_mailItem);
         newMailItem.GetComponent<SpriteRenderer>().sprite = GenerateRandomMailImage();
+        newMailItem.GetComponent<SpriteRenderer>().color = Color.gray;
 
         colorIndex = Random.Range(0, SettingsDataScript._colorButtonsColors.Count);
         textIndex = Random.Range(0, SettingsDataScript._colorButtonsNames.Count);

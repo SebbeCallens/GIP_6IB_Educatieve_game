@@ -29,6 +29,5 @@ public class ColorPickScript : MonoBehaviour
         _button.color = pickedColor;
         _cursorColor.color = pickedColor;
         ColorPickerEvent.Invoke(pickedColor);
-    
     }
 }
