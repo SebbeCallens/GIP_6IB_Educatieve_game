@@ -109,6 +109,9 @@ public class MailChecker : MonoBehaviour
             {
                 Debug.Log("color is in selectedcolorbuttons");
 
+                collision.gameObject.GetComponent<Dragging>().SetDragging(false);
+                collision.gameObject.transform.position = collision.gameObject.GetComponent<MailScript>().GetoriginalPosition();
+
                 LosePoints();
                 return;
             }
@@ -129,7 +132,7 @@ public class MailChecker : MonoBehaviour
         spawnMailScript.SetAmountOfMailItemsLeft(spawnMailScript.GetAmountOfMailItemsLeft() - 1);
 
         //aantal punten verhogen met 1.
-        Points += SettingsDataScript._pointsPerAnswer;
+        Points += SettingsDataScript._rightPoints;
 
         _pointsCounterObject.GetComponent<Text>().text = "punten: " + Points.ToString();
     }
@@ -140,7 +143,7 @@ public class MailChecker : MonoBehaviour
         SpawnMailScript spawnMailScript = _gameScriptManager.GetComponent<SpawnMailScript>();
 
         //aantal punten verlagen met 1.
-        Points-= SettingsDataScript._pointsPerAnswer;
+        Points -= SettingsDataScript._wrongPoints;
 
         _pointsCounterObject.GetComponent<Text>().text = "punten: " + Points.ToString();
     }

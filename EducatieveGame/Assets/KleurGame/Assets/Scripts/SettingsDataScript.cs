@@ -22,6 +22,11 @@ public class SettingsDataScript : MonoBehaviour
 
     public static int _pointsPerAnswer = 1;
 
+    //moet nog werkend worden
+    public static int _rightPoints = 1;
+    public static int _wrongPoints = 1;
+    //
+
     public static List<GameObject> _selectedColorButtons = new List<GameObject>();
     public static List<Color> _selectedColorButtonsColors = new List<Color>();
     public static List<string> _selectedColorButtonsNames = new List<string>();
@@ -35,9 +40,9 @@ public class SettingsDataScript : MonoBehaviour
     [SerializeField] private GameObject _colorButton;
     [SerializeField] private UnityEngine.UI.Image _checkmark;
     [SerializeField] private TMP_InputField _inputField;
-    private TextMeshPro _errorTextObject;
+    private GameObject _errorTextObject;
 
-    //color setting variables
+    //other setting variables
     private GameObject _colorsSetting;
     private GameObject _settingsMenu;
     private GameObject _normalMenu;
@@ -45,6 +50,8 @@ public class SettingsDataScript : MonoBehaviour
     private GameObject _colorButtonsObject;
 
     private GameObject _timerInputFieldObject;
+    private GameObject _pointsRightObject;
+    private GameObject _pointsWrongObject;
 
     private GameObject _lastClickedColorButton;
 
@@ -58,6 +65,7 @@ public class SettingsDataScript : MonoBehaviour
         ResetData();
         DefineMenus();
         SetColorButtonsList();
+        EnableStandardColorButtons();
 
         //dit moet als laatste
         GameObject.Find("SettingsMenu").SetActive(false);
@@ -74,6 +82,7 @@ public class SettingsDataScript : MonoBehaviour
         
     }
 
+    //zoekt alle gameobjecten nodig voor latere berekeningen
     public void DefineMenus()
     {
         _colorsSetting = GameObject.Find("ColorsSetting");
@@ -83,17 +92,21 @@ public class SettingsDataScript : MonoBehaviour
         _colorButtonsObject = GameObject.Find("ColorButtons");
 
         _timerInputFieldObject = GameObject.Find("TijdInputField");
+        _pointsRightObject = GameObject.Find("PuntenJuistInstelling");
+        _pointsWrongObject = GameObject.Find("PuntenFoutInstelling");
 
-        _errorTextObject = GameObject.Find("ErrorTextObject").GetComponent<TextMeshPro>();
+        _errorTextObject = GameObject.Find("ErrorTextObject");
     }
 
+    //het openen/sluiten van een de instellingen
     public void SettingsButton()
     {
+        SetErrorText("");
+
         if (_normalMenu.activeSelf)
         {
             _normalMenu.SetActive(false);
             _settingsMenu.SetActive(true);
-            _colorMenu.SetActive(false);
         }
         else
         {
@@ -117,6 +130,21 @@ public class SettingsDataScript : MonoBehaviour
         }
     }
 
+    //zet rood, blauw en groen als standaard aangezette kleurwaarden
+    public void EnableStandardColorButtons()
+    {
+        foreach (GameObject colorButton in _colorButtons)
+        {
+            if (colorButton.name.Equals("ColorRed") || colorButton.name.Equals("ColorGreen") || colorButton.name.Equals("ColorBlue"))
+            {
+                AddColorButton(colorButton);
+
+                colorButton.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().enabled = true;
+            }
+        }
+    }
+
+    //zet alle variabelen terug aan hun standaard waarden
     public static void ResetData()
     {
         _trashcanSetting = false;
@@ -139,32 +167,31 @@ public class SettingsDataScript : MonoBehaviour
 
         MailChecker.Points = 0;
 }
-
+    //start de kleurgame scene
     public void LoadKleurgameScene()
     {
-        for (int i = 0; i < _selectedColorButtons.Count; i++)
+        /*for (int i = 0; i < _selectedColorButtons.Count; i++)
         {
             Debug.Log("object: " + _selectedColorButtons[i] + "\n" + 
             "color: " + _selectedColorButtonsColors[i] + "\n" + 
             "name: " + _selectedColorButtonsNames[i]);
-        }
+        }*/
 
         SceneManager.LoadScene("KleurGame");
     }
 
     public void ToggleSettingsUI()
     {
-        if (GameObject.Find("SettingsMenu"))
+        if (_settingsMenu)
         {
-            if (GameObject.Find("SettingsMenu").activeSelf)
+            if (_settingsMenu.activeSelf)
             {
-                GameObject.Find("SettingsMenu").SetActive(false);
+                _settingsMenu.SetActive(false);
             }
             else
             {
-                GameObject.Find("SettingsMenu").SetActive(true);
+                _settingsMenu.SetActive(true);
             }
-            
         }
     }
 
@@ -192,7 +219,7 @@ public class SettingsDataScript : MonoBehaviour
         }
     }
 
-    //kennelijk illegaal om aan te passen
+    //methode om de tijd aan te passen
     public void ChangeTime()
     {
         Debug.Log(_inputField.text);
@@ -208,23 +235,29 @@ public class SettingsDataScript : MonoBehaviour
         }
     }
 
-    
-    //belangrijk: het 'ColorMenu' object moet overeenkomen met de juiste indexwaarde!!!
-    private void ToggleColorMenu()
+    //methode om het aantal punten bij een juist antwoord aan te passen
+    public void ChangePointsRight()
     {
-        _colorMenu.SetActive(!_colorMenu.activeSelf);
+        if (int.TryParse(_pointsRightObject.GetComponent<TMP_InputField>().text, out int points))
+        {
+            if (points > 0 && points < 1000)
+            {
+                _rightPoints = points;
+            }
+        }
     }
 
-    /*IEnumerator DisplayErrorText(string errorText)
+    //methode om het aantal punten bij een fout antwoord aan te passen
+    public void ChangePointsWrong()
     {
-        Debug.Log(_errorTextObject);
-
-        _errorTextObject.text = errorText;
-
-        yield return new WaitForSeconds(3);
-
-        _errorTextObject.text = "";
-    }*/
+        if (int.TryParse(_pointsWrongObject.GetComponent<TMP_InputField>().text, out int points))
+        {
+            if (points > 0 && points < 1000)
+            {
+                _wrongPoints = points;
+            }
+        }
+    }
 
     //tekst tonen en weer weghalen lukt nog niet.
     public bool CheckStatsValid()
@@ -237,18 +270,21 @@ public class SettingsDataScript : MonoBehaviour
         if (_selectedColorButtons.Count == 1)
         {
             //DisplayErrorText("Er moeten minimaal 2 kleuren gekozen worden.");
+            SetErrorText("Er moeten minimaal 2 kleuren gekozen worden.");
 
             statsValid = false;
         }
         else if (_selectedColorButtons.Count <= 0)
         {
             //DisplayErrorText("Kies kleuren in instellingen.");
+            SetErrorText("Kies kleuren in instellingen.");
 
             statsValid = false;
         }
         else if (_selectedColorButtons.Count > 5)
         {
             //DisplayErrorText("Er mogen maximaal maar 5 kleuren gekozen worden.");
+            SetErrorText("Er mogen maximaal maar 5 kleuren gekozen worden.");
 
             statsValid = false;
         }
@@ -256,10 +292,18 @@ public class SettingsDataScript : MonoBehaviour
         return statsValid;
     }
 
+    public void SetErrorText(string text)
+    {
+        _errorTextObject.GetComponent<TextMeshProUGUI>().text = text;
+    }
+
     public void EasyMode()
     {
         _chosenDifficulty = "easy";
-        _pointsPerAnswer = 1;
+        
+        //_pointsPerAnswer = 1;
+        _rightPoints = 1;
+        _wrongPoints = 1;
 
         _timerSetting = true;
         _timerValue = 60;
@@ -273,7 +317,10 @@ public class SettingsDataScript : MonoBehaviour
     public void NormalMode()
     {
         _chosenDifficulty = "normal";
-        _pointsPerAnswer = 2;
+
+        //_pointsPerAnswer = 2;
+        _rightPoints = 2;
+        _wrongPoints = 2;
 
         _timerSetting = true;
         _timerValue = 60;
@@ -287,7 +334,10 @@ public class SettingsDataScript : MonoBehaviour
     public void DifficultMode()
     {
         _chosenDifficulty = "difficult";
-        _pointsPerAnswer = 3;
+
+        //_pointsPerAnswer = 3;
+        _rightPoints = 3;
+        _wrongPoints = 3;
 
         _timerSetting = true;
         _timerValue = 60;
@@ -344,7 +394,7 @@ public class SettingsDataScript : MonoBehaviour
     }
 
     //Deze methode is voor gemakkelijk, normaal en moeilijk. Deze methode vult '_selectedColorButtons' aan tot een specifiek aantal kleuren meegegeven met de parameter.
-    ///De methode geeft voorrang op kleuren die zijn gekozen in de instellingen.
+    //De methode geeft voorrang op kleuren die zijn gekozen in de instellingen.
     public void GenerateColorButtons(int amountOfColors)
     {
         while (amountOfColors < _selectedColorButtons.Count)
@@ -366,12 +416,6 @@ public class SettingsDataScript : MonoBehaviour
         Debug.Log(_selectedColorButtons + "         " + _selectedColorButtons.Count.ToString());
     }
 
-    public void ColorButtonClicked()
-    {
-        _lastClickedColorButton = EventSystem.current.currentSelectedGameObject;
-        ToggleColorMenu();
-    }
-
     //dit is nodig om de aantal waarden te weten dat true is in _colorButtonSettings
     public int GetAmountOfColors()
     {
@@ -387,47 +431,4 @@ public class SettingsDataScript : MonoBehaviour
 
         return amount;
     }
-
-    /*
-    //verwijdert het laatste toegevoegde knopje
-    public void RemoveColorButtonClicked()
-    {
-        //list opschonen
-        _colorButtons.RemoveAll(item => item == null);
-
-        //nieuwst toegevoegde knop verwijderen
-        Destroy(_colorButtons[_colorButtons.Count - 1]);
-        _colorButtons.RemoveAt(_colorButtons.Count - 1);
-
-        _xValueLastButton -= _increment;
-
-        //code voor + & - knop aan te passen
-        ChangePositionPlusMinButtons(-_increment);
-    }
-    
-    public void AddColorButtonClicked()
-    {
-        //code voor knop zelf
-        GameObject newColorButton = Instantiate(_colorButton);
-        newColorButton.transform.SetParent(_colorButtonsObject.transform);
-        newColorButton.transform.position = new Vector3(_xValueLastButton + _increment, _yValue, 0);
-        
-        _colorButtons.Add(newColorButton);
-
-        _xValueLastButton += _increment;
-
-        //code voor + & - knop aan te passen
-        ChangePositionPlusMinButtons(_increment);
-    }
-    
-     //code voor + & - knop aan te passen
-    private void ChangePositionPlusMinButtons(int xValue)
-    {
-        GameObject addColorButton = _colorsSetting.transform.Find("AddColorButton").gameObject;
-        GameObject removeColorButton = _colorsSetting.transform.Find("RemoveColorButton").gameObject;
-
-        addColorButton.transform.position = new Vector3(addColorButton.transform.position.x + xValue, addColorButton.transform.position.y, addColorButton.transform.position.z);
-        removeColorButton.transform.position = new Vector3(removeColorButton.transform.position.x + xValue, removeColorButton.transform.position.y, removeColorButton.transform.position.z);
-    }
-    */
 }
