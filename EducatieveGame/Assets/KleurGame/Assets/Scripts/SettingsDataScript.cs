@@ -55,9 +55,9 @@ public class SettingsDataScript : MonoBehaviour
 
     private GameObject _lastClickedColorButton;
 
-    private int _xValueLastButton = -125;
-    private int _yValue = 250;
-    private int _increment = 125;
+    //private int _xValueLastButton = -125;
+    //private int _yValue = 250;
+    //private int _increment = 125;
 
     // Start is called before the first frame update
     void Start()
@@ -101,8 +101,6 @@ public class SettingsDataScript : MonoBehaviour
     //het openen/sluiten van een de instellingen
     public void SettingsButton()
     {
-        SetErrorText("");
-
         if (_normalMenu.activeSelf)
         {
             _normalMenu.SetActive(false);
@@ -113,7 +111,6 @@ public class SettingsDataScript : MonoBehaviour
             _normalMenu.SetActive(true);
             _settingsMenu.SetActive(false);
         }
-        
     }
 
     //voegt de kleurknopwaarden toe op hun juiste index
@@ -126,7 +123,6 @@ public class SettingsDataScript : MonoBehaviour
             _colorButtonsNames.Add(currentColorButton.GetComponent<ColorButtonScript>().Name);
 
             _colorButtons.Add(currentColorButton);
-            Debug.Log(currentColorButton);
         }
     }
 
@@ -222,12 +218,8 @@ public class SettingsDataScript : MonoBehaviour
     //methode om de tijd aan te passen
     public void ChangeTime()
     {
-        Debug.Log(_inputField.text);
-
         if (int.TryParse(_inputField.text, out int time))
         {
-            Debug.Log(time);
-
             if (time > 0 && time < 1000)
             {
                 _timerValue = time;
@@ -264,36 +256,38 @@ public class SettingsDataScript : MonoBehaviour
     {
         bool statsValid = true;
 
-        Debug.Log(_selectedColorButtons.Count);
-        
+        //ERRORS
         //checken als de gebruiker kleuren heeft gekozen
         if (_selectedColorButtons.Count == 1)
         {
             //DisplayErrorText("Er moeten minimaal 2 kleuren gekozen worden.");
-            SetErrorText("Er moeten minimaal 2 kleuren gekozen worden.");
+            SetErrorText("Er moeten minimaal 2 kleuren gekozen worden.", Color.red);
 
             statsValid = false;
         }
         else if (_selectedColorButtons.Count <= 0)
         {
             //DisplayErrorText("Kies kleuren in instellingen.");
-            SetErrorText("Kies kleuren in instellingen.");
+            SetErrorText("Kies kleuren in instellingen.", Color.red);
 
             statsValid = false;
         }
         else if (_selectedColorButtons.Count > 5)
         {
             //DisplayErrorText("Er mogen maximaal maar 5 kleuren gekozen worden.");
-            SetErrorText("Er mogen maximaal maar 5 kleuren gekozen worden.");
+            SetErrorText("Er mogen maximaal maar 5 kleuren gekozen worden.", Color.red);
 
             statsValid = false;
         }
+        //WARNINGS
+        
 
         return statsValid;
     }
 
-    public void SetErrorText(string text)
+    public void SetErrorText(string text, Color color)
     {
+        _errorTextObject.GetComponent<TextMeshProUGUI>().color = color;
         _errorTextObject.GetComponent<TextMeshProUGUI>().text = text;
     }
 

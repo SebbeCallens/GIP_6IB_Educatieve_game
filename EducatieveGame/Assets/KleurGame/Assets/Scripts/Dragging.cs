@@ -8,16 +8,29 @@ public class Dragging : MonoBehaviour
     private bool _dragging = false;
     private Vector3 _offset;
 
-    private int _xScreenSize = 17;
-    private int _yScreenSize = 10;
+    //private int _xScreenSize = 17;
+    //private int _yScreenSize = 10;
 
     // Update is called once per frame
     void Update()
     {
         //if the object is being dragged, change its position to the mouse's cursor + the offset from the center of the object
+        //checkt als het object out of bounds is
+        //zo nee, zet de positie van het object gelijk aan de muispositie
+        //zo ja, de positie van het object wordt verplaatst naar zijn originele positie (alleen maar als de speler heeft gestopt met het sleepen van het object)
         if (_dragging)
         {
-            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + _offset;
+            if (transform.position.x < 9 && transform.position.x > -9 && transform.position.y < 5 && transform.position.y > -5)
+            {
+                transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + _offset;
+                Debug.Log("Code in if-statement executed.");
+            }
+            else
+            {
+                _dragging = false;
+                transform.position = transform.gameObject.GetComponent<MailScript>().GetoriginalPosition();
+                Debug.Log("Code in else-statement executed. " + transform.position);
+            }
         }
     }
 
