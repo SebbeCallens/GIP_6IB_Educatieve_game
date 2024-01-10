@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 //dit script zorgt voor een pad in het grid
@@ -12,16 +13,25 @@ public class PathManager : MonoBehaviour
     [SerializeField] private GameObject _player; //de speler
     [SerializeField] private GameObject _finish; //de finish
     [SerializeField] private PathAStar _aStar; //script A Star
-    private List<PathTile> _visitedTiles = new List<PathTile>(); //lijst met tiles van het pad
+    [SerializeField] private List<PathTile> _randomSelectedTiles = new List<PathTile>(); //lijst met tiles van het pad
     private int _paths = 0; //hoeveel paden er geprobeerd zijn
-    private List<PathTile> _locations = new List<PathTile>(); //tiles start, locaties en einde
+    private List<PathTile> _checkpoints = new List<PathTile>(); //tiles start, locaties en einde
+    [SerializeField] private List<PathTile> _aStarSelectedTiles = new List<PathTile>();
+    [SerializeField] private List<PathTile> _playerVisitedTiles = new List<PathTile>();
+    [SerializeField] private TextMeshProUGUI _tileText;
+    [SerializeField] private Transform _canvas;
 
-    public List<PathTile> VisitedTiles { get => _visitedTiles; set => _visitedTiles = value; }
+
+
+    public List<PathTile> RandomSelectedTiles { get => _randomSelectedTiles; set => _randomSelectedTiles = value; }
+    public List<PathTile> Checkpoints { get => _checkpoints; set => _checkpoints = value; }
+    public List<PathTile> AStarSelectedTiles { get => _aStarSelectedTiles; set => _aStarSelectedTiles = value; }
+    public List<PathTile> PlayerVisitedTiles { get => _playerVisitedTiles; set => _playerVisitedTiles = value; }
 
     private void Start() //grid en pad aanmaken
     {
         _grid.GenerateGrid();
-        GeneratePath(SpawnPlayer());
+        GeneratePath(SpawnPlayer(), 3);
     }
 
     public PathTile SpawnPlayer() //speler spawnen
@@ -45,22 +55,24 @@ public class PathManager : MonoBehaviour
         //een random tile kiezen voor de speler op te spawnen en de speler er op spawnen
         PathTile playerSpawn = _possibleTiles[Random.Range(0, _possibleTiles.Count)];
         Player character = Instantiate(_player, playerSpawn.transform.position, Quaternion.identity, playerSpawn.transform).GetComponent<Player>();
-        character.CurrentPositon = _grid.GetTilePosition(playerSpawn);
-        _locations.Add(playerSpawn);
+        character.CurrentPosition = _grid.GetTilePosition(playerSpawn);
+        Checkpoints.Add(playerSpawn);
 
         return playerSpawn;
     }
 
 
-    public void GeneratePath(PathTile spawnTile) //random pad genereren
+    public void GeneratePath(PathTile spawnTile, int locations) //random pad genereren
     {
         _paths++;
 
         int length = Random.Range(_minLength, Mathf.Min(_maxLength + 1, _grid.Width * _grid.Height / 2)); //random lengte kiezen en zorgen dat deze niet te lang is
         PathTile currentTile = spawnTile;
         bool reset = false;
+        int interval = length / (locations + 1);
+        int locationCount = 0;
 
-        VisitedTiles.Add(currentTile);
+        RandomSelectedTiles.Add(currentTile);
 
         //pad genereren
         for (int i = 0; i < length; i++)
@@ -74,27 +86,31 @@ public class PathManager : MonoBehaviour
                 break;
             }
 
-            if (i == 10) //tile op index 10 wordt nu altijd een locatie
+            if (i % interval == 0 && i > 1 && locationCount < locations) //tile op index 10 wordt nu altijd een locatie
             {
                 //huidige tile instellen
                 currentTile = _pathFnc.GetRandomTile(_possibleTiles, _grid.GetTilePosition(spawnTile));
                 currentTile.SetTile(Color.grey, false, true, "random");
-                VisitedTiles.Add(currentTile);
-                _locations.Add(currentTile);
+                RandomSelectedTiles.Add(currentTile);
+                Checkpoints.Add(currentTile);
+                locationCount++;
+                Vector3 position = _grid.GetTilePosition(currentTile);
+                TextMeshProUGUI tileText = Instantiate(_tileText, new(position.x - Camera.main.transform.position.x, position.y - Camera.main.transform.position.y, 0), Quaternion.identity, _canvas).GetComponent<TextMeshProUGUI>();
+                tileText.text = locationCount.ToString();
             }
             else
             {
                 //huidige tile instellen
                 currentTile = _pathFnc.GetRandomTile(_possibleTiles, _grid.GetTilePosition(spawnTile));
-                currentTile.SetTile(Color.red, false, false, "");
-                VisitedTiles.Add(currentTile);
+                currentTile.SetTile(Color.green, false, false, "");
+                RandomSelectedTiles.Add(currentTile);
             }
         }
 
         //laatste tile instellen als finish
         currentTile.IsFinish = true;
         Instantiate(_finish, currentTile.transform.position, Quaternion.identity, currentTile.transform);
-        _locations.Add(currentTile);
+        Checkpoints.Add(currentTile);
 
         //nakijken of er genoeg afstand is tussen spawn en finish
         float distance = Mathf.Sqrt(Mathf.Pow(spawnTile.transform.position.x - currentTile.transform.position.x, 2)
@@ -108,7 +124,7 @@ public class PathManager : MonoBehaviour
         //resetten wanneer gefaald, obstakels plaatsen bij succes
         if (reset)
         {
-            Reset();
+            Reset(locations);
         }
         else
         {
@@ -126,7 +142,7 @@ public class PathManager : MonoBehaviour
             for (int y = 0; y < _grid.Height; y++)
             {
                 PathTile currentTile = _grid.GetTileAtPosition(new Vector2(x, y));
-                if (!VisitedTiles.Contains(currentTile)) //tile toevoegen in lijst wanneer deze zich niet op het pad bevind
+                if (!RandomSelectedTiles.Contains(currentTile)) //tile toevoegen in lijst wanneer deze zich niet op het pad bevind
                 {
                     _possibleTiles.Add(currentTile);
                 }
@@ -147,21 +163,22 @@ public class PathManager : MonoBehaviour
 
     public void FindShortestPath() //kortste pad zoeken
     {
-        for (int i = 0; i < _locations.Count - 1; i++)
+        for (int i = 0; i < Checkpoints.Count - 1; i++)
         {
-            List<PathTile> shortestPath = _aStar.FindShortestPath(_locations[i], _locations[i + 1]);
+            List<PathTile> shortestPath = _aStar.FindShortestPath(Checkpoints[i], Checkpoints[i + 1]);
 
             if (shortestPath != null)
             {
                 foreach (PathTile tile in shortestPath)
                 {
-                    if (!tile.IsLocation && !VisitedTiles.Contains(tile))
+                    if (!tile.IsLocation)
                     {
-                        tile.SetTile(Color.blue, false, false, "");
+                        tile.SetTile(Color.green, false, false, "");
                     }
-                    else if (!tile.IsLocation && VisitedTiles.Contains(tile))
+
+                    if(!AStarSelectedTiles.Contains(tile))
                     {
-                        tile.SetTile(Color.cyan, false, false, "");
+                        AStarSelectedTiles.Add(tile);
                     }
                 }
             }
@@ -172,10 +189,22 @@ public class PathManager : MonoBehaviour
         }
     }
 
+    public void ShowPath(List<PathTile> path, Color color)
+    {
+        foreach(PathTile tile in path)
+        {
+            tile.PathHighlight.GetComponent<SpriteRenderer>().color = color;
+        }
+    }
 
-    public void Reset() //wanneer het pad faalt om te genereren
+    public void Reset(int locations) //wanneer het pad faalt om te genereren
     {
         Debug.Log("Generation fail");
+
+        for (int i = 0; i < _canvas.transform.childCount; i++)
+        {
+            Destroy(_canvas.transform.GetChild(i).gameObject);
+        }
 
         if (_paths >= 100) //maxium 100 paden proberen voor oneindige loop tegen te gaan
         {
@@ -184,12 +213,12 @@ public class PathManager : MonoBehaviour
         else
         {
             //lijsten leegmaken
-            VisitedTiles.Clear();
-            _locations.Clear();
+            RandomSelectedTiles.Clear();
+            Checkpoints.Clear();
 
             //opnieuw een pad maken
             _grid.GenerateGrid();
-            GeneratePath(SpawnPlayer());
+            GeneratePath(SpawnPlayer(), locations);
         }
     }
 }
