@@ -37,5 +37,6 @@ public class V02_LogicScript : MonoBehaviour
     public void NaarMenuKnop()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        PuzzelMenu.GenerateOptions();
     }
 }

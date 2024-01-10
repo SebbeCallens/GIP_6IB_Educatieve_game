@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using SFB;
 using TMPro;
 using Unity.VisualScripting;
+using System;
 
 public class V02_GridManager : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class V02_GridManager : MonoBehaviour
     [SerializeField] private Sprite _sourceImage;
     [SerializeField] private int _width = 4;
     [SerializeField] private int _height = 4;
+    [SerializeField] private Boolean _strechedPuzzle;
     public GameObject PuzzelBox { get {  return _puzzelBox; } }
     public V02_Slicer Slicer { get { return _slicer; } set { _slicer = value; } }
     public GameObject PuzzelHotbar { get { return _puzzelHotbar; } }
@@ -28,11 +30,18 @@ public class V02_GridManager : MonoBehaviour
     public Sprite SourceImage { get { return _sourceImage; } set { _sourceImage = value; } }
     public int Width { get { return _width; } set { _width = value; } }
     public int Height { get { return _height; } set { _height = value; } }
+    public Boolean StrechedPuzzle { get { return _strechedPuzzle; } set { _strechedPuzzle = value; } }
     public List<GameObject> Slots { get { return _slots; } set { _slots = value; } }
     public GameObject Corner { get { return _corner; } }
 
     void Start()
     {
+        //Haalt nodige informatie uit vorige scene
+        Width = ConfirmScript.Width;
+        Height = ConfirmScript.Height;
+        SourceImage = ConfirmScript.Image;
+        StrechedPuzzle = ConfirmScript.StrechedPuzzle;
+
         Slicer = PuzzelBox.GetComponent<V02_Slicer>();
         Slots = new();
 
@@ -51,7 +60,7 @@ public class V02_GridManager : MonoBehaviour
         //posities stukjes randomiseren
         for (int i = parts.Count - 1; i >= 0; i--)
         {
-            int randomIndex = Random.Range(0, parts.Count);
+            int randomIndex = UnityEngine.Random.Range(0, parts.Count);
             parts[randomIndex].transform.SetAsFirstSibling();
             parts[randomIndex].transform.SetParent(PuzzelHotbar.transform);
             parts.RemoveAt(randomIndex);

@@ -16,6 +16,7 @@ TagManager:
   - ColorMenu
   - Mailbox
   - Trashbin
+  - ToNextScene
   layers:
   - Default
   - TransparentFX

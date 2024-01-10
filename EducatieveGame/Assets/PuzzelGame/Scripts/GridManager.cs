@@ -25,9 +25,9 @@ public class GridManager2 : MonoBehaviour
     void Start()
     {
         _menu = GameObject.FindGameObjectWithTag("MenuScript").GetComponent<PuzzelMenu>();
-        _sourceImage = _menu.GetComponent<PuzzelMenu>()._image;
-        _width = _menu._optionWidth;
-        _height = _menu._optionHeight;
+        _sourceImage = _menu.GetComponent<PuzzelMenu>().Image;
+        _width = 4;
+        _height = 4;
         if (_width == _height)
         {
             _width = 5;
