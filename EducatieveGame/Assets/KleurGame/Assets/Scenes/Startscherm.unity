@@ -967,7 +967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8584906, g: 0.6730423, b: 0.15927966, a: 1}
+  m_Color: {r: 1, g: 0.6308286, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1004,7 +1004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3ba12a4b6f6d141bb2808dd7297ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _color: {r: 0.82745105, g: 0.64705884, b: 0.15686275, a: 0}
+  _color: {r: 1, g: 0.6313726, b: 0, a: 0}
   _name: oranje
 --- !u!1 &356772839
 GameObject:
@@ -5115,7 +5115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5943396, g: 0.4719707, b: 0.24390353, a: 1}
+  m_Color: {r: 0.4433962, g: 0.34151733, b: 0.15686187, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5152,7 +5152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3ba12a4b6f6d141bb2808dd7297ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _color: {r: 0.57254905, g: 0.45098042, b: 0.23137257, a: 0}
+  _color: {r: 0.4431373, g: 0.34117648, b: 0.15686275, a: 0}
   _name: bruin
 --- !u!1 &1321105176
 GameObject:

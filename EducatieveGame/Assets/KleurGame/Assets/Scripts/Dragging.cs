@@ -23,13 +23,11 @@ public class Dragging : MonoBehaviour
             if (transform.position.x < 9 && transform.position.x > -9 && transform.position.y < 5 && transform.position.y > -5)
             {
                 transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + _offset;
-                Debug.Log("Code in if-statement executed.");
             }
             else
             {
                 _dragging = false;
                 transform.position = transform.gameObject.GetComponent<MailScript>().GetoriginalPosition();
-                Debug.Log("Code in else-statement executed. " + transform.position);
             }
         }
     }
