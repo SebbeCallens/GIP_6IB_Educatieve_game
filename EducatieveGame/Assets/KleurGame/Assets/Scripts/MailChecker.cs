@@ -98,19 +98,44 @@ public class MailChecker : MonoBehaviour
     private void TrashbinCode(Collision2D collision)
     {
         //checkt als de kleur van het mailitem gevonden is in alle geselecteerde kleuren
-        foreach (Color selectedColor in SettingsDataScript._selectedColorButtonsColors)
-        {
-            Debug.Log(SettingsDataScript._selectedColorButtonsColors.Count);
-            Debug.Log(collision.gameObject.GetComponent<MailScript>().GetColor());
-            Debug.Log(selectedColor);
-            
-            //een nieuwe kleur wordt aangemaakt omdat de 4e parameter soms verschillend is.
-            if (new Color(selectedColor.r, selectedColor.g, selectedColor.b, 0) == new Color(collision.gameObject.GetComponent<MailScript>().GetColor().r, collision.gameObject.GetComponent<MailScript>().GetColor().g, collision.gameObject.GetComponent<MailScript>().GetColor().b, 0))
-            {
-                Debug.Log("color is in selectedcolorbuttons");
 
-                LosePoints();
-                return;
+        if (_gameScriptManager.GetComponent<StatsScript>().GetSortingMethod().Equals("kleur"))
+        {
+            //checken als de kleur voorkomt
+            foreach (Color selectedColor in SettingsDataScript._selectedColorButtonsColors)
+            {
+                /*Debug.Log(SettingsDataScript._selectedColorButtonsColors.Count);
+                Debug.Log(collision.gameObject.GetComponent<MailScript>().GetColor());
+                Debug.Log(selectedColor);*/
+
+                //een nieuwe kleur wordt aangemaakt omdat de 4e parameter soms verschillend is.
+                if (new Color(selectedColor.r, selectedColor.g, selectedColor.b, 0) == new Color(collision.gameObject.GetComponent<MailScript>().GetColor().r, collision.gameObject.GetComponent<MailScript>().GetColor().g, collision.gameObject.GetComponent<MailScript>().GetColor().b, 0))
+                {
+                    Debug.Log("color is in selectedcolorbuttons");
+
+                    collision.gameObject.GetComponent<Dragging>().SetDragging(false);
+                    collision.gameObject.transform.position = collision.gameObject.GetComponent<MailScript>().GetoriginalPosition();
+
+                    LosePoints();
+                    return;
+                }
+            }
+        }
+        else if (_gameScriptManager.GetComponent<StatsScript>().GetSortingMethod().Equals("woord"))
+        {
+            //checken als de naam van de kleur voorkomt
+            foreach (string selectedName in SettingsDataScript._selectedColorButtonsNames)
+            {
+                if (selectedName.Equals(collision.gameObject.GetComponent<MailScript>().GetText()))
+                {
+                    Debug.Log("name from color is in selectedcolorbuttons");
+
+                    collision.gameObject.GetComponent<Dragging>().SetDragging(false);
+                    collision.gameObject.transform.position = collision.gameObject.GetComponent<MailScript>().GetoriginalPosition();
+
+                    LosePoints();
+                    return;
+                }
             }
         }
 
@@ -129,7 +154,7 @@ public class MailChecker : MonoBehaviour
         spawnMailScript.SetAmountOfMailItemsLeft(spawnMailScript.GetAmountOfMailItemsLeft() - 1);
 
         //aantal punten verhogen met 1.
-        Points += SettingsDataScript._pointsPerAnswer;
+        Points += SettingsDataScript._rightPoints;
 
         _pointsCounterObject.GetComponent<Text>().text = "punten: " + Points.ToString();
     }
@@ -140,7 +165,7 @@ public class MailChecker : MonoBehaviour
         SpawnMailScript spawnMailScript = _gameScriptManager.GetComponent<SpawnMailScript>();
 
         //aantal punten verlagen met 1.
-        Points-= SettingsDataScript._pointsPerAnswer;
+        Points -= SettingsDataScript._wrongPoints;
 
         _pointsCounterObject.GetComponent<Text>().text = "punten: " + Points.ToString();
     }

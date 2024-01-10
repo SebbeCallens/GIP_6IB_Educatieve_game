@@ -5,7 +5,7 @@ using UnityEngine;
 public class StatsScript : MonoBehaviour
 {
     //variabelen die moeten meegekregen worden van StartMenuScript, voor nu hard gecodeerd
-    private int _amountOfColors = 3;
+    //private int _amountOfColors = 3;
 
 
     //private Color[] _allColors = new Color[] { Color.red, Color.green, Color.blue, Color.black, Color.yellow, new Color(1, 0.65f, 0), new Color(0.85f, 0.48f, 0.85f), new Color(1, 0.75f, 0.80f), Color.cyan, Color.red, Color.red, Color.red };
