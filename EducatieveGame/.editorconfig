@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# UNT0006: Incorrect message signature
+dotnet_diagnostic.UNT0006.severity = none

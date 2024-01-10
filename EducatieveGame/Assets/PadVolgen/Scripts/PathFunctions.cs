@@ -72,7 +72,7 @@ public class PathFunctions : MonoBehaviour
             PathTile tileAtPosition = _grid.GetTileAtPosition(position);
 
             //tile toevoegen wanneer deze bestaat en deze nog niet gebruikt is in het pad, en deze tile geen aanliggende tile die bij het pad hoort heeft
-            if (tileAtPosition != null && !_path.VisitedTiles.Contains(tileAtPosition) && TileNeighborCount(tileAtPosition) < 2)
+            if (tileAtPosition != null && !_path.RandomSelectedTiles.Contains(tileAtPosition) && TileNeighborCount(tileAtPosition) < 2)
             {
                 possibleTiles.Add(tileAtPosition);
             }
@@ -99,7 +99,7 @@ public class PathFunctions : MonoBehaviour
             PathTile tileAtPosition = _grid.GetTileAtPosition(position);
 
             //tile toevoegen wanneer deze bij het pad hoort
-            if (_path.VisitedTiles.Contains(tileAtPosition))
+            if (_path.RandomSelectedTiles.Contains(tileAtPosition))
             {
                 neighbors++;
             }
