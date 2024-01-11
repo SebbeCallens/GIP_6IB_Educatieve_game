@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Windows;
-using UnityEngine.WSA;
 
 public class PuzzelMenu : MonoBehaviour
 {

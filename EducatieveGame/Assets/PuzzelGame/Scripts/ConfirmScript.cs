@@ -32,14 +32,7 @@ public class ConfirmScript : MonoBehaviour
 
     public void StartPuzzle()
     {
-        if (Width > 1 && Height > 1 && Image != null)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
-        else
-        {
-            ErrMsg.SetActive(true);
-        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void CheckValues()
