@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.Networking;
 using System.IO;
+using SFB;
 
 public class OptionMaker : MonoBehaviour
 {
@@ -21,24 +22,29 @@ public class OptionMaker : MonoBehaviour
     public void ChooseImage()
     {
         //opens device directory
-        _filePath = EditorUtility.OpenFilePanel("Overwrite with png", "", "png");
-        if (_filePath != null)
+        var extensions = new[] { new ExtensionFilter("Image Files", "png", "jpg", "jpeg") };
+        string[] filePaths = StandaloneFileBrowser.OpenFilePanel("Kies een afbeelding", "", extensions, false);
+        if (filePaths != null && filePaths.Length > 0 && !string.IsNullOrEmpty(filePaths[0]))
         {
+            string imagePath = filePaths[0];
+            byte[] fileData = File.ReadAllBytes(imagePath);
+            Texture2D texture = new(2, 2);
+            texture.LoadImage(fileData);
+
             //puts chosen image into the game
-            WWW www = new WWW("file:///" + _filePath);
-            Img = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), Vector2.one * 0.5f);
+            Img = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
             SelectedImage.GetComponent<UnityEngine.UI.Image>().sprite = Img;
 
             //scales the image preview
             double width = 600;
             double height = 600;
-            if (www.texture.width > www.texture.height)
+            if (texture.width > texture.height)
             {
-                height = ((www.texture.height * 1.0) / (www.texture.width * 1.0)) * 600;
+                height = ((texture.height * 1.0) / (texture.width * 1.0)) * 600;
             }
             else
             {
-                width = ((www.texture.width * 1.0) / (www.texture.height * 1.0)) * 600;
+                width = ((texture.width * 1.0) / (texture.height * 1.0)) * 600;
             }
             SelectedImage.transform.parent.localScale = new Vector3((float)width, (float)height, 1f);
 
