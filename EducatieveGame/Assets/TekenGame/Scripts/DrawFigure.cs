@@ -292,12 +292,12 @@ public class DrawFigure : MonoBehaviour
 
     private void AddStartPos(Vector3 startPos) //voegt de instellingen van het grid van de huidige figuur toe en het startpunt van de figuur
     {
-        if (!Directory.Exists(Path.Combine(Application.persistentDataPath, "figures"))) //maakt de map voor figuren op te slaan aan als deze nog niet bestaat
+        if (!Directory.Exists(Path.Combine(Application.persistentDataPath, "Figuren"))) //maakt de map voor figuren op te slaan aan als deze nog niet bestaat
         {
-            Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "figures"));
+            Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Figuren"));
         }
 
-        string filePath = Path.Combine(Application.persistentDataPath, "figures", FigureName);
+        string filePath = Path.Combine(Application.persistentDataPath, "Figuren", FigureName);
 
         using (StreamWriter writer = new StreamWriter(filePath))
         {
@@ -313,7 +313,7 @@ public class DrawFigure : MonoBehaviour
     {
         Actions.Add(direction);
         NoLines = false;
-        string filePath = Path.Combine(Application.persistentDataPath, "figures", FigureName);
+        string filePath = Path.Combine(Application.persistentDataPath, "Figuren", FigureName);
 
         using (StreamWriter writer = new StreamWriter(filePath, true))
         {
@@ -329,7 +329,7 @@ public class DrawFigure : MonoBehaviour
         {
             NoLines = true;
         }
-        string filePath = Path.Combine(Application.persistentDataPath, "figures", FigureName);
+        string filePath = Path.Combine(Application.persistentDataPath, "Figuren", FigureName);
 
         List<string> lines = File.ReadAllLines(filePath).ToList();
 

@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class Slicer : MonoBehaviour, IDropHandler
 {
     [SerializeField] private GameObject _puzzelPiece;
-    public GameObject PuzzelPiece { get { return _puzzelPiece; } set { _puzzelPiece = value; } }
+
+    private GameObject PuzzelPiece { get => _puzzelPiece; set => _puzzelPiece = value; }
 
     public (int,int) SliceImage(Texture2D image, int maxColumns, int maxRows) //de afbeelding snijden
     {
@@ -61,12 +62,13 @@ public class Slicer : MonoBehaviour, IDropHandler
     {
         return (char)('A' + num - 1);
     }
+
     public void OnDrop(PointerEventData eventData)
     {
         GameObject dropped = eventData.pointerDrag;
-        if (dropped.GetComponent<Piece>() != null)
+        if (dropped.GetComponent<PuzzlePiece>() != null)
         {
-            Piece piece = dropped.GetComponent<Piece>();
+            PuzzlePiece piece = dropped.GetComponent<PuzzlePiece>();
             piece.ParentAfterDrag = transform;
         }
     }

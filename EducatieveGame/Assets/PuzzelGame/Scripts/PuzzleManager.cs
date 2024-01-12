@@ -33,12 +33,6 @@ public class PuzzleManager : MonoBehaviour
 
     void Start()
     {
-        //Haalt nodige informatie uit vorige scene
-        Width = ConfirmScript.Width;
-        Height = ConfirmScript.Height;
-        SourceImage = ConfirmScript.Image;
-        StrechedPuzzle = ConfirmScript.StrechedPuzzle;
-
         Slicer = PuzzelBox.GetComponent<Slicer>();
         Slots = new();
 

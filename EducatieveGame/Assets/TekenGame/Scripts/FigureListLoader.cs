@@ -27,7 +27,7 @@ public class FigureListLoader : MonoBehaviour
         }
         else
         {
-            figureDirectory = Path.Combine(Application.persistentDataPath, "figures");
+            figureDirectory = Path.Combine(Application.persistentDataPath, "Figuren");
             AddButtons(figureDirectory);
         }
     }
