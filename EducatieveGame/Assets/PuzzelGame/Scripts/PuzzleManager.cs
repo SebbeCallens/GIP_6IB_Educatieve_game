@@ -1,16 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using SFB;
 using TMPro;
-using Unity.VisualScripting;
 using System;
 
-public class V02_GridManager : MonoBehaviour
+public class PuzzleManager : MonoBehaviour
 {
     [SerializeField] private GameObject _puzzelBox;
-    private V02_Slicer _slicer;
+    private Slicer _slicer;
     [SerializeField] private GameObject _puzzelHotbar;
     [SerializeField] private GameObject _puzzelSlot;
     [SerializeField] private GameObject _corner;
@@ -22,7 +19,7 @@ public class V02_GridManager : MonoBehaviour
     [SerializeField] private int _height = 4;
     [SerializeField] private Boolean _strechedPuzzle;
     public GameObject PuzzelBox { get {  return _puzzelBox; } }
-    public V02_Slicer Slicer { get { return _slicer; } set { _slicer = value; } }
+    public Slicer Slicer { get { return _slicer; } set { _slicer = value; } }
     public GameObject PuzzelHotbar { get { return _puzzelHotbar; } }
     public GameObject PuzzelSlot { get {  return _puzzelSlot; } }
     public GameObject PuzzelPiece { get {  return _puzzelPiece; } }
@@ -42,7 +39,7 @@ public class V02_GridManager : MonoBehaviour
         SourceImage = ConfirmScript.Image;
         StrechedPuzzle = ConfirmScript.StrechedPuzzle;
 
-        Slicer = PuzzelBox.GetComponent<V02_Slicer>();
+        Slicer = PuzzelBox.GetComponent<Slicer>();
         Slots = new();
 
         //hier kan je nog scale, width, height en de afbeelding ophalen
@@ -108,12 +105,7 @@ public class V02_GridManager : MonoBehaviour
             }
             else if (slot.transform.childCount > 0)
             {
-                Color red = new();
-                red.g = 0;
-                red.b = 0;
-                red.r = 225;
-                red.a = 225;
-                slot.transform.GetChild(0).GetComponent<Image>().color = red;
+                slot.transform.GetChild(0).GetComponent<Image>().color = Color.red;
             }
         }
         return achieved;
@@ -124,12 +116,7 @@ public class V02_GridManager : MonoBehaviour
         {
             if (slot.transform.childCount > 0 && !(slot.transform.GetChild(0).name.Equals(slot.name)))
             {
-                Color white = new();
-                white.g = 225;
-                white.b = 225;
-                white.r = 225;
-                white.a = 225;
-                slot.transform.GetChild(0).GetComponent<Image>().color = white;
+                slot.transform.GetChild(0).GetComponent<Image>().color = Color.white;
             }
         }
     }

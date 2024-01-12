@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using SFB;
-using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class V02_Slicer : MonoBehaviour, IDropHandler
+public class Slicer : MonoBehaviour, IDropHandler
 {
     [SerializeField] private GameObject _puzzelPiece;
     public GameObject PuzzelPiece { get { return _puzzelPiece; } set { _puzzelPiece = value; } }
@@ -68,9 +64,9 @@ public class V02_Slicer : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
     {
         GameObject dropped = eventData.pointerDrag;
-        if (dropped.GetComponent<PuzzlePiece>() != null)
+        if (dropped.GetComponent<Piece>() != null)
         {
-            PuzzlePiece piece = dropped.GetComponent<PuzzlePiece>();
+            Piece piece = dropped.GetComponent<Piece>();
             piece.ParentAfterDrag = transform;
         }
     }

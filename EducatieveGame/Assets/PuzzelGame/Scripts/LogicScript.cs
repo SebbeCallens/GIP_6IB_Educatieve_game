@@ -1,50 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class LogicScript : MonoBehaviour
 {
-    public GameObject _gridManager;
-    public GameObject _confirmMenu;
-    public GameObject _scoreMenu;
-    private GameObject _menu;
-
-    private void Start()
+    [SerializeField] private GameObject _confirmScreen;
+    [SerializeField] private GameObject _scoreScreen;
+    [SerializeField] private GameObject _gridManager;
+    public GameObject ConfirmScreen {  get { return _confirmScreen; } }
+    public GameObject ScoreScreen { get { return _scoreScreen; } }
+    public GameObject GridManger { get { return _gridManager; } }
+    
+    public void TerugKnop()
     {
-        _menu = GameObject.FindGameObjectWithTag("MenuScript");
+        ConfirmScreen.SetActive(true);
     }
-
-    public void MoveMenus()
+    public void KlaarKnop()
     {
-        _confirmMenu.transform.SetSiblingIndex(5);
-        _scoreMenu.transform.SetSiblingIndex(6);
+        ScoreScreen.SetActive(true);
+        int score = GridManger.GetComponent<PuzzleManager>().ReturnScore();
+        int max = 0;
+        foreach (GameObject slot in GridManger.GetComponent<PuzzleManager>().Slots)
+        {
+            max++;
+        }
+        ScoreScreen.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Je behaalde een " + score + "/" + max + " (" + ((double)score/(double)max)*100 + "%)";
     }
-
-    public void Klaar()
+    public void SluitSchermKnop()
     {
-        _scoreMenu.SetActive(true);
-        _scoreMenu.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = _gridManager.GetComponent<GridManager2>().ReturnScore();
+        GridManger.GetComponent<PuzzleManager>().ClearRedPaint();
+        ConfirmScreen.SetActive(false);
+        ScoreScreen.SetActive(false);
     }
-
-    public void Terug()
+    public void NaarMenuKnop()
     {
-        _confirmMenu.SetActive(true);
-    }
-
-    public void Nee()
-    {
-        _confirmMenu.SetActive(false);
-    }
-
-    public void Ja()
-    {
-        _scoreMenu.SetActive(false);
-        Nee();
-        Destroy(_menu);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        PuzzelMenu.GenerateOptions();
     }
 }
