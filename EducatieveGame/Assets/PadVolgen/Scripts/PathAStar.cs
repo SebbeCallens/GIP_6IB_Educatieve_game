@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class PathAStar : MonoBehaviour
 {
-    [SerializeField] private PathGrid _grid; //het grid
-    [SerializeField] private PathManager _path; //het pad
-    [SerializeField] private PathFunctions _pathFnc; //de functies van het pad
+    [SerializeField] private PathManager _pad;  //het pad
+
+    private PathManager Pad { get => _pad; set => _pad = value; }
 
     public List<PathTile> FindShortestPath(PathTile startTile, PathTile endTile) //kortste pad vinden tussen 2 posities op het grid
     {
-        PriorityQueue<PathTile> openSet = new PriorityQueue<PathTile>();
-        Dictionary<PathTile, float> gScore = new Dictionary<PathTile, float>();
-        Dictionary<PathTile, PathTile> cameFrom = new Dictionary<PathTile, PathTile>();
+        PriorityQueue<PathTile> openSet = new();
+        Dictionary<PathTile, float> gScore = new();
+        Dictionary<PathTile, PathTile> cameFrom = new();
 
         openSet.Enqueue(startTile, 0);
         gScore[startTile] = 0;
@@ -25,14 +25,14 @@ public class PathAStar : MonoBehaviour
                 return ReconstructPath(cameFrom, currentTile);
             }
 
-            foreach (PathTile neighbor in _pathFnc.GetNeighbors(currentTile))
+            foreach (PathTile neighbor in Pad.Functions.GetNeighbors(currentTile))
             {
-                float tentativeGScore = gScore[currentTile] + _pathFnc.GetDistance(currentTile, neighbor);
+                float tentativeGScore = gScore[currentTile] + Pad.Functions.GetDistance(currentTile, neighbor);
 
                 if (!gScore.ContainsKey(neighbor) || tentativeGScore < gScore[neighbor])
                 {
                     gScore[neighbor] = tentativeGScore;
-                    float priority = tentativeGScore + _pathFnc.GetHeuristic(neighbor, endTile);
+                    float priority = tentativeGScore + Pad.Functions.GetHeuristic(neighbor, endTile);
                     openSet.Enqueue(neighbor, priority);
                     cameFrom[neighbor] = currentTile;
                 }

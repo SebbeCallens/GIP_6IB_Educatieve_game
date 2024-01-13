@@ -5,17 +5,18 @@ using UnityEngine;
 //dit script is voor extra functies voor het grid en pad
 public class PathFunctions : MonoBehaviour
 {
-    [SerializeField] private PathGrid _grid; //het grid
-    [SerializeField] private PathManager _path; //het pad
+    [SerializeField] private PathManager _pad; //het pad
+
+    private PathManager Pad { get => _pad; set => _pad = value; }
 
     public PathTile GetRandomTile(List<PathTile> possibleTiles, Vector2 spawnPosition) //een random tile die afhangt van speler spawnpositie
     {
-        Vector2 gridCenter = new Vector2(_grid.Width / 2, _grid.Height / 2);
+        Vector2 gridCenter = new Vector2(Pad.Grid.Width / 2, Pad.Grid.Height / 2);
         float[] weights = new float[possibleTiles.Count];
 
         for (int j = 0; j < possibleTiles.Count; j++)
         {
-            Vector2 possibleTilePos = _grid.GetTilePosition(possibleTiles[j]);
+            Vector2 possibleTilePos = Pad.Grid.GetTilePosition(possibleTiles[j]);
             float distanceX = Mathf.Abs(spawnPosition.x - gridCenter.x);
             float distanceY = Mathf.Abs(spawnPosition.y - gridCenter.y);
 
@@ -53,26 +54,26 @@ public class PathFunctions : MonoBehaviour
 
     public List<PathTile> GetPossibleTiles(PathTile currentTile) //mogelijke volgende tiles voor het pad
     {
-        Vector2 currentTilePos = _grid.GetTilePosition(currentTile); //positie huidige tile
+        Vector2 currentTilePos = Pad.Grid.GetTilePosition(currentTile); //positie huidige tile
 
         //lijst met posities van tiles rond de huidige tile
         List<Vector2> adjacentPositions = new List<Vector2>
-    {
+        {
         new Vector2(currentTilePos.x + 1, currentTilePos.y),
         new Vector2(currentTilePos.x - 1, currentTilePos.y),
         new Vector2(currentTilePos.x, currentTilePos.y + 1),
         new Vector2(currentTilePos.x, currentTilePos.y - 1)
-    };
+        };
 
         //lijst maken met de mogelijke tiles
         List<PathTile> possibleTiles = new List<PathTile>();
 
         foreach (Vector2 position in adjacentPositions)
         {
-            PathTile tileAtPosition = _grid.GetTileAtPosition(position);
+            PathTile tileAtPosition = Pad.Grid.GetTileAtPosition(position);
 
             //tile toevoegen wanneer deze bestaat en deze nog niet gebruikt is in het pad, en deze tile geen aanliggende tile die bij het pad hoort heeft
-            if (tileAtPosition != null && !_path.RandomSelectedTiles.Contains(tileAtPosition) && TileNeighborCount(tileAtPosition) < 2)
+            if (tileAtPosition != null && !Pad.RandomPath.Contains(tileAtPosition) && TileNeighborCount(tileAtPosition) < 2)
             {
                 possibleTiles.Add(tileAtPosition);
             }
@@ -84,7 +85,7 @@ public class PathFunctions : MonoBehaviour
     public int TileNeighborCount(PathTile tile) //aantal buren van een tile die bij het random pad horen
     {
         int neighbors = 0;
-        Vector2 tilePos = _grid.GetTilePosition(tile); //positie huidige tile
+        Vector2 tilePos = Pad.Grid.GetTilePosition(tile); //positie huidige tile
 
         List<Vector2> adjacentPositions = new List<Vector2>
     {
@@ -96,10 +97,10 @@ public class PathFunctions : MonoBehaviour
 
         foreach (Vector2 position in adjacentPositions)
         {
-            PathTile tileAtPosition = _grid.GetTileAtPosition(position);
+            PathTile tileAtPosition = Pad.Grid.GetTileAtPosition(position);
 
             //tile toevoegen wanneer deze bij het pad hoort
-            if (_path.RandomSelectedTiles.Contains(tileAtPosition))
+            if (Pad.RandomPath.Contains(tileAtPosition))
             {
                 neighbors++;
             }
@@ -110,7 +111,7 @@ public class PathFunctions : MonoBehaviour
 
     public List<PathTile> GetNeighbors(PathTile currentTile) //buren van een tile vinden die geen obstakel zijn
     {
-        Vector2 currentTilePos = _grid.GetTilePosition(currentTile);
+        Vector2 currentTilePos = Pad.Grid.GetTilePosition(currentTile);
 
         List<Vector2> adjacentPositions = new List<Vector2>
     {
@@ -124,7 +125,7 @@ public class PathFunctions : MonoBehaviour
 
         foreach (Vector2 position in adjacentPositions)
         {
-            PathTile tileAtPosition = _grid.GetTileAtPosition(position);
+            PathTile tileAtPosition = Pad.Grid.GetTileAtPosition(position);
 
             if (tileAtPosition != null && !tileAtPosition.IsObstacle)
             {
@@ -137,16 +138,16 @@ public class PathFunctions : MonoBehaviour
 
     public float GetDistance(PathTile tileA, PathTile tileB) //hulpfunctie A Star
     {
-        Vector2 posA = _grid.GetTilePosition(tileA);
-        Vector2 posB = _grid.GetTilePosition(tileB);
+        Vector2 posA = Pad.Grid.GetTilePosition(tileA);
+        Vector2 posB = Pad.Grid.GetTilePosition(tileB);
 
         return Mathf.Abs(posA.x - posB.x) + Mathf.Abs(posA.y - posB.y);
     }
 
     public float GetHeuristic(PathTile currentTile, PathTile goalTile) //hulpfunctie A Star
     {
-        Vector2 currentPos = _grid.GetTilePosition(currentTile);
-        Vector2 goalPos = _grid.GetTilePosition(goalTile);
+        Vector2 currentPos = Pad.Grid.GetTilePosition(currentTile);
+        Vector2 goalPos = Pad.Grid.GetTilePosition(goalTile);
 
         return Mathf.Abs(currentPos.x - goalPos.x) + Mathf.Abs(currentPos.y - goalPos.y);
     }

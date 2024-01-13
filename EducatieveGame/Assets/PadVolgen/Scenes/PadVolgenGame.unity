@@ -393,42 +393,18 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2122425346}
-  - component: {fileID: 2122425348}
-  - component: {fileID: 2122425345}
+  - component: {fileID: 2122425350}
   - component: {fileID: 2122425347}
   - component: {fileID: 2122425349}
+  - component: {fileID: 2122425351}
+  - component: {fileID: 2122425348}
   m_Layer: 0
   m_Name: Path
-  m_TagString: Untagged
+  m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2122425345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2122425344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd109e6e785179c4eb0678c6315c5a0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minLength: 16
-  _maxLength: 20
-  _minDistance: 4
-  _grid: {fileID: 2122425348}
-  _pathFnc: {fileID: 2122425347}
-  _player: {fileID: 7572155353509324413, guid: 116985c6e8debcb43b07bed813ee1875, type: 3}
-  _finish: {fileID: 7279476843127333383, guid: b00111c8ad596bd439904287197475ab, type: 3}
-  _aStar: {fileID: 2122425349}
-  _randomSelectedTiles: []
-  _aStarSelectedTiles: []
-  _playerVisitedTiles: []
-  _tileText: {fileID: 270408981274666695, guid: 842ea393033d66445b408e44dd1890ca, type: 3}
-  _canvas: {fileID: 843802631}
 --- !u!4 &2122425346
 Transform:
   m_ObjectHideFlags: 0
@@ -456,8 +432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 739de7cee188be747a33a97c6e98adea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _grid: {fileID: 2122425348}
-  _path: {fileID: 2122425345}
+  _pad: {fileID: 2122425350}
 --- !u!114 &2122425348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,9 +460,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab7853e6529094b47af29d192c0fc1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pad: {fileID: 2122425350}
+--- !u!114 &2122425350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122425344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2924b1d6a33b04d43ad1365dcc959c9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _functions: {fileID: 2122425347}
+  _aStar: {fileID: 2122425349}
+  _generator: {fileID: 2122425351}
   _grid: {fileID: 2122425348}
-  _path: {fileID: 2122425345}
-  _pathFnc: {fileID: 2122425347}
+  _locations: 3
+--- !u!114 &2122425351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122425344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1b7221c1e27124b9c8a7a0c614eb33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minLength: 20
+  _maxLength: 25
+  _minDistance: 5
+  _randomOrder: 1
+  _pad: {fileID: 2122425350}
+  _player: {fileID: 7572155353509324413, guid: 116985c6e8debcb43b07bed813ee1875, type: 3}
+  _finish: {fileID: 7279476843127333383, guid: b00111c8ad596bd439904287197475ab, type: 3}
+  _tileText: {fileID: 270408981274666695, guid: 842ea393033d66445b408e44dd1890ca, type: 3}
+  _canvas: {fileID: 843802631}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

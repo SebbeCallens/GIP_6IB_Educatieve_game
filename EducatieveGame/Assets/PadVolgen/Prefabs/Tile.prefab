@@ -184,10 +184,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45b099a05d326a8438e0103531663934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _renderer: {fileID: 3064777467744458538}
+  _spriteRend: {fileID: 3064777467744458538}
   _mouseHighlight: {fileID: 203717722597101235}
   _pathHighlight: {fileID: 8589371232447544691}
-  _visited: 0
 --- !u!61 &-3184701873338631816
 BoxCollider2D:
   m_ObjectHideFlags: 0

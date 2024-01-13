@@ -23,6 +23,7 @@ TagManager:
   - CoordinatesText
   - Slicer
   - PuzzlePiece
+  - Path
   layers:
   - Default
   - TransparentFX

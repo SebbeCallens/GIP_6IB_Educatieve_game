@@ -48,6 +48,6 @@ EditorBuildSettings:
     path: Assets/PuzzelGame/Scenes/PuzzelGame.unity
     guid: 2cfd977fc4521c94d80cbe71872c0f37
   - enabled: 1
-    path: Assets/PadVolgen/PadVolgenGame.unity
+    path: Assets/PadVolgen/Scenes/PadVolgenGame.unity
     guid: e87c0d5732f3cb94e8c165db16421b2d
   m_configObjects: {}
