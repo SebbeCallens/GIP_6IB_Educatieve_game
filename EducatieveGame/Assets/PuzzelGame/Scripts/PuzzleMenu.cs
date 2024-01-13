@@ -32,6 +32,7 @@ public class PuzzleMenu : MonoBehaviour
         }
         LoadPuzzles(Path.Combine(Application.streamingAssetsPath, "PuzzelGame/Puzzels"));
         LoadPuzzles(Path.Combine(Application.persistentDataPath, "Puzzels"));
+        PlayerPrefs.SetInt("puzzeldifficulty", 1);
     }
 
     public void Leave()
@@ -49,6 +50,24 @@ public class PuzzleMenu : MonoBehaviour
         {
             LoadPokemonPuzzles(Path.Combine(Application.streamingAssetsPath, "PuzzelGame/PokemonPuzzels"));
         }
+    }
+
+    public void OpenDifficulty()
+    {
+        PuzzleMenus[2].SetActive(true);
+        Image preview = GameObject.FindWithTag("Preview").GetComponent<Image>();
+        preview.sprite = PuzzleImage;
+        preview.preserveAspect = true;
+    }
+
+    public void CloseDifficulty()
+    {
+        PuzzleMenus[2].SetActive(false);
+    }
+
+    public void StartPuzzle()
+    {
+        SceneManager.LoadScene("PuzzelGame");
     }
 
     public void Quit()
