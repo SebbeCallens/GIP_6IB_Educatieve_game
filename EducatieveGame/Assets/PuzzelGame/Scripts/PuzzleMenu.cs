@@ -8,18 +8,16 @@ using UnityEngine.UI;
 public class PuzzleMenu : MonoBehaviour
 {
     [SerializeField] private GameObject[] _puzzleMenus;
-    [SerializeField] private GameObject _puzzleButton;
+    [SerializeField] private GameObject _pzButton;
     [SerializeField] private GameObject _puzzles;
-    [SerializeField] private GameObject _pokemonPuzzles;
     private int _currentPuzzleMenu = 0;
 
     private static Sprite _puzzleImage;
     private static int _difficulty;
 
     private GameObject[] PuzzleMenus { get => _puzzleMenus; set => _puzzleMenus = value; }
-    private GameObject PuzzleButton { get => _puzzleButton; set => _puzzleButton = value; }
+    private GameObject PzButton { get => _pzButton; set => _pzButton = value; }
     private GameObject Puzzles { get => _puzzles; set => _puzzles = value; }
-    private GameObject PokemonPuzzles { get => _pokemonPuzzles; set => _pokemonPuzzles = value; }
     private int CurrentPuzzleMenu { get => _currentPuzzleMenu; set => _currentPuzzleMenu = value; }
     public static Sprite PuzzleImage { get => _puzzleImage; set => _puzzleImage = value; }
     public static int Difficulty { get => _difficulty; set => _difficulty = value; }
@@ -45,11 +43,6 @@ public class PuzzleMenu : MonoBehaviour
         PuzzleMenus[CurrentPuzzleMenu].SetActive(false);
         PuzzleMenus[index].SetActive(true);
         CurrentPuzzleMenu = index;
-
-        if (index == 1 && PokemonPuzzles.transform.childCount == 0)
-        {
-            LoadPokemonPuzzles(Path.Combine(Application.streamingAssetsPath, "PuzzelGame/PokemonPuzzels"));
-        }
     }
 
     public void OpenDifficulty()
@@ -77,43 +70,8 @@ public class PuzzleMenu : MonoBehaviour
 
     private void AddPuzzle(Sprite puzzleImage)
     {
-        PuzzleButton puzzleButton = Instantiate(PuzzleButton, new Vector2(0f, 0f), Quaternion.identity, Puzzles.transform).GetComponent<PuzzleButton>();
+        PuzzleButton puzzleButton = Instantiate(PzButton, new Vector2(0f, 0f), Quaternion.identity, Puzzles.transform).GetComponent<PuzzleButton>();
         puzzleButton.CreatePuzzle(puzzleImage);
-    }
-
-    private void AddPokemonPuzzle(Sprite puzzleImage)
-    {
-        PuzzleButton puzzleButton = Instantiate(PuzzleButton, new Vector2(0f, 0f), Quaternion.identity, PokemonPuzzles.transform).GetComponent<PuzzleButton>();
-        puzzleButton.CreatePuzzle(puzzleImage);
-    }
-
-    private void LoadPokemonPuzzles(string path)
-    {
-        string[] pngFiles = Directory.GetFiles(path, "*.png");
-
-        foreach (string imageFile in pngFiles)
-        {
-            byte[] fileData = File.ReadAllBytes(imageFile);
-            Texture2D texture = new(2, 2);
-            texture.LoadImage(fileData);
-
-            AddPokemonPuzzle(Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f)));
-        }
-
-        // Scroll to the top after adding all puzzles
-        ScrollRect scrollRect = PokemonPuzzles.transform.parent.transform.parent.GetComponentInChildren<ScrollRect>();
-        if (scrollRect != null)
-        {
-            // Set normalizedPosition to scroll to the top
-            scrollRect.normalizedPosition = new Vector2(0, 1);
-
-            // If you also have a scrollbar, you may need to update its value
-            Scrollbar scrollbar = scrollRect.verticalScrollbar;
-            if (scrollbar != null)
-            {
-                scrollbar.value = 1;
-            }
-        }
     }
 
     private void LoadPuzzles(string path)

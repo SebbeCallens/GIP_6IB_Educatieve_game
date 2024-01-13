@@ -4,18 +4,17 @@ using UnityEngine.UI;
 
 public class Slicer : MonoBehaviour, IDropHandler
 {
-    [SerializeField] private GameObject _puzzelPiece;
+    [SerializeField] private GameObject _puzzlePiece;
 
-    private GameObject PuzzelPiece { get => _puzzelPiece; set => _puzzelPiece = value; }
+    private GameObject PuzzlePiece { get => _puzzlePiece; set => _puzzlePiece = value; }
 
-    public (int,int) SliceImage(Texture2D image, int maxColumns, int maxRows) //de afbeelding snijden
+    public (int, int, float) SliceImage(Texture2D image, int maxColumns, int maxRows)
     {
-        float targetAspect = (float)maxColumns / maxRows;
         float imageAspect = (float)image.width / image.height;
 
         int columns, rows;
 
-        if (imageAspect > targetAspect)
+        if (image.width > image.height)
         {
             // Landscape image
             columns = Mathf.Min(maxColumns, image.width);
@@ -28,36 +27,85 @@ public class Slicer : MonoBehaviour, IDropHandler
             columns = Mathf.RoundToInt(rows * imageAspect);
         }
 
-        //breedte en hoogte van 1 stuk
+        float gridScale = 4.4f / (rows + 1);
+
+        // Breedte en hoogte van 1 stuk
         int width = image.width / columns;
         int height = image.height / rows;
 
-        //voor elke rij
+        // Calculate checkerboard pattern size based on image width divided by 20
+        int checkerSize = image.width / 20;
+
+        // Create a checkerboard pattern for the entire puzzle
+        Color[] checkerboardPattern = GenerateCheckerboardPattern(checkerSize, checkerSize);
+
+        // Voor elke rij
         for (int row = 0; row < rows; row++)
         {
-            //voor elke kolom
+            // Voor elke kolom
             for (int col = 0; col < columns; col++)
             {
-                //de texture voor het stuk instellen
-                Texture2D texture = new(width, height);
+                // Set up a new Texture2D with the specified width and height
+                Texture2D texture = new Texture2D(width, height);
+
+                // Get the pixels from the original image within the specified region
                 Color[] pixels = image.GetPixels(col * width, row * height, width, height);
+
+                // Iterate through each pixel
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        // Check if the alpha value is less than a certain threshold (you can adjust this threshold as needed)
+                        if (pixels[y * width + x].a < 0.5f)
+                        {
+                            // Use the checkerboard pattern for alpha pixels
+                            int checkerX = (col * width + x) / checkerSize;
+                            int checkerY = (row * height + y) / checkerSize;
+                            bool isBlack = (checkerX + checkerY) % 2 == 0;
+                            pixels[y * width + x] = isBlack ? Color.black : Color.white;
+                        }
+                    }
+                }
+
+                // Apply the modified pixels to the new texture
                 texture.SetPixels(pixels);
+
+                // Apply the changes to the texture
                 texture.Apply();
+
+                // Set the filter mode to Point for a pixelated look
                 texture.filterMode = FilterMode.Point;
 
-                //het stuk instellen met gegeven positie
-                GameObject imagePart = Instantiate(PuzzelPiece, Vector3.zero, Quaternion.identity, transform);
+                // Het stuk instellen met gegeven positie
+                GameObject imagePart = Instantiate(PuzzlePiece, Vector3.zero, Quaternion.identity, transform.GetChild(0).transform);
 
-                //de schaal en sprite van het stuk instellen
+                // De schaal en sprite van het stuk instellen
                 Sprite sprite = Sprite.Create(texture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 100);
                 imagePart.GetComponent<Image>().sprite = sprite;
-                imagePart.name = $"{col + 1}-{IntToChar(rows - row)}"; //naam van afbeelding stuk instellen met coordinaten
+                imagePart.name = $"{IntToChar(col + 1)}-{rows - row}"; // Naam van afbeelding stuk instellen met coordinaten
             }
         }
 
-        return (columns, rows);
+        return (columns, rows, gridScale);
     }
-    
+
+    private Color[] GenerateCheckerboardPattern(int width, int height)
+    {
+        Color[] pattern = new Color[width * height];
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                bool isBlack = (x + y) % 2 == 0;
+                pattern[y * width + x] = isBlack ? Color.black : Color.white;
+            }
+        }
+
+        return pattern;
+    }
+
     public char IntToChar(int num)
     {
         return (char)('A' + num - 1);
@@ -69,7 +117,7 @@ public class Slicer : MonoBehaviour, IDropHandler
         if (dropped.GetComponent<PuzzlePiece>() != null)
         {
             PuzzlePiece piece = dropped.GetComponent<PuzzlePiece>();
-            piece.ParentAfterDrag = transform;
+            piece.ParentAfterDrag = transform.GetChild(0).transform;
         }
     }
 }

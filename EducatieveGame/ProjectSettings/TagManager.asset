@@ -20,6 +20,9 @@ TagManager:
   - Check
   - PuzzleMenu
   - Preview
+  - CoordinatesText
+  - Slicer
+  - PuzzlePiece
   layers:
   - Default
   - TransparentFX

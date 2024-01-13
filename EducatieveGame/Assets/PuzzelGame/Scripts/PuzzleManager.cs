@@ -1,117 +1,141 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System;
 
 public class PuzzleManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _puzzelBox;
-    private Slicer _slicer;
-    [SerializeField] private GameObject _puzzelHotbar;
-    [SerializeField] private GameObject _puzzelSlot;
-    [SerializeField] private GameObject _corner;
-    private List<GameObject> _slots;
-    [SerializeField] private GameObject _puzzelPiece;
-    [SerializeField] private GameObject _coordinaatSlot;
-    [SerializeField] private Sprite _sourceImage;
-    [SerializeField] private int _width = 4;
-    [SerializeField] private int _height = 4;
-    [SerializeField] private Boolean _strechedPuzzle;
-    public GameObject PuzzelBox { get {  return _puzzelBox; } }
-    public Slicer Slicer { get { return _slicer; } set { _slicer = value; } }
-    public GameObject PuzzelHotbar { get { return _puzzelHotbar; } }
-    public GameObject PuzzelSlot { get {  return _puzzelSlot; } }
-    public GameObject PuzzelPiece { get {  return _puzzelPiece; } }
-    public GameObject CoordinaatSlot { get { return _coordinaatSlot; } }
-    public Sprite SourceImage { get { return _sourceImage; } set { _sourceImage = value; } }
-    public int Width { get { return _width; } set { _width = value; } }
-    public int Height { get { return _height; } set { _height = value; } }
-    public Boolean StrechedPuzzle { get { return _strechedPuzzle; } set { _strechedPuzzle = value; } }
-    public List<GameObject> Slots { get { return _slots; } set { _slots = value; } }
-    public GameObject Corner { get { return _corner; } }
+    [SerializeField] private Slicer _puzzleSlicer;
+    [SerializeField] private GameObject _puzzleSlot;
+    [SerializeField] private GameObject _cornerSlot;
+    [SerializeField] private GameObject _coordinateSlot;
+    [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private GameObject _coordinates;
+    private List<GameObject> _puzzleSlots;
 
-    void Start()
+    private Slicer PuzzleSlicer { get => _puzzleSlicer; set => _puzzleSlicer = value; }
+    private GameObject PuzzleSlot { get => _puzzleSlot; set => _puzzleSlot = value; }
+    private GameObject CornerSlot { get => _cornerSlot; set => _cornerSlot = value; }
+    private GameObject CoordinateSlot { get => _coordinateSlot; set => _coordinateSlot = value; }
+    private TextMeshProUGUI ScoreText { get => _scoreText; set => _scoreText = value; }
+    private GameObject Coordinates { get => _coordinates; set => _coordinates = value; }
+    private List<GameObject> PuzzleSlots { get => _puzzleSlots; set => _puzzleSlots = value; }
+
+    void Awake()
     {
-        Slicer = PuzzelBox.GetComponent<Slicer>();
-        Slots = new();
+        int difficulty = PlayerPrefs.GetInt("puzzeldifficulty");
 
         //hier kan je nog scale, width, height en de afbeelding ophalen
-        (int cols, int rows) = Slicer.SliceImage(SourceImage.texture, Width, Height); //slice afbeelding met scale, aantal kolommen en aantal rijen
+        (int columns, int rows, float gridScale) = PuzzleSlicer.SliceImage(PuzzleMenu.PuzzleImage.texture, difficulty * 3, difficulty * 3); //slice afbeelding met scale, aantal kolommen en aantal rijen
 
         //lijst van de de stukjes
         List<GameObject> parts = new();
 
         //lijsten instellen
-        for (int i = 0; i < Slicer.transform.childCount; i++)
+        for (int i = 0; i < PuzzleSlicer.transform.GetChild(0).childCount; i++)
         {
-            parts.Add(Slicer.transform.GetChild(i).gameObject);
+            parts.Add(PuzzleSlicer.transform.GetChild(0).GetChild(i).gameObject);
         }
 
         //posities stukjes randomiseren
         for (int i = parts.Count - 1; i >= 0; i--)
         {
-            int randomIndex = UnityEngine.Random.Range(0, parts.Count);
+            int randomIndex = Random.Range(0, parts.Count);
             parts[randomIndex].transform.SetAsFirstSibling();
-            parts[randomIndex].transform.SetParent(PuzzelHotbar.transform);
             parts.RemoveAt(randomIndex);
         }
 
-        //grid met slots genereren
+        transform.GetChild(0).GetComponent<GridLayoutGroup>().constraintCount = columns + 1;
+        PuzzleSlicer.transform.GetChild(0).GetComponent<GridLayoutGroup>().cellSize *= gridScale;
+        transform.GetChild(0).transform.localScale = new(gridScale, gridScale, 1);
+
+        PuzzleSlots = new();
+
+        //voor elke rij
         for (int row = -1; row < rows; row++)
         {
-            for (int col = -1; col < cols; col++)
+            //voor elke kolom
+            for (int col = -1; col < columns; col++)
             {
-                if (row == -1 && col == -1)
+                if (col == -1 && row == -1)
                 {
-                    GameObject topLeft = Instantiate(Corner, new Vector2(0f, 0f), Quaternion.identity, PuzzelBox.transform);
-                    topLeft.name = "Corner";
+                    Instantiate(CornerSlot, Vector3.zero, Quaternion.identity, transform.GetChild(0).transform);
                 }
                 else if (row == -1)
                 {
-                    GameObject coordinaat = Instantiate(CoordinaatSlot, new Vector2(0f, 0f), Quaternion.identity, PuzzelBox.transform);
-                    coordinaat.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{col + 1}";
-                    coordinaat.name = $"{col + 1}";
+                    TextMeshProUGUI coords = Instantiate(CoordinateSlot, Vector3.zero, Quaternion.identity, transform.GetChild(0).transform).GetComponentInChildren<TextMeshProUGUI>();
+                    coords.text = PuzzleSlicer.IntToChar(col + 1).ToString();
                 }
                 else if (col == -1)
                 {
-                    GameObject coordinaat = Instantiate(CoordinaatSlot, new Vector2(0f, 0f), Quaternion.identity, PuzzelBox.transform);
-                    coordinaat.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{Slicer.IntToChar(row + 1)}";
-                    coordinaat.name = $"{Slicer.IntToChar(row + 1)}";
+                    TextMeshProUGUI coords = Instantiate(CoordinateSlot, Vector3.zero, Quaternion.identity, transform.GetChild(0).transform).GetComponentInChildren<TextMeshProUGUI>();
+                    coords.text = (row + 1).ToString();
                 }
                 else
                 {
-                    GameObject slot = Instantiate(PuzzelSlot, new Vector2(0f, 0f), Quaternion.identity, PuzzelBox.transform);
-                    slot.name = $"{col + 1}-{Slicer.IntToChar(row + 1)}";
-                    Slots.Add(slot);
+                    PuzzleSlots.Add(Instantiate(PuzzleSlot, Vector3.zero, Quaternion.identity, transform.GetChild(0).transform));
+                    PuzzleSlots[^1].name = $"{PuzzleSlicer.IntToChar(col + 1)}-{row + 1}";
                 }
             }
         }
     }
-    public int ReturnScore()
+
+    public void CheckPuzzle()
     {
-        int achieved = 0;
-        foreach (GameObject slot in Slots)
+        int score = 0;
+        for (int i = 0; i < PuzzleSlots.Count; i++)
         {
-            if (slot.transform.childCount > 0 && slot.transform.GetChild(0).name.Equals(slot.name))
+            if (PuzzleSlots[i].transform.childCount > 0)
             {
-                achieved++;
+                if (PuzzleSlots[i].name.Equals(PuzzleSlots[i].transform.GetChild(0).name))
+                {
+                    PuzzleSlots[i].transform.GetChild(0).GetComponent<Image>().color = Color.green;
+                    score++;
+                }
+                else
+                {
+                    PuzzleSlots[i].transform.GetChild(0).GetComponent<Image>().color = Color.red;
+                }
             }
-            else if (slot.transform.childCount > 0)
+            else
             {
-                slot.transform.GetChild(0).GetComponent<Image>().color = Color.red;
+                PuzzleSlots[i].GetComponent<Image>().color = Color.red;
             }
         }
-        return achieved;
-    }
-    public void ClearRedPaint()
-    {
-        foreach (GameObject slot in Slots)
+
+        Coordinates.SetActive(false);
+        ScoreText.text = score + "/" + PuzzleSlots.Count;
+
+        GameObject[] puzzlePieces = GameObject.FindGameObjectsWithTag("PuzzlePiece");
+
+        foreach (GameObject piece in puzzlePieces)
         {
-            if (slot.transform.childCount > 0 && !(slot.transform.GetChild(0).name.Equals(slot.name)))
+            piece.GetComponent<PuzzlePiece>().enabled = false;
+        }
+    }
+
+    public void ResetPuzzle()
+    {
+        for (int i = 0; i < PuzzleSlots.Count; i++)
+        { 
+            if (PuzzleSlots[i].transform.childCount > 0)
             {
-                slot.transform.GetChild(0).GetComponent<Image>().color = Color.white;
+                PuzzleSlots[i].transform.GetChild(0).GetComponent<Image>().color = Color.white;
             }
+            else
+            {
+                PuzzleSlots[i].GetComponent<Image>().color = Color.white;
+            }
+        }
+
+        Coordinates.SetActive(true);
+        ScoreText.text = "";
+
+        GameObject[] puzzlePieces = GameObject.FindGameObjectsWithTag("PuzzlePiece");
+
+        foreach (GameObject piece in puzzlePieces)
+        {
+            piece.GetComponent<PuzzlePiece>().enabled = true;
         }
     }
 }

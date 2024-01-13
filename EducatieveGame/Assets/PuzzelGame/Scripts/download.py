@@ -1,8 +1,8 @@
 import requests
 import os
 
-#script om alle pokemons to downloaden
-#gemaakt door Cédric Dewettinck (en ChatGPT)
+# Script to download all Pokemon images
+# Created by Cédric Dewettinck (and ChatGPT)
 output_directory = "PokemonPuzzels"
 os.makedirs(output_directory, exist_ok=True)
 
@@ -19,11 +19,11 @@ for number in range(1, 1011):
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
-        # Save the image to the output directory
-        with open(os.path.join(output_directory, f"{formatted_number}.png"), "wb") as file:
+        # Save the image to the output directory without leading zeros
+        with open(os.path.join(output_directory, f"{number}.png"), "wb") as file:
             file.write(response.content)
-        print(f"Downloaded: {formatted_number}.png")
+        print(f"Downloaded: {number}.png")
     else:
-        print(f"Failed to download: {formatted_number}.png")
+        print(f"Failed to download: {number}.png")
 
 print("Download completed.")

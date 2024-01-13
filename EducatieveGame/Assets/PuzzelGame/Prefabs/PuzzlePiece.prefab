@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3469896479959030213}
   m_Layer: 0
   m_Name: PuzzlePiece
-  m_TagString: Untagged
+  m_TagString: PuzzlePiece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89,4 +89,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _img: {fileID: 7384205618844097078}
-  _currentCoords: {fileID: 0}
