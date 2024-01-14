@@ -66,7 +66,7 @@ public class PathTile : MonoBehaviour
             // kijken of alle locaties bezocht zijn
             if (everyLocationVisited)
             {
-                Pad.Generator.ShowPath(Pad.AStarPath, Color.red);
+                Pad.Generator.ShowAStarPath(Color.red);
                 print(Pad.AStarPath.Count);
                 print(GameObject.FindWithTag("Player").GetComponent<Player>().Steps);
                 print(Math.Round((double)Pad.AStarPath.Count / GameObject.FindWithTag("Player").GetComponent<Player>().Steps, 2));

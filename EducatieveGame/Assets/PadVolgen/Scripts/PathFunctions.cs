@@ -9,7 +9,7 @@ public class PathFunctions : MonoBehaviour
 
     private PathManager Pad { get => _pad; set => _pad = value; }
 
-    public PathTile GetRandomTile(List<PathTile> possibleTiles, Vector2 spawnPosition) //een random tile die afhangt van speler spawnpositie
+    public PathTile GetRandomTile(List<PathTile> possibleTiles, Vector2 spawnPosition)
     {
         Vector2 gridCenter = new Vector2(Pad.Grid.Width / 2, Pad.Grid.Height / 2);
         float[] weights = new float[possibleTiles.Count];
@@ -25,6 +25,9 @@ public class PathFunctions : MonoBehaviour
                          (spawnPosition.y - possibleTilePos.y) * distanceY +
                          (spawnPosition.x - possibleTilePos.x) * 0.5f +
                          (spawnPosition.y - possibleTilePos.y) * 0.5f;
+
+            // Introduce randomness to the weights
+            weights[j] *= Random.Range(0.5f, 1.5f);
         }
 
         // Normalize weights to ensure they add up to 1

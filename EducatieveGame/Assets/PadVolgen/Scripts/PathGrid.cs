@@ -39,6 +39,7 @@ public class PathGrid : MonoBehaviour
 
         //camera centreren op het grid
         Camera.main.transform.position = new Vector3((float)Width / 2 - 0.5f, (float)Height / 2 - 0.5f, -10);
+        Camera.main.orthographicSize = Mathf.Max(Width, Height) / 2f;
     }
 
     public PathTile GetTileAtPosition(Vector2 pos) //tile op positie vinden

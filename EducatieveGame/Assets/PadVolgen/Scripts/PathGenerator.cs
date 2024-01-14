@@ -9,6 +9,7 @@ public class PathGenerator : MonoBehaviour
     [SerializeField] private int _maxLength; //maximum lengte pad
     [SerializeField] private float _minDistance; //minimum afstand tussen spawn en finish
     [SerializeField] private bool _randomOrder; //of het pad in willekeurige volgorde mag gevolgd worden
+    [SerializeField] private bool _arrows; //pijl aanduiding
     [SerializeField] private PathManager _pad; //het pad
     [SerializeField] private GameObject _player; //de speler
     [SerializeField] private GameObject _finish; //de finish
@@ -20,6 +21,7 @@ public class PathGenerator : MonoBehaviour
     private int MaxLength { get => _maxLength; set => _maxLength = value; }
     private float MinDistance { get => _minDistance; set => _minDistance = value; }
     public bool RandomOrder { get => _randomOrder; private set => _randomOrder = value; }
+    public bool Arrows { get => _arrows; private set => _arrows = value; }
     private PathManager Pad { get => _pad; set => _pad = value; }
     private GameObject Player { get => _player; set => _player = value; }
     private GameObject Finish { get => _finish; set => _finish = value; }
@@ -47,8 +49,6 @@ public class PathGenerator : MonoBehaviour
 
         //een random tile kiezen voor de speler op te spawnen en de speler er op spawnen
         PathTile playerSpawn = _possibleTiles[Random.Range(0, _possibleTiles.Count)];
-        Player character = Instantiate(Player, playerSpawn.transform.position, Quaternion.identity, playerSpawn.transform).GetComponent<Player>();
-        character.CurrentPosition = Pad.Grid.GetTilePosition(playerSpawn);
         Pad.Checkpoints.Add(playerSpawn);
 
         return playerSpawn;
@@ -81,17 +81,18 @@ public class PathGenerator : MonoBehaviour
 
             if (i % interval == 0 && i > 1 && locationCount < locations) //tile op index 10 wordt nu altijd een locatie
             {
+                locationCount++;
                 //huidige tile instellen
                 currentTile = Pad.Functions.GetRandomTile(_possibleTiles, Pad.Grid.GetTilePosition(spawnTile));
                 currentTile.SetTile(Color.grey, false, true);
                 if (!RandomOrder)
                 {
                     Pad.Checkpoints.Add(currentTile);
+                    Vector3 position = Camera.main.WorldToScreenPoint(Pad.Grid.GetTilePosition(currentTile));
+                    TextMeshProUGUI tileText = Instantiate(TileText, position, Quaternion.identity, Canvas.transform).GetComponent<TextMeshProUGUI>();
+                    tileText.text = locationCount.ToString();
+                    tileText.fontSize = 500f / Camera.main.orthographicSize;
                 }
-                locationCount++;
-                Vector3 position = Pad.Grid.GetTilePosition(currentTile);
-                TextMeshProUGUI tileText = Instantiate(TileText, new(position.x - Camera.main.transform.position.x, position.y - Camera.main.transform.position.y, 0), Quaternion.identity, Canvas).GetComponent<TextMeshProUGUI>();
-                tileText.text = locationCount.ToString();
             }
             else
             {
@@ -122,13 +123,15 @@ public class PathGenerator : MonoBehaviour
         }
         else
         {
-            GenerateObstacles();
+            GenerateObstacles(spawnTile);
         }
     }
 
-    public void GenerateObstacles() //obstakels plaatsen
+    public void GenerateObstacles(PathTile spawnTile) //obstakels plaatsen
     {
         List<PathTile> possibleTiles = new List<PathTile>();
+        Player character = Instantiate(Player, spawnTile.transform.position, Quaternion.identity, spawnTile.transform).GetComponent<Player>();
+        character.CurrentPosition = Pad.Grid.GetTilePosition(spawnTile);
 
         //mogelijk tiles voor obstakels toevoegen in lijst
         for (int x = 0; x < Pad.Grid.Width; x++)
@@ -151,6 +154,19 @@ public class PathGenerator : MonoBehaviour
                 tile.SetTile(Color.yellow, true, false);
             }
         }
+
+        if (!RandomOrder)
+        {
+            FindShortestPath();
+            if (Arrows)
+            {
+                Pad.Finder.ShowArrow();
+            }
+        }
+        else
+        {
+            Arrows = false;
+        }
     }
 
     public void FindShortestPath() //kortste pad zoeken
@@ -163,11 +179,14 @@ public class PathGenerator : MonoBehaviour
         }
     }
 
-    public void ShowPath(List<PathTile> path, Color color)
+    public void ShowAStarPath(Color color)
     {
-        FindShortestPath();
+        if (RandomOrder)
+        {
+            FindShortestPath();
+        }
 
-        foreach (PathTile tile in path)
+        foreach (PathTile tile in Pad.AStarPath)
         {
             tile.PathHighlight.GetComponent<SpriteRenderer>().color = color;
         }

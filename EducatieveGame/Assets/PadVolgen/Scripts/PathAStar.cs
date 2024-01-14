@@ -20,7 +20,7 @@ public class PathAStar : MonoBehaviour
         {
             PathTile currentTile = openSet.Dequeue();
 
-            if (currentTile == endTile)
+            if (currentTile.Equals(endTile))
             {
                 return ReconstructPath(cameFrom, currentTile);
             }
