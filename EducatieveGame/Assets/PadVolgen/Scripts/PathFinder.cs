@@ -20,9 +20,9 @@ public class PathFinder : MonoBehaviour
     {
         Player player = GameObject.FindWithTag("Player").GetComponent<Player>();
 
-        if (player.Steps < Pad.AStarPath.Count)
+        if (player.Steps < Pad.RandomPath.Count)
         {
-            Vector2 nextTilePosition = Pad.Grid.GetTilePosition(Pad.AStarPath[player.Steps]);
+            Vector2 nextTilePosition = Pad.Grid.GetTilePosition(Pad.RandomPath[player.Steps]);
             NextTile = Pad.Grid.GetTileAtPosition(nextTilePosition);
             Vector2 direction = (nextTilePosition - player.CurrentPosition).normalized;
 
