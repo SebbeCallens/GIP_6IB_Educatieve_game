@@ -10,6 +10,7 @@ public class PathGenerator : MonoBehaviour
     [SerializeField] private float _minDistance; //minimum afstand tussen spawn en finish
     [SerializeField] private bool _randomOrder; //of het pad in willekeurige volgorde mag gevolgd worden
     [SerializeField] private bool _arrows; //pijl aanduiding
+    [SerializeField] private bool _scrambledOrder; //pad checkpoints scrambled
     [SerializeField] private PathManager _pad; //het pad
     [SerializeField] private GameObject _player; //de speler
     [SerializeField] private GameObject _finish; //de finish
@@ -22,6 +23,7 @@ public class PathGenerator : MonoBehaviour
     private float MinDistance { get => _minDistance; set => _minDistance = value; }
     public bool RandomOrder { get => _randomOrder; private set => _randomOrder = value; }
     public bool Arrows { get => _arrows; private set => _arrows = value; }
+    public bool ScrambledOrder { get => _scrambledOrder; private set => _scrambledOrder = value; }
     private PathManager Pad { get => _pad; set => _pad = value; }
     private GameObject Player { get => _player; set => _player = value; }
     private GameObject Finish { get => _finish; set => _finish = value; }
@@ -157,7 +159,11 @@ public class PathGenerator : MonoBehaviour
 
         if (!RandomOrder)
         {
-            FindShortestPath();
+            if (ScrambledOrder)
+            {
+                ScrambleLocations();
+                FindShortestPath();
+            }
             if (Arrows)
             {
                 Pad.Finder.ShowArrow();
@@ -165,7 +171,47 @@ public class PathGenerator : MonoBehaviour
         }
         else
         {
+            ScrambledOrder = false;
             Arrows = false;
+        }
+    }
+
+    private void ScrambleLocations()
+    {
+        for (int i = 0; i < Canvas.transform.childCount; i++)
+        {
+            Destroy(Canvas.transform.GetChild(i).gameObject);
+        }
+
+        PathTile firstCheckpoint = Pad.Checkpoints[0];
+        PathTile lastCheckpoint = Pad.Checkpoints[Pad.Checkpoints.Count - 1];
+
+        // Remove first and last elements for shuffling
+        List<PathTile> intermediateList = new List<PathTile>(Pad.Checkpoints.GetRange(1, Pad.Checkpoints.Count - 2));
+
+        // Shuffle the intermediate list
+        for (int i = 0; i < intermediateList.Count; i++)
+        {
+            int randomIndex = Random.Range(i, intermediateList.Count);
+            PathTile temp = intermediateList[i];
+            intermediateList[i] = intermediateList[randomIndex];
+            intermediateList[randomIndex] = temp;
+        }
+
+        // Insert first and last elements back into the shuffled list
+        intermediateList.Insert(0, firstCheckpoint);
+        intermediateList.Add(lastCheckpoint);
+
+        // Update the Pad.Checkpoints with the shuffled list
+        Pad.Checkpoints = intermediateList;
+
+        // Use the shuffled list in your loop
+        for (int i = 1; i < Pad.Checkpoints.Count - 1; i++)
+        {
+            Vector3 position = Camera.main.WorldToScreenPoint(Pad.Grid.GetTilePosition(Pad.Checkpoints[i]));
+            TextMeshProUGUI tileText = Instantiate(TileText, position, Quaternion.identity, Canvas.transform).GetComponent<TextMeshProUGUI>();
+            tileText.text = i.ToString();
+            tileText.fontSize = 500f / Camera.main.orthographicSize;
         }
     }
 
@@ -181,7 +227,7 @@ public class PathGenerator : MonoBehaviour
 
     public void ShowAStarPath(Color color)
     {
-        if (RandomOrder)
+        if (!ScrambledOrder)
         {
             FindShortestPath();
         }

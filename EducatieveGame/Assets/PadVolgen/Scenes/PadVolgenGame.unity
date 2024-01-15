@@ -609,6 +609,7 @@ MonoBehaviour:
   _minDistance: 0
   _randomOrder: 0
   _arrows: 1
+  _scrambledOrder: 1
   _pad: {fileID: 2122425350}
   _player: {fileID: 7572155353509324413, guid: 116985c6e8debcb43b07bed813ee1875, type: 3}
   _finish: {fileID: 7279476843127333383, guid: b00111c8ad596bd439904287197475ab, type: 3}

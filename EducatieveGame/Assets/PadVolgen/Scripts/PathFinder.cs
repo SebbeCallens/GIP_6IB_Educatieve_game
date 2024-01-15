@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PathFinder : MonoBehaviour
@@ -19,10 +20,18 @@ public class PathFinder : MonoBehaviour
     public void ShowNextArrow()
     {
         Player player = GameObject.FindWithTag("Player").GetComponent<Player>();
-
-        if (player.Steps < Pad.RandomPath.Count)
+        List<PathTile> tiles = new();
+        if (Pad.Generator.ScrambledOrder)
         {
-            Vector2 nextTilePosition = Pad.Grid.GetTilePosition(Pad.RandomPath[player.Steps]);
+            tiles = Pad.AStarPath;
+        }
+        else
+        {
+            tiles = Pad.RandomPath;
+        }
+        if (player.Steps < tiles.Count)
+        {
+            Vector2 nextTilePosition = Pad.Grid.GetTilePosition(tiles[player.Steps]);
             NextTile = Pad.Grid.GetTileAtPosition(nextTilePosition);
             Vector2 direction = (nextTilePosition - player.CurrentPosition).normalized;
 
