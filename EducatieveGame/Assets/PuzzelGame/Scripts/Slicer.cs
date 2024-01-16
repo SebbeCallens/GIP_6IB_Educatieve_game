@@ -63,7 +63,7 @@ public class Slicer : MonoBehaviour, IDropHandler
                             int checkerX = (col * width + x) / checkerSize;
                             int checkerY = (row * height + y) / checkerSize;
                             bool isBlack = (checkerX + checkerY) % 2 == 0;
-                            pixels[y * width + x] = isBlack ? Color.black : Color.white;
+                            pixels[y * width + x] = isBlack ? Color.white : Color.white;
                         }
                     }
                 }
@@ -99,7 +99,7 @@ public class Slicer : MonoBehaviour, IDropHandler
             for (int x = 0; x < width; x++)
             {
                 bool isBlack = (x + y) % 2 == 0;
-                pattern[y * width + x] = isBlack ? Color.black : Color.white;
+                pattern[y * width + x] = isBlack ? Color.white : Color.white;
             }
         }
 
