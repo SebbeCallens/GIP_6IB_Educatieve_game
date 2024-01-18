@@ -558,8 +558,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d36274961a3d57f4b9e343884e155226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 25
-  _height: 25
+  _width: 10
+  _height: 10
   _tile: {fileID: 6906169124038179260, guid: 0991760bd7dd1974fbb6ff0402ec2819, type: 3}
 --- !u!114 &2122425349
 MonoBehaviour:
@@ -591,7 +591,7 @@ MonoBehaviour:
   _generator: {fileID: 2122425351}
   _grid: {fileID: 2122425348}
   _finder: {fileID: 2122425352}
-  _locations: 10
+  _locations: 2
 --- !u!114 &2122425351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,12 +604,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc1b7221c1e27124b9c8a7a0c614eb33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minLength: 100
-  _maxLength: 100
+  _minLength: 20
+  _maxLength: 20
   _minDistance: 0
   _randomOrder: 0
-  _arrows: 1
-  _scrambledOrder: 1
+  _arrows: 0
+  _scrambledOrder: 0
   _pad: {fileID: 2122425350}
   _player: {fileID: 7572155353509324413, guid: 116985c6e8debcb43b07bed813ee1875, type: 3}
   _finish: {fileID: 7279476843127333383, guid: b00111c8ad596bd439904287197475ab, type: 3}

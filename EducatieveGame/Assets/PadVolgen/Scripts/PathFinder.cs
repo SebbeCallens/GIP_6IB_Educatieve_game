@@ -20,7 +20,7 @@ public class PathFinder : MonoBehaviour
     public void ShowNextArrow()
     {
         Player player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        List<PathTile> tiles = new();
+        List<PathTile> tiles;
         if (Pad.Generator.ScrambledOrder)
         {
             tiles = Pad.AStarPath;

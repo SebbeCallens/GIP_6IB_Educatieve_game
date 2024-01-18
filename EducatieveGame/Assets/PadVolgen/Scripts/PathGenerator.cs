@@ -67,8 +67,6 @@ public class PathGenerator : MonoBehaviour
         int interval = length / (locations + 1);
         int locationCount = 0;
 
-        Pad.RandomPath.Add(currentTile);
-
         //pad genereren
         for (int i = 0; i < length - 1; i++)
         {
