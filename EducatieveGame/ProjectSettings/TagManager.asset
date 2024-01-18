@@ -24,6 +24,7 @@ TagManager:
   - Slicer
   - PuzzlePiece
   - Path
+  - pokemonpuzzles
   layers:
   - Default
   - TransparentFX

@@ -9,15 +9,23 @@ public class MenuLogic : MonoBehaviour
     [SerializeField] private Toggle _assistToggle;
     [SerializeField] private GameObject _confirmationWarning;
     [SerializeField] private bool _assist = false;
+    [SerializeField] private GameObject _pokemonPuzzels;
     private bool _firstToggle = true; //dit zorgt ervoor dat wanneer de toggle ingesteld word dit niet de functie ToggleAssistMode triggered
 
     private GameObject[] Menus { get => _menus; set => _menus = value; }
     private Toggle AssistToggle { get => _assistToggle; set => _assistToggle = value; }
     public GameObject ConfirmationWarning { get => _confirmationWarning; set => _confirmationWarning = value; }
+    private GameObject PokemonPuzzels { get => _pokemonPuzzels; set => _pokemonPuzzels = value; }
     private bool FirstToggle { get => _firstToggle; set => _firstToggle = value; }
 
     private void Awake() //stel de toggle voor hulpmodus in
     {
+        if (PokemonPuzzels != null && GameObject.FindWithTag("pokemonpuzzles") == null)
+        {
+            GameObject pokemonPuzzels = Instantiate(PokemonPuzzels);
+            DontDestroyOnLoad(pokemonPuzzels);
+        }
+
         if (_assist)
         {
             PlayerPrefs.SetInt("assist", 0);

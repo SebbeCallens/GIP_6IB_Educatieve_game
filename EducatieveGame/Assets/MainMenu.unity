@@ -156,6 +156,7 @@ MonoBehaviour:
   _assistToggle: {fileID: 0}
   _confirmationWarning: {fileID: 0}
   _assist: 1
+  _pokemonPuzzels: {fileID: 3813112048800698020, guid: c37d9a3b75a510147b1cb16155f6b974, type: 3}
 --- !u!4 &2732507
 Transform:
   m_ObjectHideFlags: 0

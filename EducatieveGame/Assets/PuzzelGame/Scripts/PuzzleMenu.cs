@@ -10,6 +10,7 @@ public class PuzzleMenu : MonoBehaviour
     [SerializeField] private GameObject[] _puzzleMenus;
     [SerializeField] private GameObject _pzButton;
     [SerializeField] private GameObject _puzzles;
+    [SerializeField] private Transform _pokemonPuzzles;
     private int _currentPuzzleMenu = 0;
 
     private static Sprite _puzzleImage;
@@ -18,6 +19,7 @@ public class PuzzleMenu : MonoBehaviour
     private GameObject[] PuzzleMenus { get => _puzzleMenus; set => _puzzleMenus = value; }
     private GameObject PzButton { get => _pzButton; set => _pzButton = value; }
     private GameObject Puzzles { get => _puzzles; set => _puzzles = value; }
+    private Transform PokemonPuzzles { get => _pokemonPuzzles; set => _pokemonPuzzles = value; }
     private int CurrentPuzzleMenu { get => _currentPuzzleMenu; set => _currentPuzzleMenu = value; }
     public static Sprite PuzzleImage { get => _puzzleImage; set => _puzzleImage = value; }
     public static int Difficulty { get => _difficulty; set => _difficulty = value; }
@@ -31,6 +33,12 @@ public class PuzzleMenu : MonoBehaviour
         LoadPuzzles(Path.Combine(Application.streamingAssetsPath, "PuzzelGame/Puzzels"));
         LoadPuzzles(Path.Combine(Application.persistentDataPath, "Puzzels"));
         PlayerPrefs.SetInt("puzzeldifficulty", 1);
+
+        GameObject pokemonPuzzles = GameObject.FindWithTag("pokemonpuzzles");
+        GameObject pokemonPuzzlesContent = Instantiate(pokemonPuzzles, PokemonPuzzles);
+        pokemonPuzzlesContent.transform.SetAsFirstSibling();
+        PokemonPuzzles.GetComponent<ScrollRect>().content = pokemonPuzzlesContent.GetComponent<RectTransform>();
+
     }
 
     public void Leave()
