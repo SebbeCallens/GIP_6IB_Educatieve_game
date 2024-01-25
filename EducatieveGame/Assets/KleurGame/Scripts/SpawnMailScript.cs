@@ -39,12 +39,25 @@ public class SpawnMailScript : MonoBehaviour
             Debug.Log("KleurString: " + _colorsString[i]);
         }*/
 
-        SpawnMailItems();
-        SpawnMailboxes();
+        
 
         if (SettingsDataScript._trashcanSetting)
         {
+            SpawnMailItems();
+            SpawnMailboxes();
             SpawnTrashbin();
+        }
+        else if (SettingsDataScript._conveyorSetting)
+        {
+            SpawnMailboxes();
+
+
+            //TBA
+        }
+        else
+        {
+            SpawnMailItems();
+            SpawnMailboxes();
         }
     }
 
@@ -66,30 +79,48 @@ public class SpawnMailScript : MonoBehaviour
         double distanceBetween = _xScreenSize / _amountOfMailItems;
         double currentXValue = distanceBetween / 2;
 
-        for (int i = 0; i < _amountOfMailItems; i++)
+        if (!SettingsDataScript._conveyorSetting)
         {
-            //als de vuilnisbak niet is aangevinkt, dan kiest het alleen maar uit de gekozen kleuren.
-            //als de vuilnisbak is aangevinkt in settings, dan wordt er (mogelijks) andere mail gevormd.
+            //de uitgevoerde code voor een spel zonder loopbandmodus aan
 
-            if (!SettingsDataScript._trashcanSetting)
+            for (int i = 0; i < _amountOfMailItems; i++)
             {
-                GenerateMailItemFromChosenColors().transform.position = new Vector3((float)(currentXValue - _xScreenSize / 2), (float)yValue, 1);
-            }
-            else
-            {
-                //kans dat een mailItem een andere kleur heeft is +- 25% kans
-                if (Random.Range(0, 4) >= 1)
+                //als de vuilnisbak niet is aangevinkt, dan kiest het alleen maar uit de gekozen kleuren.
+                //als de vuilnisbak is aangevinkt in settings, dan wordt er (mogelijks) andere mail gevormd.
+
+                if (!SettingsDataScript._trashcanSetting)
                 {
+                    //uitvoerbare code voor een spel zonder modus aan
+
                     GenerateMailItemFromChosenColors().transform.position = new Vector3((float)(currentXValue - _xScreenSize / 2), (float)yValue, 1);
                 }
                 else
                 {
-                    GenerateRandomMailItem().transform.position = new Vector3((float)(currentXValue - _xScreenSize / 2), (float)yValue, 1);
+                    //uitvoerbare code voor een spel met vuilnisbakmodus aan
+                    //kans dat een mailItem een andere kleur heeft is +- 25% kans
+                    if (Random.Range(0, 4) >= 1)
+                    {
+                        GenerateMailItemFromChosenColors().transform.position = new Vector3((float)(currentXValue - _xScreenSize / 2), (float)yValue, 1);
+                    }
+                    else
+                    {
+                        GenerateRandomMailItem().transform.position = new Vector3((float)(currentXValue - _xScreenSize / 2), (float)yValue, 1);
+                    }
                 }
-            }
 
-            currentXValue += distanceBetween;
+                currentXValue += distanceBetween;
+            }
         }
+        else
+        {
+
+        }
+        
+    }
+
+    public void SpawnMailItemsConveyorMode()
+    {
+
     }
 
     //genereert een nieuw mailitem met een gekozen kleur van de gebruiker

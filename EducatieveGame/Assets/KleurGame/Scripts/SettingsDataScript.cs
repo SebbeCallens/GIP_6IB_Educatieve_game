@@ -13,6 +13,7 @@ public class SettingsDataScript : MonoBehaviour
 {
     //data to be transfered to the other scene
     public static bool _trashcanSetting = false;
+    public static bool _conveyorSetting = false;
     public static bool _testModeSetting = false;
 
     public static bool _timerSetting = true;
@@ -22,9 +23,11 @@ public class SettingsDataScript : MonoBehaviour
 
     public static int _pointsPerAnswer = 1;
 
-    //moet nog werkend worden
+    //geavanceerde instellingen
     public static int _rightPoints = 1;
     public static int _wrongPoints = 1;
+
+    public static int _conveyorSpeed = 3;
     //
 
     public static List<GameObject> _selectedColorButtons = new List<GameObject>();
@@ -40,6 +43,8 @@ public class SettingsDataScript : MonoBehaviour
     [SerializeField] private GameObject _colorButton;
     [SerializeField] private UnityEngine.UI.Image _checkmark;
     [SerializeField] private TMP_InputField _inputField;
+    [SerializeField] private GameObject[] _modeObjects = new GameObject[2]; //vuilnisbak instelling object & loopband instelling object
+
     private GameObject _errorTextObject;
 
     //other setting variables
@@ -50,6 +55,7 @@ public class SettingsDataScript : MonoBehaviour
     private GameObject _colorButtonsObject;
 
     private GameObject _timerInputFieldObject;
+
     private GameObject _pointsRightObject;
     private GameObject _pointsWrongObject;
 
@@ -144,12 +150,15 @@ public class SettingsDataScript : MonoBehaviour
     public static void ResetData()
     {
         _trashcanSetting = false;
+        _conveyorSetting = false;
         _testModeSetting = false;
 
         _timerSetting = true;
         _timerValue = 60;
 
         _pointsPerAnswer = 1;
+        _rightPoints = 1;
+        _wrongPoints = 1;
 
         _chosenDifficulty = null;
 
@@ -194,11 +203,26 @@ public class SettingsDataScript : MonoBehaviour
     public void ToggleTrashbinSetting(bool newValue)
     {
         _trashcanSetting = newValue;
+
+        if (newValue)
+        {
+            _modeObjects[1].gameObject.GetComponent<UnityEngine.UI.Toggle>().isOn = false;
+        }
     }
 
     public void ToggleTestModeSetting(bool newValue)
     {
         _testModeSetting = newValue;
+    }
+
+    public void ToggleConveyorSetting(bool newValue)
+    {
+        _conveyorSetting = newValue;
+
+        if (newValue)
+        {
+            _modeObjects[0].gameObject.GetComponent<UnityEngine.UI.Toggle>().isOn = false;
+        }
     }
 
     public void ToggleTimerSetting(bool newValue)
