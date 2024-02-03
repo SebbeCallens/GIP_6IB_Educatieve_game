@@ -12,6 +12,8 @@ public class RotateGame : MonoBehaviour
     private GridGenerator _correctGridGen; //gridgenerator van het voorbeeldgrid
     private GridGenerator _gameGridGen; //gridgenerator van het gamegrid
     private bool _gameInProgress = true; //zorgen dat je geen vakjes meer kunt draaien als het spel gedaan is
+    private int _width;
+    private int _height;
 
     private GameObject CorrectGrid { get => _correctGrid; set => _correctGrid = value; }
     private GameObject GameGrid { get => _gameGrid; set => _gameGrid = value; }
@@ -22,6 +24,8 @@ public class RotateGame : MonoBehaviour
     private GridGenerator CorrectGridGen { get => _correctGridGen; set => _correctGridGen = value; }
     private GridGenerator GameGridGen { get => _gameGridGen; set => _gameGridGen = value; }
     public bool GameInProgress { get => _gameInProgress; private set => _gameInProgress = value; }
+    private int Width { get => _width; set => _width = value; }
+    private int Height { get => _height; set => _height = value; }
 
     private void Awake() //grid instellen op moeilijkheid
     {
@@ -30,6 +34,7 @@ public class RotateGame : MonoBehaviour
 
         //difficulty toepassen
         int difficulty = PlayerPrefs.GetInt("difficulty");
+        int symmetrical = PlayerPrefs.GetInt("symmetrical");
 
         switch (difficulty)
         {
@@ -59,6 +64,8 @@ public class RotateGame : MonoBehaviour
         {
             CorrectGridGen.GenerateGrid(width, height, cellSize);
             GameGridGen.GenerateGrid(width, height, cellSize);
+            Width = width;
+            Height = height;
 
             Vector3 camPosition = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0);
             GameGrid.transform.position = camPosition;
@@ -66,10 +73,90 @@ public class RotateGame : MonoBehaviour
             Camera.main.orthographicSize = orthographicSizeOffset;
         }
 
+        int col = 0;
+        int row = 0;
+        for (int i = 0; i < CorrectGrid.transform.childCount; i++)
+        {
+            if (col == Width)
+            {
+                col = 0;
+                row++;
+            }
+            CorrectGrid.transform.GetChild(i).name = $"{col}-{row}";
+            col++;
+        }
+
+        col = 0;
+        row = 0;
         //figuurstukken van voorbeeldgrid een willekeurige rotatie geven
         for (int i = 0; i < CorrectGrid.transform.childCount; i++)
         {
-            CorrectGrid.transform.GetChild(i).transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 4) * 90.0f);
+            if (col == Width)
+            {
+                col = 0;
+                row++;
+            }
+
+            if (symmetrical == 1)
+            {
+                if (col < Width / 2 && row < Height / 2)
+                {
+                    CorrectGrid.transform.GetChild(i).transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 4) * 90.0f);
+                }
+                else if (row < Height / 2)
+                {
+                    Vector3 symmetricalRotation = GameObject.Find($"{Width-1-col}-{row}").transform.eulerAngles;
+
+                    CorrectGrid.transform.GetChild(i).transform.eulerAngles = symmetricalRotation;
+                    if (symmetricalRotation.z != 90 && symmetricalRotation.z != 270)
+                    {
+                        CorrectGrid.transform.GetChild(i).transform.localScale = new(-CorrectGrid.transform.GetChild(i).transform.localScale.x, CorrectGrid.transform.GetChild(i).transform.localScale.y, CorrectGrid.transform.GetChild(i).transform.localScale.z);
+                        GameGrid.transform.GetChild(i).transform.localScale = new(CorrectGrid.transform.GetChild(i).transform.localScale.x, CorrectGrid.transform.GetChild(i).transform.localScale.y, CorrectGrid.transform.GetChild(i).transform.localScale.z);
+                        GameGrid.transform.GetChild(i).transform.rotation = Quaternion.Euler(0, 0, 90);
+                    }
+                    else
+                    {
+                        CorrectGrid.transform.GetChild(i).transform.localScale = new(CorrectGrid.transform.GetChild(i).transform.localScale.x, -CorrectGrid.transform.GetChild(i).transform.localScale.y, CorrectGrid.transform.GetChild(i).transform.localScale.z);
+                        GameGrid.transform.GetChild(i).transform.localScale = new(CorrectGrid.transform.GetChild(i).transform.localScale.x, CorrectGrid.transform.GetChild(i).transform.localScale.y, CorrectGrid.transform.GetChild(i).transform.localScale.z);
+                        GameGrid.transform.GetChild(i).transform.rotation = Quaternion.Euler(0, 0, -90);
+                    }
+                }
+                else if (col < Width / 2)
+                {
+                    Vector3 symmetricalRotation = GameObject.Find($"{col}-{Height-1-row}").transform.eulerAngles;
+                    
+                    CorrectGrid.transform.GetChild(i).transform.eulerAngles = symmetricalRotation;
+
+                    if (symmetricalRotation.z != 90 && symmetricalRotation.z != 270)
+                    {
+                        CorrectGrid.transform.GetChild(i).transform.localScale = new(CorrectGrid.transform.GetChild(i).transform.localScale.x, -CorrectGrid.transform.GetChild(i).transform.localScale.y, CorrectGrid.transform.GetChild(i).transform.localScale.z);
+                        GameGrid.transform.GetChild(i).transform.localScale = new(CorrectGrid.transform.GetChild(i).transform.localScale.x, CorrectGrid.transform.GetChild(i).transform.localScale.y, CorrectGrid.transform.GetChild(i).transform.localScale.z);
+                        GameGrid.transform.GetChild(i).transform.rotation = Quaternion.Euler(0, 0, -90);
+                    }
+                    else
+                    {
+                        CorrectGrid.transform.GetChild(i).transform.localScale = new(-CorrectGrid.transform.GetChild(i).transform.localScale.x, CorrectGrid.transform.GetChild(i).transform.localScale.y, CorrectGrid.transform.GetChild(i).transform.localScale.z);
+                        GameGrid.transform.GetChild(i).transform.localScale = new(CorrectGrid.transform.GetChild(i).transform.localScale.x, CorrectGrid.transform.GetChild(i).transform.localScale.y, CorrectGrid.transform.GetChild(i).transform.localScale.z);
+                        GameGrid.transform.GetChild(i).transform.rotation = Quaternion.Euler(0, 0, 90);
+                    }
+                }
+                else
+                {
+                    Vector3 symmetricalRotation = GameObject.Find($"{col}-{Height - 1 - row}").transform.eulerAngles;
+
+                    CorrectGrid.transform.GetChild(i).transform.eulerAngles = symmetricalRotation;
+
+                    CorrectGrid.transform.GetChild(i).transform.localScale = new(-CorrectGrid.transform.GetChild(i).transform.localScale.x, -CorrectGrid.transform.GetChild(i).transform.localScale.y, CorrectGrid.transform.GetChild(i).transform.localScale.z);
+                    GameGrid.transform.GetChild(i).transform.localScale = new(CorrectGrid.transform.GetChild(i).transform.localScale.x, CorrectGrid.transform.GetChild(i).transform.localScale.y, CorrectGrid.transform.GetChild(i).transform.localScale.z);
+                    GameGrid.transform.GetChild(i).transform.rotation = Quaternion.Euler(0, 0, 180);
+                }
+            }
+            else
+
+            {
+                CorrectGrid.transform.GetChild(i).transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 4) * 90.0f);
+            }
+            col++;
         }
 
         //configuratie rooster toepassen

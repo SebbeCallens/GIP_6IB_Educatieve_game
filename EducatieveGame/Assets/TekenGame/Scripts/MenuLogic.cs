@@ -7,6 +7,7 @@ public class MenuLogic : MonoBehaviour
 {
     [SerializeField] private GameObject[] _menus; //menu op index 0 is het standaard menu
     [SerializeField] private Toggle _assistToggle;
+    [SerializeField] private Toggle _symmetricalToggle;
     [SerializeField] private GameObject _confirmationWarning;
     [SerializeField] private bool _assist = false;
     [SerializeField] private GameObject _pokemonPuzzels;
@@ -29,6 +30,7 @@ public class MenuLogic : MonoBehaviour
         if (_assist)
         {
             PlayerPrefs.SetInt("assist", 0);
+            PlayerPrefs.SetInt("symmetrical", 0);
         }
 
         if (AssistToggle != null)
@@ -41,8 +43,20 @@ public class MenuLogic : MonoBehaviour
             {
                 AssistToggle.isOn = true;
             }
-            FirstToggle = false;
         }
+
+        if (_symmetricalToggle != null)
+        {
+            if (PlayerPrefs.GetInt("symmetrical") == 0)
+            {
+                _symmetricalToggle.isOn = false;
+            }
+            else
+            {
+                _symmetricalToggle.isOn = true;
+            }
+        }
+        FirstToggle = false;
     }
 
     public void LoadScene(string sceneName) //laad een scene met gegeven naam
@@ -87,6 +101,21 @@ public class MenuLogic : MonoBehaviour
             else
             {
                 PlayerPrefs.SetInt("assist", 0);
+            }
+        }
+    }
+
+    public void ToggleSymmetricalMode() //stel symmetrische modus in
+    {
+        if (!FirstToggle)
+        {
+            if (PlayerPrefs.GetInt("symmetrical") == 0)
+            {
+                PlayerPrefs.SetInt("symmetrical", 1);
+            }
+            else
+            {
+                PlayerPrefs.SetInt("symmetrical", 0);
             }
         }
     }

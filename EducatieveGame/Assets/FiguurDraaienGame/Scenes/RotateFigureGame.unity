@@ -214,7 +214,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &211739101
 RectTransform:
   m_ObjectHideFlags: 0
@@ -739,6 +739,7 @@ MonoBehaviour:
   _assistToggle: {fileID: 0}
   _confirmationWarning: {fileID: 0}
   _assist: 0
+  _pokemonPuzzels: {fileID: 0}
 --- !u!4 &1107992614
 Transform:
   m_ObjectHideFlags: 0
@@ -817,7 +818,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1521096807
 RectTransform:
   m_ObjectHideFlags: 0
