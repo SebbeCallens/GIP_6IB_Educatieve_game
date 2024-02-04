@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class InfoScriptBig : MonoBehaviour
 {
     [SerializeField] private GameObject _infoUI;
     [SerializeField] private GameObject _infoButton;
+    [SerializeField] private GameObject _tabCounter;
 
     [SerializeField] private GameObject[] _infoTabs;        //infotabs zijn lege gameobjecten, geen panelen!
 
@@ -28,7 +30,7 @@ public class InfoScriptBig : MonoBehaviour
         _infoTabs[0].SetActive(true);
 
         //de onderstaande lijn code moet verplaatst worden in button
-        _infoTabs[0].GetComponent<Animator>().SetTrigger("Enter");
+        //_infoTabs[0].GetComponent<Animator>().SetTrigger("Enter");
     }
 
     public void ToggleInfoMenu()
@@ -37,53 +39,121 @@ public class InfoScriptBig : MonoBehaviour
         _infoUI.SetActive(!_infoUI.activeSelf);
     }
 
-    //toont de gekozen tab op het infoscherm
-    //WIP
-    private void LoadTab(int index)
+    private void UpdateTabCounter(int value)
     {
-        
+        _tabCounter.GetComponent<TextMeshProUGUI>().text = value.ToString();
+    }
+
+    private void TweenTabs(int enterIndex, int exitIndex, char direction) // F = forwards, B = backwards
+    {
+        if (direction == 'F')
+        {
+            //verplaatsen inkomende tab
+            _infoTabs[enterIndex].transform.localPosition = new Vector3(-2000, _infoTabs[enterIndex].transform.localPosition.y, _infoTabs[enterIndex].transform.localPosition.z);
+            LeanTween.moveLocalX(_infoTabs[enterIndex], 0f, 1);
+
+            //verplaatsen weggaande tab
+            _infoTabs[exitIndex].transform.localPosition = new Vector3(0, _infoTabs[exitIndex].transform.localPosition.y, _infoTabs[exitIndex].transform.localPosition.z);
+            LeanTween.moveLocalX(_infoTabs[exitIndex], 2000f, 1);
+        }
+        else
+        {
+            //verplaatsen inkomende tab (rechts naar links)
+            _infoTabs[enterIndex].transform.localPosition = new Vector3(2000, _infoTabs[enterIndex].transform.localPosition.y, _infoTabs[enterIndex].transform.localPosition.z);
+            LeanTween.moveLocalX(_infoTabs[enterIndex], 0f, 1);
+
+            //verplaatsen weggaande tab (rechts naar links)
+            _infoTabs[exitIndex].transform.localPosition = new Vector3(0, _infoTabs[exitIndex].transform.localPosition.y, _infoTabs[exitIndex].transform.localPosition.z);
+            LeanTween.moveLocalX(_infoTabs[exitIndex], -2000f, 1);
+        }
     }
 
     public void ButtonForwardsClicked()
     {
-        //LoadTab(_currentActiveTabIndex + 1);
-        _currentActiveTabIndex += 1;
+        int _exitingTabIndex;
 
-        //checken als de tab bestaat
-        if (_currentActiveTabIndex >= _infoTabs.Length || _currentActiveTabIndex < 0)
+        Debug.Log("old active index: " + _currentActiveTabIndex);
+
+        //de actieve indexwaarde updaten
+        if (_currentActiveTabIndex + 1 < _infoTabs.Length)
         {
-            return;
+            _currentActiveTabIndex += 1;
+        }
+        else
+        {
+            _currentActiveTabIndex = 0;
         }
 
-        //het aanzetten van alle tabs die nodig zijn voor animaties
-        //de vorige tab zal alleen maar active gezet worden als het bestaat
+        Debug.Log("new active index: " + _currentActiveTabIndex);
+
+        //het uitzetten van alle tabs niet nodig voor de animaties
         for (int i = 0; i < _infoTabs.Length; i++)
         {
-            if (_currentActiveTabIndex - 1 == i)
-            {
-                _infoTabs[i].SetActive(true);
-            }
-            else if (_currentActiveTabIndex == i)
-            {
-                _infoTabs[i].SetActive(true);
-            }
-            else
-            {
-                _infoTabs[i].SetActive(false);
-            }
+            _infoTabs[i].SetActive(false);
         }
 
-        //animaties
-        _infoTabs[_currentActiveTabIndex].GetComponent<Animator>().SetTrigger("Enter");
+        //de actieve tab wordt aangezet
+        _infoTabs[_currentActiveTabIndex].SetActive(true);
 
-        if (_infoTabs[_currentActiveTabIndex - 1])
+        //de vorige tab wordt aangezet (checken welke waarde voorop was zonder errors)
+        if (_currentActiveTabIndex - 1 == -1)
         {
-            _infoTabs[_currentActiveTabIndex - 1].GetComponent<Animator>().SetTrigger("Exit");
+            _infoTabs[_infoTabs.Length - 1].SetActive(true);
+            _exitingTabIndex = _infoTabs.Length - 1;
         }
+        else
+        {
+            _infoTabs[_currentActiveTabIndex - 1].SetActive(true);
+            _exitingTabIndex = _currentActiveTabIndex - 1;
+        }
+
+        Debug.Log("exiting active index: " + _exitingTabIndex);
+
+        TweenTabs(_currentActiveTabIndex, _exitingTabIndex, 'F');
+        UpdateTabCounter(_currentActiveTabIndex + 1);
     }
 
     public void ButtonBackwardsClicked()
     {
-        LoadTab(_currentActiveTabIndex - 1);
+        int _exitingTabIndex;
+
+        Debug.Log("old active index: " + _currentActiveTabIndex);
+
+        if (_currentActiveTabIndex - 1 >= 0)
+        {
+            _currentActiveTabIndex -= 1;
+        }
+        else
+        {
+            _currentActiveTabIndex = _infoTabs.Length - 1;
+        }
+
+        Debug.Log("new active index: " + _currentActiveTabIndex);
+
+        //het uitzetten van alle tabs niet nodig voor de animaties
+        for (int i = 0; i < _infoTabs.Length; i++)
+        {
+            _infoTabs[i].SetActive(false);
+        }
+
+        //de actieve tab wordt aangezet
+        _infoTabs[_currentActiveTabIndex].SetActive(true);
+
+        //de volgende tab wordt aangezet (checken welke waarde voorop was zonder errors)
+        if (_currentActiveTabIndex + 1 == _infoTabs.Length)
+        {
+            _infoTabs[0].SetActive(true);
+            _exitingTabIndex = 0;
+        }
+        else
+        {
+            _infoTabs[_currentActiveTabIndex + 1].SetActive(true);
+            _exitingTabIndex = _currentActiveTabIndex + 1;
+        }
+
+        Debug.Log("exiting active index: " + _exitingTabIndex);
+
+        TweenTabs(_currentActiveTabIndex, _exitingTabIndex, 'B');
+        UpdateTabCounter(_currentActiveTabIndex + 1);
     }
 }
