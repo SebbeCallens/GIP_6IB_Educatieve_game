@@ -737,6 +737,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menus: []
   _assistToggle: {fileID: 0}
+  _symmetricalToggle: {fileID: 0}
   _confirmationWarning: {fileID: 0}
   _assist: 0
   _pokemonPuzzels: {fileID: 0}
