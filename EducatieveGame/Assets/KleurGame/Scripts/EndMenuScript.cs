@@ -10,17 +10,11 @@ public class EndMenuScript : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI _pointsTextObject;
 
-    // Start is called before the first frame update
     void Start()
     {
         _pointsTextObject.text = "Je hebt " + MailChecker.Points.ToString() + " punten verzameld!";
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void EndGame()
     {

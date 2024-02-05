@@ -65,7 +65,6 @@ public class SettingsDataScript : MonoBehaviour
     //private int _yValue = 250;
     //private int _increment = 125;
 
-    // Start is called before the first frame update
     void Start()
     {
         ResetData();
@@ -315,6 +314,7 @@ public class SettingsDataScript : MonoBehaviour
         _errorTextObject.GetComponent<TextMeshProUGUI>().text = text;
     }
 
+    //code voor de gemakkelijk modus
     public void EasyMode()
     {
         _chosenDifficulty = "easy";
@@ -332,6 +332,7 @@ public class SettingsDataScript : MonoBehaviour
         LoadKleurgameScene();
     }
 
+    //code voor de normaal modus
     public void NormalMode()
     {
         _chosenDifficulty = "normal";
@@ -349,6 +350,7 @@ public class SettingsDataScript : MonoBehaviour
         LoadKleurgameScene();
     }
 
+    //code voor de moeilijk modus
     public void DifficultMode()
     {
         _chosenDifficulty = "difficult";
@@ -366,9 +368,9 @@ public class SettingsDataScript : MonoBehaviour
         LoadKleurgameScene();
     }
 
+    //code voor de aangepaste modus
     public void ModifiedMode()
     {
-        //code voor een zelfgekozen modus
         _chosenDifficulty = "modified";
         
         if (CheckStatsValid())
