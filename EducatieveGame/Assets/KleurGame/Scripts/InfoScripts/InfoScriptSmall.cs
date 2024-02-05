@@ -9,10 +9,12 @@ public class InfoScript : MonoBehaviour
     
     void Start()
     {
+        //startinstellingen klaarzetten
         _infoUI.SetActive(false);
         _infoButton.SetActive(true);
     }
 
+    //openen / sluiten van infomenu
     public void ToggleInfoMenu()
     {
         _infoButton.SetActive(!_infoButton.activeSelf);

@@ -14,10 +14,10 @@ public class InfoScriptBig : MonoBehaviour
 
     private int _currentActiveTabIndex;
 
-
     // Start is called before the first frame update
     void Start()
     {
+        //startinstellingen klaarzetten
         _infoUI.SetActive(false);
         _infoButton.SetActive(true);
 
@@ -28,9 +28,6 @@ public class InfoScriptBig : MonoBehaviour
 
         //het klaarzetten van de eerste tab
         _infoTabs[0].SetActive(true);
-
-        //de onderstaande lijn code moet verplaatst worden in button
-        //_infoTabs[0].GetComponent<Animator>().SetTrigger("Enter");
     }
 
     public void ToggleInfoMenu()
@@ -39,42 +36,46 @@ public class InfoScriptBig : MonoBehaviour
         _infoUI.SetActive(!_infoUI.activeSelf);
     }
 
+    //updatet de counter
     private void UpdateTabCounter(int value)
     {
         _tabCounter.GetComponent<TextMeshProUGUI>().text = value.ToString();
     }
 
+    //het animeren van 2 pagina's (links en rechts)
+    //parameter1 voor inkomende pagina, parameter2 voor verlatende pagina, parameter3 voor richting van animatie
     private void TweenTabs(int enterIndex, int exitIndex, char direction) // F = forwards, B = backwards
     {
         if (direction == 'F')
         {
-            //verplaatsen inkomende tab
+            //verplaatsen inkomende tab (van links naar recht)
             _infoTabs[enterIndex].transform.localPosition = new Vector3(-2000, _infoTabs[enterIndex].transform.localPosition.y, _infoTabs[enterIndex].transform.localPosition.z);
             LeanTween.moveLocalX(_infoTabs[enterIndex], 0f, 1);
 
-            //verplaatsen weggaande tab
+            //verplaatsen weggaande tab (van links naar rechts)
             _infoTabs[exitIndex].transform.localPosition = new Vector3(0, _infoTabs[exitIndex].transform.localPosition.y, _infoTabs[exitIndex].transform.localPosition.z);
             LeanTween.moveLocalX(_infoTabs[exitIndex], 2000f, 1);
         }
         else
         {
-            //verplaatsen inkomende tab (rechts naar links)
+            //verplaatsen inkomende tab (van rechts naar links)
             _infoTabs[enterIndex].transform.localPosition = new Vector3(2000, _infoTabs[enterIndex].transform.localPosition.y, _infoTabs[enterIndex].transform.localPosition.z);
             LeanTween.moveLocalX(_infoTabs[enterIndex], 0f, 1);
 
-            //verplaatsen weggaande tab (rechts naar links)
+            //verplaatsen weggaande tab (van rechts naar links)
             _infoTabs[exitIndex].transform.localPosition = new Vector3(0, _infoTabs[exitIndex].transform.localPosition.y, _infoTabs[exitIndex].transform.localPosition.z);
             LeanTween.moveLocalX(_infoTabs[exitIndex], -2000f, 1);
         }
     }
 
+    //code voor de knop naar rechts
     public void ButtonForwardsClicked()
     {
         int _exitingTabIndex;
 
         Debug.Log("old active index: " + _currentActiveTabIndex);
 
-        //de actieve indexwaarde updaten
+        //de actieve pagina-indexwaarde updaten
         if (_currentActiveTabIndex + 1 < _infoTabs.Length)
         {
             _currentActiveTabIndex += 1;
@@ -113,6 +114,7 @@ public class InfoScriptBig : MonoBehaviour
         UpdateTabCounter(_currentActiveTabIndex + 1);
     }
 
+    //code voor de knop naar links
     public void ButtonBackwardsClicked()
     {
         int _exitingTabIndex;
