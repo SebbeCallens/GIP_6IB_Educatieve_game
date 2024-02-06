@@ -332,7 +332,6 @@ MonoBehaviour:
   _meat: {fileID: 3101725654179713124, guid: 9ff8d1f85737f6a4c82437d4b68c33a4, type: 3}
   _statistics: {fileID: 1602696621}
   _minutesUntilFastest: 1
-  _cam: {fileID: 445685166}
 --- !u!114 &257158373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1487,10 +1486,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2053311070}
-        m_TargetAssemblyTypeName: MenuLogic, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
+      - m_Target: {fileID: 257158372}
+        m_TargetAssemblyTypeName: ObjectSpawner, Assembly-CSharp
+        m_MethodName: EndGame
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1678,8 +1677,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menus: []
   _assistToggle: {fileID: 0}
+  _symmetricalToggle: {fileID: 0}
   _confirmationWarning: {fileID: 0}
   _assist: 0
+  _pokemonPuzzels: {fileID: 0}
 --- !u!4 &2053311071
 Transform:
   m_ObjectHideFlags: 0

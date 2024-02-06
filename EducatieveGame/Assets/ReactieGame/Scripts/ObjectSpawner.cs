@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ObjectSpawner : MonoBehaviour
 {
@@ -108,5 +109,11 @@ public class ObjectSpawner : MonoBehaviour
         {
             Statistics.SetActive(true);
         }
+    }
+
+    public void EndGame()
+    {
+        EndScreenLogic.EndGame("ReactionMenu", "Reactie game", "0", 6, 5, 0);
+        SceneManager.LoadScene("EndScreen");
     }
 }

@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RotateGame : MonoBehaviour
 {
@@ -193,5 +194,29 @@ public class RotateGame : MonoBehaviour
         GameInProgress = false;
         CheckFigure.SetActive(false);
         Statistics.SetActive(true);
+    }
+
+    public void EndGame()
+    {
+        int correctCells = 0;
+        for (int i = 0; i < CorrectGrid.transform.childCount; i++)
+        {
+            if (CorrectGrid.transform.GetChild(i).transform.rotation.eulerAngles.z == GameGrid.transform.GetChild(i).transform.rotation.eulerAngles.z)
+            {
+                GameGrid.transform.GetChild(i).GetComponent<SpriteRenderer>().color = Color.green;
+                correctCells++;
+            }
+            else
+            {
+                GameGrid.transform.GetChild(i).GetComponent<SpriteRenderer>().color = Color.red;
+            }
+        }
+
+        EndScreenLogic.EndGame("RotateFigure", "Figuur draaien", $"{correctCells}/{CorrectGrid.transform.childCount}", PlayerPrefs.GetInt("difficulty"), Camera.main.orthographicSize * 1.75f, 5);
+        DontDestroyOnLoad(GameGrid.transform.parent);
+        CorrectGrid.transform.position = new(-Camera.main.orthographicSize / 2f, CorrectGrid.transform.position.y, CorrectGrid.transform.position.z);
+        GameGrid.transform.position = new(Camera.main.orthographicSize / 2f, CorrectGrid.transform.position.y, CorrectGrid.transform.position.z);
+        GameGrid.transform.parent.position = new(1000, 0, 0);
+        SceneManager.LoadScene("EndScreen");
     }
 }

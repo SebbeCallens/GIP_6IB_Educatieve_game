@@ -50,4 +50,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/PadVolgen/Scenes/PadVolgenGame.unity
     guid: e87c0d5732f3cb94e8c165db16421b2d
+  - enabled: 1
+    path: Assets/EndScreen.unity
+    guid: 14cd8cfa957f41c4baa6996fb0233a2e
   m_configObjects: {}
