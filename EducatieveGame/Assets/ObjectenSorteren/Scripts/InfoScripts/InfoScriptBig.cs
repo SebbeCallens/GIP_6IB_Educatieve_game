@@ -49,22 +49,22 @@ public class InfoScriptBig : MonoBehaviour
         if (direction == 'F')
         {
             //verplaatsen inkomende tab (van links naar recht)
-            _infoTabs[enterIndex].transform.localPosition = new Vector3(-2000, _infoTabs[enterIndex].transform.localPosition.y, _infoTabs[enterIndex].transform.localPosition.z);
+            _infoTabs[enterIndex].transform.localPosition = new Vector3(2000, _infoTabs[enterIndex].transform.localPosition.y, _infoTabs[enterIndex].transform.localPosition.z);
             LeanTween.moveLocalX(_infoTabs[enterIndex], 0f, 1);
 
             //verplaatsen weggaande tab (van links naar rechts)
             _infoTabs[exitIndex].transform.localPosition = new Vector3(0, _infoTabs[exitIndex].transform.localPosition.y, _infoTabs[exitIndex].transform.localPosition.z);
-            LeanTween.moveLocalX(_infoTabs[exitIndex], 2000f, 1);
+            LeanTween.moveLocalX(_infoTabs[exitIndex], -2000f, 1);
         }
         else
         {
             //verplaatsen inkomende tab (van rechts naar links)
-            _infoTabs[enterIndex].transform.localPosition = new Vector3(2000, _infoTabs[enterIndex].transform.localPosition.y, _infoTabs[enterIndex].transform.localPosition.z);
+            _infoTabs[enterIndex].transform.localPosition = new Vector3(-2000, _infoTabs[enterIndex].transform.localPosition.y, _infoTabs[enterIndex].transform.localPosition.z);
             LeanTween.moveLocalX(_infoTabs[enterIndex], 0f, 1);
 
             //verplaatsen weggaande tab (van rechts naar links)
             _infoTabs[exitIndex].transform.localPosition = new Vector3(0, _infoTabs[exitIndex].transform.localPosition.y, _infoTabs[exitIndex].transform.localPosition.z);
-            LeanTween.moveLocalX(_infoTabs[exitIndex], -2000f, 1);
+            LeanTween.moveLocalX(_infoTabs[exitIndex], 2000f, 1);
         }
     }
 

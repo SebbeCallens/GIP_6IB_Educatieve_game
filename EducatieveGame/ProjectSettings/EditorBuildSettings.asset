@@ -9,22 +9,22 @@ EditorBuildSettings:
     path: Assets/MainMenu.unity
     guid: a7a0b5ae08b089b439327c831c8e23ef
   - enabled: 1
-    path: Assets/ReactieGame/Scenes/ReactionMenu.unity
+    path: Assets/VleesBakken/Scenes/ReactionMenu.unity
     guid: 0e112b449786bfb4199bba243160039c
   - enabled: 1
-    path: Assets/ReactieGame/Scenes/ReactionGame.unity
+    path: Assets/VleesBakken/Scenes/ReactionGame.unity
     guid: 75db9ac02b8efec43ac85f2ebfdc906f
   - enabled: 1
-    path: Assets/TekenGame/Scenes/SelectDrawMode.unity
+    path: Assets/FigurenNamaken/Scenes/SelectDrawMode.unity
     guid: c98df8c41a6726d479e6d192da163fa1
   - enabled: 1
-    path: Assets/TekenGame/Scenes/SelectFigure.unity
+    path: Assets/FigurenNamaken/Scenes/SelectFigure.unity
     guid: 4d99eaebe851e2a44b8e99430b76650f
   - enabled: 1
-    path: Assets/TekenGame/Scenes/DrawGame.unity
+    path: Assets/FigurenNamaken/Scenes/DrawGame.unity
     guid: 1b64bc297e3feae4c93e91e3ed3e9334
   - enabled: 1
-    path: Assets/TekenGame/Scenes/DrawFigure.unity
+    path: Assets/FigurenNamaken/Scenes/DrawFigure.unity
     guid: c93153617f0ac0f47aebb3fcf60251fc
   - enabled: 1
     path: Assets/FiguurDraaienGame/Scenes/RotateFigure.unity
@@ -33,19 +33,19 @@ EditorBuildSettings:
     path: Assets/FiguurDraaienGame/Scenes/RotateFigureGame.unity
     guid: 35d5f5f899c9c0940b59222033a44006
   - enabled: 1
-    path: Assets/KleurGame/Scenes/Startscherm.unity
+    path: Assets/ObjectenSorteren/Scenes/Startscherm.unity
     guid: 2c305bd9910f1d94fb65060ac0b78b93
   - enabled: 1
-    path: Assets/KleurGame/Scenes/KleurGame.unity
+    path: Assets/ObjectenSorteren/Scenes/KleurGame.unity
     guid: 11232d43e7b0c5b44ae887b64b046559
   - enabled: 1
-    path: Assets/KleurGame/Scenes/Eindscherm.unity
+    path: Assets/ObjectenSorteren/Scenes/Eindscherm.unity
     guid: 0991decdf1fe39a4e93d3e892bc56cfc
   - enabled: 1
-    path: Assets/PuzzelGame/Scenes/PuzzelGameMenu.unity
+    path: "Assets/Co\xF6rdinatenPuzzel/Scenes/PuzzelGameMenu.unity"
     guid: 2a7cd87c37f42924192a80c6d3f2b3b7
   - enabled: 1
-    path: Assets/PuzzelGame/Scenes/PuzzelGame.unity
+    path: "Assets/Co\xF6rdinatenPuzzel/Scenes/PuzzelGame.unity"
     guid: 2cfd977fc4521c94d80cbe71872c0f37
   - enabled: 1
     path: Assets/PadVolgen/Scenes/PadVolgenGame.unity
