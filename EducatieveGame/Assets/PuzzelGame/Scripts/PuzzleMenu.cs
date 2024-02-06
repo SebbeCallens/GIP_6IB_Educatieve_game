@@ -11,18 +11,22 @@ public class PuzzleMenu : MonoBehaviour
     [SerializeField] private GameObject _pzButton;
     [SerializeField] private GameObject _puzzles;
     [SerializeField] private Transform _pokemonPuzzles;
+    [SerializeField] private GameObject _deleteButton;
     private int _currentPuzzleMenu = 0;
 
     private static Sprite _puzzleImage;
     private static int _difficulty;
+    private static string _puzzleName;
 
     private GameObject[] PuzzleMenus { get => _puzzleMenus; set => _puzzleMenus = value; }
     private GameObject PzButton { get => _pzButton; set => _pzButton = value; }
     private GameObject Puzzles { get => _puzzles; set => _puzzles = value; }
     private Transform PokemonPuzzles { get => _pokemonPuzzles; set => _pokemonPuzzles = value; }
+    private GameObject DeleteButton { get => _deleteButton; set => _deleteButton = value; }
     private int CurrentPuzzleMenu { get => _currentPuzzleMenu; set => _currentPuzzleMenu = value; }
     public static Sprite PuzzleImage { get => _puzzleImage; set => _puzzleImage = value; }
     public static int Difficulty { get => _difficulty; set => _difficulty = value; }
+    public static string PuzzleName { get => _puzzleName; set => _puzzleName = value; }
 
     private void Awake()
     {
@@ -30,8 +34,8 @@ public class PuzzleMenu : MonoBehaviour
         {
             Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Puzzels"));
         }
-        LoadPuzzles(Path.Combine(Application.streamingAssetsPath, "PuzzelGame/Puzzels"));
-        LoadPuzzles(Path.Combine(Application.persistentDataPath, "Puzzels"));
+        LoadPuzzles(Path.Combine(Application.streamingAssetsPath, "PuzzelGame/Puzzels"), "original");
+        LoadPuzzles(Path.Combine(Application.persistentDataPath, "Puzzels"), "custom");
         PlayerPrefs.SetInt("puzzeldifficulty", 1);
 
         GameObject pokemonPuzzles = GameObject.FindWithTag("pokemonpuzzles");
@@ -59,6 +63,7 @@ public class PuzzleMenu : MonoBehaviour
         Image preview = GameObject.FindWithTag("Preview").GetComponent<Image>();
         preview.sprite = PuzzleImage;
         preview.preserveAspect = true;
+        DeleteButton.SetActive(PuzzleName.Contains("custom-"));
     }
 
     public void CloseDifficulty()
@@ -76,13 +81,14 @@ public class PuzzleMenu : MonoBehaviour
         Application.Quit();
     }
 
-    private void AddPuzzle(Sprite puzzleImage)
+    private void AddPuzzle(Sprite puzzleImage, string name)
     {
         PuzzleButton puzzleButton = Instantiate(PzButton, new Vector2(0f, 0f), Quaternion.identity, Puzzles.transform).GetComponent<PuzzleButton>();
         puzzleButton.CreatePuzzle(puzzleImage);
+        puzzleButton.name = name;
     }
 
-    private void LoadPuzzles(string path)
+    private void LoadPuzzles(string path, string name)
     {
         string[] pngFiles = Directory.GetFiles(path, "*.png");
         string[] jpgFiles = Directory.GetFiles(path, "*.jpg");
@@ -96,7 +102,7 @@ public class PuzzleMenu : MonoBehaviour
             Texture2D texture = new(2, 2);
             texture.LoadImage(fileData);
 
-            AddPuzzle(Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f)));
+            AddPuzzle(Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f)), name + "-" + Path.GetFileName(imageFile));
         }
 
         // Scroll to the top after adding all puzzles
@@ -126,7 +132,7 @@ public class PuzzleMenu : MonoBehaviour
             Texture2D texture = new(2, 2);
             texture.LoadImage(fileData);
 
-            AddPuzzle(Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f)));
+            AddPuzzle(Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f)), "custom-" + Path.GetFileName(imagePath));
             File.Copy(imagePath, Path.Combine(Application.persistentDataPath, "Puzzels", Path.GetFileName(imagePath)), true);
         }
 
@@ -144,5 +150,12 @@ public class PuzzleMenu : MonoBehaviour
                 scrollbar.value = 0;
             }
         }
+    }
+
+    public void DeletePuzzle()
+    {
+        print(PuzzleName.Substring(7));
+        File.Delete(Path.Combine(Application.persistentDataPath, "Puzzels", PuzzleName.Substring(7)));
+        Destroy(GameObject.Find(PuzzleName));
     }
 }

@@ -227,7 +227,7 @@ public class FigureGame : MonoBehaviour
         string filePath;
         if (Original == 0)
         {
-            filePath = Path.Combine(Application.persistentDataPath, "figures", FigureName);
+            filePath = Path.Combine(Application.persistentDataPath, "Figuren", FigureName);
         }
         else
         {

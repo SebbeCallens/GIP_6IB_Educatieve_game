@@ -352,7 +352,7 @@ public class DrawFigure : MonoBehaviour
 
     private void LoadFigures() //laad de lijst met bestaande figuren
     {
-        string figureDirectory = Path.Combine(Application.persistentDataPath, "figures");
+        string figureDirectory = Path.Combine(Application.persistentDataPath, "Figuren");
 
         if (Directory.Exists(figureDirectory))
         {

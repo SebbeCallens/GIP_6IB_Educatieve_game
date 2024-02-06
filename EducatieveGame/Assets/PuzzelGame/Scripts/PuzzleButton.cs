@@ -13,6 +13,7 @@ public class PuzzleButton : MonoBehaviour
     public void StartPuzzle()
     {
         PuzzleMenu.PuzzleImage = transform.GetChild(0).GetComponent<Image>().sprite;
+        PuzzleMenu.PuzzleName = name;
         GameObject.FindWithTag("PuzzleMenu").GetComponent<PuzzleMenu>().OpenDifficulty();
     }
 }
