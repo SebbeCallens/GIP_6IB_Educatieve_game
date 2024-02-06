@@ -25,6 +25,7 @@ TagManager:
   - PuzzlePiece
   - Path
   - pokemonpuzzles
+  - GameView
   layers:
   - Default
   - TransparentFX

@@ -8,8 +8,8 @@ public class Stats : MonoBehaviour
     private int[] _statValues; //lijst me de waarden van de statistieken
 
     private TextMeshProUGUI[] StatTexts { get => _statTexts; set => _statTexts = value; }
-    private string[] StatNames { get => _statNames; set => _statNames = value; }
-    private int[] StatValues { get => _statValues; set => _statValues = value; }
+    public string[] StatNames { get => _statNames; private set => _statNames = value; }
+    public int[] StatValues { get => _statValues; private set => _statValues = value; }
 
     private void Awake() //statistieken instellen op 0
     {
