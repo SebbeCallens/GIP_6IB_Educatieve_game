@@ -66,7 +66,7 @@ public class EndScreenLogic : MonoBehaviour
         {
             GameStats.GetChild(2).gameObject.SetActive(true);
             Difficultys.GetChild(Difficulty - 1).GetChild(0).GetChild(PlayerPrefs.GetInt("meat")-1).gameObject.SetActive(true);
-            Difficultys.GetChild(Difficulty - 1).GetChild(1).GetChild(PlayerPrefs.GetInt("rate")-1).gameObject.SetActive(true);
+            Difficultys.GetChild(Difficulty - 1).GetChild(1).GetChild(5-PlayerPrefs.GetInt("rate")).gameObject.SetActive(true);
             Difficultys.GetChild(Difficulty - 1).GetChild(2).GetChild(PlayerPrefs.GetInt("size")-1).gameObject.SetActive(true);
         }
         else if (CurrentGame.Equals("Startscherm"))

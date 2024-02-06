@@ -332,6 +332,7 @@ MonoBehaviour:
   _meat: {fileID: 3101725654179713124, guid: 9ff8d1f85737f6a4c82437d4b68c33a4, type: 3}
   _statistics: {fileID: 1602696621}
   _minutesUntilFastest: 1
+  _statsObj: {fileID: 257158373}
 --- !u!114 &257158373
 MonoBehaviour:
   m_ObjectHideFlags: 0

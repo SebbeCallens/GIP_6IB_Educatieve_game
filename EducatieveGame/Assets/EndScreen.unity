@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 77154257}
   - component: {fileID: 77154256}
   m_Layer: 5
-  m_Name: Difficulty (3)
+  m_Name: Difficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1179,10 +1179,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1138316532}
   - {fileID: 1852795339}
-  - {fileID: 1773673267}
+  - {fileID: 1138316532}
   - {fileID: 830487614}
+  - {fileID: 1773673267}
   - {fileID: 2036902806}
   m_Father: {fileID: 1304793203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1950,7 +1950,7 @@ GameObject:
   - component: {fileID: 474265764}
   - component: {fileID: 474265763}
   m_Layer: 5
-  m_Name: Difficulty (4)
+  m_Name: Difficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3136,7 +3136,7 @@ GameObject:
   - component: {fileID: 830487616}
   - component: {fileID: 830487615}
   m_Layer: 5
-  m_Name: Difficulty (4)
+  m_Name: Difficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3346,7 +3346,7 @@ GameObject:
   - component: {fileID: 875447986}
   - component: {fileID: 875447985}
   m_Layer: 5
-  m_Name: Difficulty (2)
+  m_Name: Difficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3458,7 +3458,7 @@ GameObject:
   - component: {fileID: 944591607}
   - component: {fileID: 944591606}
   m_Layer: 5
-  m_Name: Difficulty (1)
+  m_Name: Difficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4062,7 +4062,7 @@ GameObject:
   - component: {fileID: 1138316534}
   - component: {fileID: 1138316533}
   m_Layer: 5
-  m_Name: Difficulty (1)
+  m_Name: Difficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4477,7 +4477,7 @@ GameObject:
   - component: {fileID: 1292438322}
   - component: {fileID: 1292438321}
   m_Layer: 5
-  m_Name: Difficulty (5)
+  m_Name: Difficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4610,10 +4610,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 944591605}
   - {fileID: 1482836554}
-  - {fileID: 77154255}
+  - {fileID: 944591605}
   - {fileID: 474265762}
+  - {fileID: 77154255}
   - {fileID: 1292438320}
   m_Father: {fileID: 1304793203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4731,7 +4731,7 @@ GameObject:
   - component: {fileID: 1320347049}
   - component: {fileID: 1320347048}
   m_Layer: 5
-  m_Name: Difficulty (1)
+  m_Name: Difficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4942,7 +4942,7 @@ GameObject:
   - component: {fileID: 1399075379}
   - component: {fileID: 1399075378}
   m_Layer: 5
-  m_Name: Difficulty (4)
+  m_Name: Difficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5162,7 +5162,7 @@ GameObject:
   - component: {fileID: 1482836556}
   - component: {fileID: 1482836555}
   m_Layer: 5
-  m_Name: Difficulty (2)
+  m_Name: Difficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6101,7 +6101,7 @@ GameObject:
   - component: {fileID: 1773673269}
   - component: {fileID: 1773673268}
   m_Layer: 5
-  m_Name: Difficulty (3)
+  m_Name: Difficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6178,7 +6178,7 @@ GameObject:
   - component: {fileID: 1815890625}
   - component: {fileID: 1815890624}
   m_Layer: 5
-  m_Name: Difficulty (3)
+  m_Name: Difficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6465,7 +6465,7 @@ GameObject:
   - component: {fileID: 1852795341}
   - component: {fileID: 1852795340}
   m_Layer: 5
-  m_Name: Difficulty (2)
+  m_Name: Difficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6577,7 +6577,7 @@ GameObject:
   - component: {fileID: 2036902808}
   - component: {fileID: 2036902807}
   m_Layer: 5
-  m_Name: Difficulty (5)
+  m_Name: Difficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7388,7 +7388,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 1
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -8786,8 +8786,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 260, y: -320}
-  m_SizeDelta: {x: 600, y: 100}
+  m_AnchoredPosition: {x: 260, y: -560}
+  m_SizeDelta: {x: 600, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8496298652863684009
 CanvasRenderer:

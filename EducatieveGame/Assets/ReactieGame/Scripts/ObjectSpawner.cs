@@ -9,6 +9,7 @@ public class ObjectSpawner : MonoBehaviour
     private GameObject[] _gridCells; //lijst met de gridcellen
     private GridGenerator _gridGen; //de gridgenerator
     private GridFunctions _gridFunc; //de gridfuncties
+    [SerializeField] private Stats _statsObj;
     private Vector3[] _gridPoints; //lijst met de gridpunten
     private bool _gameActive = true; //of het spel bezig is of al gedaan is
     private float _spawnRate; //hoe vlug er vlees spawned op de barbecue
@@ -22,6 +23,7 @@ public class ObjectSpawner : MonoBehaviour
     private GameObject[] GridCells { get => _gridCells; set => _gridCells = value; }
     private GridGenerator GridGen { get => _gridGen; set => _gridGen = value; }
     private GridFunctions GridFunc { get => _gridFunc; set => _gridFunc = value; }
+    private Stats StatsObj { get => _statsObj; set => _statsObj = value; }
     private Vector3[] GridPoints { get => _gridPoints; set => _gridPoints = value; }
     private bool GameActive { get => _gameActive; set => _gameActive = value; }
     private float SpawnRate { get => _spawnRate; set => _spawnRate = value; }
@@ -113,7 +115,36 @@ public class ObjectSpawner : MonoBehaviour
 
     public void EndGame()
     {
-        EndScreenLogic.EndGame("ReactionMenu", "Reactie game", "0", 6, 5, 0);
+        string score = string.Empty;
+        for (int i = 0; i < StatsObj.StatNames.Length; i++)
+        {
+            if (i == 0)
+            {
+                score += $"{StatsObj.StatValues[i]}\n";
+                score += "Aantal stukken vlees:\n";
+            }
+            else if (i == 1)
+            {
+                score += $"{StatsObj.StatValues[i]} {StatsObj.StatNames[i]}: {StatsObj.StatValues[i] * 1}\n";
+            }
+            else if (i == 2)
+            {
+                score += $"{StatsObj.StatValues[i]} {StatsObj.StatNames[i]}: {StatsObj.StatValues[i] * -1}\n";
+            }
+            else if (i == 3)
+            {
+                score += $"{StatsObj.StatValues[i]} {StatsObj.StatNames[i]}: {StatsObj.StatValues[i] * -2}\n";
+            }
+            else if (i == 4)
+            {
+                score += $"{StatsObj.StatValues[i]} {StatsObj.StatNames[i]}: {StatsObj.StatValues[i] * -1}\n";
+            }
+            else if (i == 5)
+            {
+                score += $"{StatsObj.StatValues[i]} {StatsObj.StatNames[i]}: {StatsObj.StatValues[i] * -3}\n";
+            }
+        }
+        EndScreenLogic.EndGame("ReactionMenu", "Reactie game", score, 6, 5, 0);
         SceneManager.LoadScene("EndScreen");
     }
 }
