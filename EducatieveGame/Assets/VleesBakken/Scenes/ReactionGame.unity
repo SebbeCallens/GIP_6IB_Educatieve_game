@@ -1548,7 +1548,7 @@ PrefabInstance:
     - target: {fileID: 3657943136188741803, guid: 6b7e6b4d3837f1d409ea476361323a23, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2053311070}
+      objectReference: {fileID: 2053311072}
     - target: {fileID: 3657943136188741803, guid: 6b7e6b4d3837f1d409ea476361323a23, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Quit
@@ -1656,32 +1656,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2053311071}
-  - component: {fileID: 2053311070}
+  - component: {fileID: 2053311072}
   m_Layer: 0
   m_Name: MenuLogic
-  m_TagString: Untagged
+  m_TagString: MenuLogic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2053311070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2053311069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccb97f56aedf8924fa42e6e6a1b89648, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _menus: []
-  _assistToggle: {fileID: 0}
-  _symmetricalToggle: {fileID: 0}
-  _confirmationWarning: {fileID: 0}
-  _assist: 0
-  _pokemonPuzzels: {fileID: 0}
 --- !u!4 &2053311071
 Transform:
   m_ObjectHideFlags: 0
@@ -1697,6 +1679,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2053311072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053311069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cde71bdbd9f751b4aaf5d826eb257b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _menus: []
+  _settingsToggles: []
+  _settings: []
+  _resetDifficulty: 0
 --- !u!1 &2081246237
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,10 +25,10 @@ public class PuzzleManager : MonoBehaviour
 
     void Awake()
     {
-        int difficulty = PlayerPrefs.GetInt("puzzeldifficulty");
+        int difficulty = MenuLogic.Difficulty;
 
         //hier kan je nog scale, width, height en de afbeelding ophalen
-        (int columns, int rows, float gridScale) = PuzzleSlicer.SliceImage(PuzzleMenu.PuzzleImage.texture, difficulty * 3, difficulty * 3); //slice afbeelding met scale, aantal kolommen en aantal rijen
+        (int columns, int rows, float gridScale) = PuzzleSlicer.SliceImage(PuzzleMenuLogic.PuzzleImage.texture, difficulty * 3, difficulty * 3); //slice afbeelding met scale, aantal kolommen en aantal rijen
 
         //lijst van de de stukjes
         List<GameObject> parts = new();
@@ -149,7 +149,7 @@ public class PuzzleManager : MonoBehaviour
 
     public void EndGame(string score)
     {
-        EndScreenLogic.EndGame("PuzzelGameMenu", "Coördinaten puzzel", $"{score}", PlayerPrefs.GetInt("puzzeldifficulty"), Camera.main.orthographicSize, 2);
+        EndScreenLogic.EndGame("PuzzelGameMenu", "Coördinaten puzzel", $"{score}", Camera.main.orthographicSize, 2);
         GameObject preview = GameObject.FindWithTag("Preview");
         preview.transform.SetParent(null);
         preview.transform.localScale = new(preview.transform.localScale.x * 0.75f, preview.transform.localScale.y * 0.75f, 1);

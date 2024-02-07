@@ -70,14 +70,14 @@ public class FigureGame : MonoBehaviour
         GridGen = gameObject.GetComponent<GridGenerator>();
         GridFuncs = GetComponent<GridFunctions>();
         Original = PlayerPrefs.GetInt("original");
-        FigureName = PlayerPrefs.GetString("figure");
-        FigureName = FigureName + ".txt";
+        FigureName = FigureMenuLogic.Figure;
+        FigureName += ".txt";
         LinePoints = new List<Vector3>();
         Arrows = new List<(int, int)>();
         ReadFigure();
         GridGen.GenerateGrid(Width, Height, CellSize);
 
-        if (PlayerPrefs.GetInt("assist") == 1)
+        if (PlayerPrefs.GetInt("figure-assist") == 1)
         {
             AssistMode = true;
             StatsObj.gameObject.SetActive(false);
@@ -344,13 +344,13 @@ public class FigureGame : MonoBehaviour
 
     public void EndGame()
     {
-        if (PlayerPrefs.GetInt("assist") == 0)
+        if (PlayerPrefs.GetInt("figure-assist") == 0)
         {
-            EndScreenLogic.EndGame("SelectDrawMode", "Figuur namaken", $"{StatsObj.StatValues[0]}", PlayerPrefs.GetInt("difficulty"), Camera.main.orthographicSize * 1.75f, 5);
+            EndScreenLogic.EndGame("SelectDrawMode", "Figuur namaken", $"{StatsObj.StatValues[0]}", Camera.main.orthographicSize * 1.75f, 5);
         }
         else
         {
-            EndScreenLogic.EndGame("SelectDrawMode", "Figuur namaken", $"/", PlayerPrefs.GetInt("difficulty"), Camera.main.orthographicSize * 1.75f, 5);
+            EndScreenLogic.EndGame("SelectDrawMode", "Figuur namaken", $"/", Camera.main.orthographicSize * 1.75f, 5);
         }
         enabled = false;
         DontDestroyOnLoad(gameObject);

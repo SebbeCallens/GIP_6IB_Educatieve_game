@@ -144,7 +144,8 @@ public class ObjectSpawner : MonoBehaviour
                 score += $"{StatsObj.StatValues[i]} {StatsObj.StatNames[i]}: {StatsObj.StatValues[i] * -3}\n";
             }
         }
-        EndScreenLogic.EndGame("ReactionMenu", "Reactie game", score, 6, 5, 0);
+        MenuLogic.SetDifficulty(6);
+        EndScreenLogic.EndGame("ReactionMenu", "Reactie game", score, 5, 0);
         SceneManager.LoadScene("EndScreen");
     }
 }

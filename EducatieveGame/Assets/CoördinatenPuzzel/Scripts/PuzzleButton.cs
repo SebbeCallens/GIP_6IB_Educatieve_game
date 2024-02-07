@@ -3,17 +3,17 @@ using UnityEngine.UI;
 
 public class PuzzleButton : MonoBehaviour
 {
-    public void CreatePuzzle(Sprite image)
+    public void CreatePuzzle(Sprite image) //puzzel knop afbeelding instellen
     {
         Image thumbnail = transform.GetChild(0).GetComponent<Image>();
         thumbnail.sprite = image;
         thumbnail.preserveAspect = true;
     }
 
-    public void StartPuzzle()
+    public void StartPuzzle() //puzzel starten
     {
-        PuzzleMenu.PuzzleImage = transform.GetChild(0).GetComponent<Image>().sprite;
-        PuzzleMenu.PuzzleName = name;
-        GameObject.FindWithTag("PuzzleMenu").GetComponent<PuzzleMenu>().OpenDifficulty();
+        PuzzleMenuLogic.PuzzleImage = transform.GetChild(0).GetComponent<Image>().sprite;
+        PuzzleMenuLogic.PuzzleName = name;
+        GameObject.FindWithTag("MenuLogic").GetComponent<PuzzleMenuLogic>().OpenDifficultySelection();
     }
 }

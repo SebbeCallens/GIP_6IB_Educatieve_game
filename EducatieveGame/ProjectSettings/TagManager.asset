@@ -4,13 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Canvas
-  - TMP
-  - PuzzelGrid
-  - PiecesGrid
-  - Logic
-  - MenuScript
-  - TextObject
   - GameScriptManager
   - MailItem
   - ColorMenu
@@ -18,14 +11,14 @@ TagManager:
   - Trashbin
   - ToNextScene
   - Check
-  - PuzzleMenu
   - Preview
   - CoordinatesText
   - Slicer
   - PuzzlePiece
   - Path
-  - pokemonpuzzles
   - GameView
+  - MenuLogic
+  - Pokemon
   layers:
   - Default
   - TransparentFX

@@ -4,16 +4,13 @@ using UnityEngine.UI;
 
 public class FigureButton : MonoBehaviour
 {
-    private GameObject _menuLogObject;
-    private MenuLogic _menuLog;
+    private FigureMenuLogic _menuLog; //de menu logica
 
-    private GameObject MenuLogObject { get => _menuLogObject; set => _menuLogObject = value; }
-    private MenuLogic MenuLog { get => _menuLog; set => _menuLog = value; }
+    private FigureMenuLogic MenuLog { get => _menuLog; set => _menuLog = value; }
 
-    private void Awake()
+    private void Awake() //menu logica instellen
     {
-        MenuLogObject = GameObject.Find("MenuLogic");
-        MenuLog = MenuLogObject.GetComponent<MenuLogic>();
+        MenuLog = GameObject.FindWithTag("MenuLogic").GetComponent<FigureMenuLogic>();
     }
 
     public void LoadFigure(bool original) //laad de figuur en open het confirmatie menu
@@ -29,14 +26,14 @@ public class FigureButton : MonoBehaviour
 
         TextMeshProUGUI buttonText = GetComponentInChildren<TextMeshProUGUI>();
         string figureName = buttonText.text;
-        PlayerPrefs.SetString("figure", figureName);
+        FigureMenuLogic.SetFigure(figureName);
         Image[] difficultyImages = GetComponentsInChildren<Image>();
         int difficulty = Mathf.RoundToInt(difficultyImages[1].fillAmount * 5f);
         if (difficulty == 0)
         {
             difficulty = 1;
         }
-        PlayerPrefs.SetInt("difficulty", difficulty);
-        MenuLog.Open(1);
+        MenuLogic.SetDifficulty(difficulty);
+        MenuLog.OpenMenu(1);
     }
 }

@@ -79,8 +79,13 @@ public class FigureListLoader : MonoBehaviour
                 TextMeshProUGUI[] figureText = figureBut.GetComponentsInChildren<TextMeshProUGUI>();
                 figureText[0].text = Path.GetFileNameWithoutExtension(figurePath);
                 Image[] difficultyImages = figureBut.GetComponentsInChildren<Image>();
-                difficultyImages[1].fillAmount = difficulty;
-                difficultyImages[0].color = DifficultyColor.Evaluate(difficulty);
+                int difficultyInt = Mathf.RoundToInt(difficulty * 5);
+                if (difficultyInt == 0)
+                {
+                    difficultyInt = 1;
+                }
+                difficultyImages[1].fillAmount = difficultyInt / 5f;
+                difficultyImages[0].color = DifficultyColor.Evaluate(difficultyInt / 5f);
                 i++;
             }
         }

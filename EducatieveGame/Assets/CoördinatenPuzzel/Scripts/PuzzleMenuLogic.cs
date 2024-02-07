@@ -1,0 +1,132 @@
+using SFB;
+using System.IO;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class PuzzleMenuLogic : MenuLogic
+{
+    [SerializeField] private GameObject _pzButton; //knop van een puzzel
+    [SerializeField] private Transform _puzzles; //de originele puzzels
+    [SerializeField] private Transform _pokemonPuzzles; //de pokemon puzzels
+    [SerializeField] private GameObject _deleteButton; //de verwijder knop
+    [SerializeField] private Button _startButton; //de start knop
+
+    private static Sprite _puzzleImage; //afbeelding van puzzel
+    private static string _puzzleName; //naam puzzel
+
+    private GameObject PzButton { get => _pzButton; set => _pzButton = value; }
+    private Transform Puzzles { get => _puzzles; set => _puzzles = value; }
+    private Transform PokemonPuzzles { get => _pokemonPuzzles; set => _pokemonPuzzles = value; }
+    private GameObject DeleteButton { get => _deleteButton; set => _deleteButton = value; }
+    private Button StartButton { get => _startButton; set => _startButton = value; }
+    public static Sprite PuzzleImage { get => _puzzleImage; set => _puzzleImage = value; }
+    public static string PuzzleName { get => _puzzleName; set => _puzzleName = value; }
+
+    private void Awake() //puzzels laden
+    {
+        if (!Directory.Exists(Path.Combine(Application.persistentDataPath, "Puzzels")))
+        {
+            Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Puzzels"));
+        }
+        LoadPuzzles(Path.Combine(Application.streamingAssetsPath, "PuzzelGame/Puzzels"), "original");
+        LoadPuzzles(Path.Combine(Application.persistentDataPath, "Puzzels"), "custom");
+
+        GameObject pokemonPuzzles = GameObject.FindWithTag("Pokemon");
+        GameObject pokemonPuzzlesContent = Instantiate(pokemonPuzzles, PokemonPuzzles);
+        pokemonPuzzlesContent.transform.SetAsFirstSibling();
+        PokemonPuzzles.GetComponent<ScrollRect>().content = pokemonPuzzlesContent.GetComponent<RectTransform>();
+    }
+
+    public void OpenDifficultySelection() //open difficulty menu met puzzel
+    {
+        StartButton.interactable = true;
+        Menus[2].SetActive(true);
+        Menus[CurrentMenu].SetActive(false);
+        Image preview = GameObject.FindWithTag("Preview").GetComponent<Image>();
+        preview.sprite = PuzzleImage;
+        preview.preserveAspect = true;
+        DeleteButton.SetActive(PuzzleName.Contains("custom-"));
+    }
+
+    public void CloseDifficultySelection() //sluit difficulty menu
+    {
+        StartButton.interactable = false;
+        Menus[2].SetActive(false);
+        Menus[CurrentMenu].SetActive(true);
+    }
+
+    private void AddPuzzle(Sprite puzzleImage, string name) //puzzelknop toevoegen met sprite en naam
+    {
+        PuzzleButton puzzleButton = Instantiate(PzButton, new Vector2(0f, 0f), Quaternion.identity, Puzzles.transform).GetComponent<PuzzleButton>();
+        puzzleButton.CreatePuzzle(puzzleImage);
+        puzzleButton.name = name;
+    }
+
+    private void LoadPuzzles(string path, string name) //alle puzzels op gegeven pad laden
+    {
+        string[] pngFiles = Directory.GetFiles(path, "*.png");
+        string[] jpgFiles = Directory.GetFiles(path, "*.jpg");
+        string[] jpegFiles = Directory.GetFiles(path, "*.jpeg");
+        string[] allImageFiles = pngFiles.Concat(jpgFiles).Concat(jpegFiles).ToArray();
+
+
+        foreach (string imageFile in allImageFiles)
+        {
+            byte[] fileData = File.ReadAllBytes(imageFile);
+            Texture2D texture = new(2, 2);
+            texture.LoadImage(fileData);
+
+            AddPuzzle(Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f)), name + "-" + Path.GetFileName(imageFile));
+        }
+
+        ScrollRect scrollRect = Puzzles.transform.parent.transform.parent.GetComponentInChildren<ScrollRect>();
+        if (scrollRect != null)
+        {
+            scrollRect.normalizedPosition = new Vector2(0, 1);
+
+            Scrollbar scrollbar = scrollRect.verticalScrollbar;
+            if (scrollbar != null)
+            {
+                scrollbar.value = 1;
+            }
+        }
+    }
+
+    public void AddCustomPuzzle() //een puzzel vanuit de verkenner toevoegen
+    {
+        var extensions = new[] { new ExtensionFilter("Afbeeldingen", "png", "jpg", "jpeg") };
+        string[] filePaths = StandaloneFileBrowser.OpenFilePanel("Kies een afbeelding", "", extensions, false);
+        if (filePaths != null && filePaths.Length > 0 && !string.IsNullOrEmpty(filePaths[0]))
+        {
+            string imagePath = filePaths[0];
+            byte[] fileData = File.ReadAllBytes(imagePath);
+            Texture2D texture = new(2, 2);
+            texture.LoadImage(fileData);
+
+            AddPuzzle(Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f)), "custom-" + Path.GetFileName(imagePath));
+            File.Copy(imagePath, Path.Combine(Application.persistentDataPath, "Puzzels", Path.GetFileName(imagePath)), true);
+        }
+
+        ScrollRect scrollRect = Puzzles.transform.parent.transform.parent.GetComponentInChildren<ScrollRect>();
+        if (scrollRect != null)
+        {
+            scrollRect.normalizedPosition = new Vector2(0, 0);
+
+            Scrollbar scrollbar = scrollRect.verticalScrollbar;
+            if (scrollbar != null)
+            {
+                scrollbar.value = 0;
+            }
+        }
+    }
+
+    public void DeletePuzzle() //een puzzel die vanuit de verkenner toegevoegd is verwijderen
+    {
+        File.Delete(Path.Combine(Application.persistentDataPath, "Puzzels", PuzzleName.Substring(7)));
+        Menus[0].SetActive(true);
+        Destroy(GameObject.Find(PuzzleName));
+        Menus[0].SetActive(false);
+    }
+}

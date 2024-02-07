@@ -156,9 +156,10 @@ public class DrawFigure : MonoBehaviour
         if (!string.IsNullOrWhiteSpace(FigureNameText.text) && !Figures.Contains(FigureNameText.text)) //kijkt na of de figuurnaam niet leeg is of geen spaties zijn en of de figuurnaam nog niet bestaat
         {
             SettingGridValues = false;
+            GridGen.GenerateGrid(Width, Height, CellSize);
             GridSettings.SetActive(false);
             DrawMode.SetActive(true);
-            GridGen.GenerateGrid(Width, Height, CellSize);
+            GameObject.FindWithTag("MenuLogic").GetComponent<FigureMenuLogic>().DisableMenuButtons();
             FigureName = FigureNameText.text + ".txt";
         }
         else

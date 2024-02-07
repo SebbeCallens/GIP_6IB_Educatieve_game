@@ -9,7 +9,7 @@ public class PuzzleDifficultyButton : MonoBehaviour
         {
             check.SetActive(false);
         }
-        PlayerPrefs.SetInt("puzzeldifficulty", difficulty);
+        MenuLogic.SetDifficulty(difficulty);
         transform.GetChild(0).gameObject.SetActive(true);
     }
 }
