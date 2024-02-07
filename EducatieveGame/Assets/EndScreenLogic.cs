@@ -47,7 +47,7 @@ public class EndScreenLogic : MonoBehaviour
         if (preview != null)
         {
             GameObject.FindWithTag("Preview").SetActive(true);
-            GameObject.FindWithTag("Preview").transform.parent = Preview;
+            GameObject.FindWithTag("Preview").transform.SetParent(Preview);
             GameObject.FindWithTag("Preview").transform.position = new(Preview.transform.position.x, Preview.transform.position.y - OffsetY, Preview.transform.position.z);
         }
         Camera.main.orthographicSize = CameraSize;

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PuzzleManager : MonoBehaviour
@@ -11,6 +12,7 @@ public class PuzzleManager : MonoBehaviour
     [SerializeField] private GameObject _coordinateSlot;
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private GameObject _coordinates;
+    private bool _extraChance = true;
     private List<GameObject> _puzzleSlots;
 
     private Slicer PuzzleSlicer { get => _puzzleSlicer; set => _puzzleSlicer = value; }
@@ -112,6 +114,12 @@ public class PuzzleManager : MonoBehaviour
         {
             piece.GetComponent<PuzzlePiece>().enabled = false;
         }
+
+        if (!_extraChance)
+        {
+            EndGame(ScoreText.text);
+        }
+        _extraChance = false;
     }
 
     public void ResetPuzzle()
@@ -137,5 +145,15 @@ public class PuzzleManager : MonoBehaviour
         {
             piece.GetComponent<PuzzlePiece>().enabled = true;
         }
+    }
+
+    public void EndGame(string score)
+    {
+        EndScreenLogic.EndGame("PuzzelGameMenu", "Coördinaten puzzel", $"{score}", PlayerPrefs.GetInt("difficulty"), Camera.main.orthographicSize, 2);
+        GameObject preview = GameObject.FindWithTag("Preview");
+        preview.transform.SetParent(null);
+        preview.transform.localScale = new(preview.transform.localScale.x * 0.75f, preview.transform.localScale.y * 0.75f, 1);
+        DontDestroyOnLoad(preview);
+        SceneManager.LoadScene("EndScreen");
     }
 }
