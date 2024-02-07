@@ -14,6 +14,12 @@ public class PathGrid : MonoBehaviour
     private GameObject Tile { get => _tile; set => _tile = value; }
     private Dictionary<Vector2, PathTile> Tiles { get => _tiles; set => _tiles = value; }
 
+    private void Awake()
+    {
+        Width = PlayerPrefs.GetInt("puzzeldifficulty") * 4;
+        Height = PlayerPrefs.GetInt("puzzeldifficulty") * 4;
+    }
+
     public void GenerateGrid() //grid genereren
     {
         //oud grid verwijderen indien nodig

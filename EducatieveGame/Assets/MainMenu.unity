@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menus: []
   _assistToggle: {fileID: 0}
+  _symmetricalToggle: {fileID: 0}
   _confirmationWarning: {fileID: 0}
   _assist: 1
   _pokemonPuzzels: {fileID: 3813112048800698020, guid: c37d9a3b75a510147b1cb16155f6b974, type: 3}
@@ -300,7 +301,7 @@ PrefabInstance:
       objectReference: {fileID: 2732506}
     - target: {fileID: 2621356922959253218, guid: 47736e318efc39f4ba1abb9f639f4a15, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: PadVolgenGame
+      value: PadVolgenMenu
       objectReference: {fileID: 0}
     - target: {fileID: 7738628314486493778, guid: 47736e318efc39f4ba1abb9f639f4a15, type: 3}
       propertyPath: m_Pivot.x

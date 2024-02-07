@@ -31,6 +31,37 @@ public class PathGenerator : MonoBehaviour
     private Transform Canvas { get => _canvas; set => _canvas = value; }
     private int Paths { get => _paths; set => _paths = value; }
 
+    private void Awake()
+    {
+        if (PlayerPrefs.GetInt("symmetrical") == 1)
+        {
+            ScrambledOrder = true;
+        }
+        else
+        {
+            ScrambledOrder = false;
+        }
+        if (PlayerPrefs.GetInt("arrows") == 1)
+        {
+            RandomOrder = true;
+        }
+        else
+        {
+            RandomOrder = false;
+        }
+        if (PlayerPrefs.GetInt("assist") == 1)
+        {
+            Arrows = true;
+        }
+        else
+        {
+            Arrows = false;
+        }
+        MinLength = PlayerPrefs.GetInt("puzzeldifficulty") * 8;
+        MaxLength = PlayerPrefs.GetInt("puzzeldifficulty") * 10;
+        MinDistance = PlayerPrefs.GetInt("puzzeldifficulty");
+    }
+
     public PathTile SpawnPlayer() //speler spawnen
     {
         List<PathTile> _possibleTiles = new List<PathTile>();

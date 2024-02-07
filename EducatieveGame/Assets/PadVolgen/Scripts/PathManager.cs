@@ -23,9 +23,9 @@ public class PathManager : MonoBehaviour
     public List<PathTile> AStarPath { get => _AStarPath; set => _AStarPath = value; }
     public List<PathTile> Checkpoints { get => _checkpoints; set => _checkpoints = value; }
 
-    private void Awake()
+    private void Start()
     {
         Grid.GenerateGrid();
-        Generator.GeneratePath(Generator.SpawnPlayer(), Locations);
+        Generator.GeneratePath(Generator.SpawnPlayer(), PlayerPrefs.GetInt("puzzeldifficulty"));
     }
 }

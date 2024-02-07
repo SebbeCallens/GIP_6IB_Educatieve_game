@@ -149,7 +149,7 @@ public class PuzzleManager : MonoBehaviour
 
     public void EndGame(string score)
     {
-        EndScreenLogic.EndGame("PuzzelGameMenu", "Coördinaten puzzel", $"{score}", PlayerPrefs.GetInt("difficulty"), Camera.main.orthographicSize, 2);
+        EndScreenLogic.EndGame("PuzzelGameMenu", "Coördinaten puzzel", $"{score}", PlayerPrefs.GetInt("puzzeldifficulty"), Camera.main.orthographicSize, 2);
         GameObject preview = GameObject.FindWithTag("Preview");
         preview.transform.SetParent(null);
         preview.transform.localScale = new(preview.transform.localScale.x * 0.75f, preview.transform.localScale.y * 0.75f, 1);

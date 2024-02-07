@@ -97,7 +97,7 @@ public class EndScreenLogic : MonoBehaviour
             GameStats.GetChild(4).gameObject.SetActive(true);
 
         }
-        else if (CurrentGame.Equals("PadVolgenGame"))
+        else if (CurrentGame.Equals("PadVolgenMenu"))
         {
             GameStats.GetChild(5).gameObject.SetActive(true);
 
