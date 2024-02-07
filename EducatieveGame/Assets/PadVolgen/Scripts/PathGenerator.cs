@@ -139,7 +139,7 @@ public class PathGenerator : MonoBehaviour
             for (int y = 0; y < Pad.Grid.Height; y++)
             {
                 PathTile currentTile = Pad.Grid.GetTileAtPosition(new Vector2(x, y));
-                if (!Pad.RandomPath.Contains(currentTile)) //tile toevoegen in lijst wanneer deze zich niet op het pad bevind
+                if (!Pad.RandomPath.Contains(currentTile) && !Pad.Checkpoints.Contains(currentTile)) //tile toevoegen in lijst wanneer deze zich niet op het pad bevind
                 {
                     possibleTiles.Add(currentTile);
                 }

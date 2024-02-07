@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FigureButton : MonoBehaviour
 {
@@ -29,6 +30,13 @@ public class FigureButton : MonoBehaviour
         TextMeshProUGUI buttonText = GetComponentInChildren<TextMeshProUGUI>();
         string figureName = buttonText.text;
         PlayerPrefs.SetString("figure", figureName);
+        Image[] difficultyImages = GetComponentsInChildren<Image>();
+        int difficulty = Mathf.RoundToInt(difficultyImages[1].fillAmount * 5f);
+        if (difficulty == 0)
+        {
+            difficulty = 1;
+        }
+        PlayerPrefs.SetInt("difficulty", difficulty);
         MenuLog.Open(1);
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class FigureGame : MonoBehaviour
 {
@@ -338,5 +339,21 @@ public class FigureGame : MonoBehaviour
         }
 
         return new Vector3(startPoint.x + dx * CellSize, startPoint.y + dy * CellSize, startPoint.z);
+    }
+
+
+    public void EndGame()
+    {
+        if (PlayerPrefs.GetInt("assist") == 0)
+        {
+            EndScreenLogic.EndGame("SelectDrawMode", "Figuur namaken", $"{StatsObj.StatValues[0]}", PlayerPrefs.GetInt("difficulty"), Camera.main.orthographicSize * 1.75f, 5);
+        }
+        else
+        {
+            EndScreenLogic.EndGame("SelectDrawMode", "Figuur namaken", $"/", PlayerPrefs.GetInt("difficulty"), Camera.main.orthographicSize * 1.75f, 5);
+        }
+        enabled = false;
+        DontDestroyOnLoad(gameObject);
+        SceneManager.LoadScene("EndScreen");
     }
 }
