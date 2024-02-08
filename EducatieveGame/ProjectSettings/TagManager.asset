@@ -19,6 +19,7 @@ TagManager:
   - GameView
   - MenuLogic
   - Pokemon
+  - GameLogic
   layers:
   - Default
   - TransparentFX

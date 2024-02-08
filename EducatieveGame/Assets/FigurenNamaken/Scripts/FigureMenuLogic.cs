@@ -11,6 +11,11 @@ public class FigureMenuLogic : MenuLogic
     private GameObject[] MenuButtons { get => _menuButtons; set => _menuButtons = value; }
     public static string Figure { get => _figure; private set => _figure = value; }
 
+    private void Awake()
+    {
+        AwakeBase();
+    }
+
     public override void OpenMenu(int index) //open gegeven menu en verberg het standaard menu
     {
         Menus[CurrentMenu].SetActive(false);

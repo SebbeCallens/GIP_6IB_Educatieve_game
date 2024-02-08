@@ -153,11 +153,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _menus: []
-  _assistToggle: {fileID: 237429949}
-  _symmetricalToggle: {fileID: 942601547}
-  _arrowsToggle: {fileID: 8796832}
-  _confirmationWarning: {fileID: 0}
-  _assist: 0
+  _settingsToggles: []
+  _settings: []
+  _resetDifficulty: 1
   _pokemonPuzzels: {fileID: 3813112048800698020, guid: c37d9a3b75a510147b1cb16155f6b974, type: 3}
 --- !u!4 &2732507
 Transform:

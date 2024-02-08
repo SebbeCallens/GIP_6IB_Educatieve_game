@@ -31,6 +31,7 @@ public class EndScreenLogic : MenuLogic
 
     private void Awake()
     {
+        AwakeBase();
         Difficultys.GetChild(Difficulty-1).gameObject.SetActive(true);
         ScoreText.text = Score;
         TitleText.text = GameName;
@@ -53,7 +54,7 @@ public class EndScreenLogic : MenuLogic
         if (CurrentGame.Equals("RotateFigure"))
         {
             GameStats.GetChild(0).gameObject.SetActive(true);
-            if (PlayerPrefs.GetInt("assist") == 1)
+            if (PlayerPrefs.GetInt("rotate-assist") == 1)
             {
                 GameStats.GetChild(0).GetChild(0).GetChild(0).GetComponent<Toggle>().isOn = true;
             }

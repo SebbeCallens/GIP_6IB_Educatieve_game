@@ -26,6 +26,7 @@ public class PuzzleMenuLogic : MenuLogic
 
     private void Awake() //puzzels laden
     {
+        AwakeBase();
         if (!Directory.Exists(Path.Combine(Application.persistentDataPath, "Puzzels")))
         {
             Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Puzzels"));

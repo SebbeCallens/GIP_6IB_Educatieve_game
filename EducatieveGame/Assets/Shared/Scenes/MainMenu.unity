@@ -155,7 +155,7 @@ MonoBehaviour:
   _menus: []
   _settingsToggles: []
   _settings: []
-  _resetDifficulty: 1
+  _resetDifficulty: 0
   _pokemonPuzzels: {fileID: 3813112048800698020, guid: c37d9a3b75a510147b1cb16155f6b974, type: 3}
 --- !u!4 &2732507
 Transform:
@@ -774,7 +774,7 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Figuur
 
-        namaken'
+        draaien'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1251,7 +1251,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8808955586691215007, guid: 47736e318efc39f4ba1abb9f639f4a15, type: 3}
       propertyPath: m_text
-      value: Post sorteren
+      value: Objecten sorteren
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1367,7 +1367,9 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Figuur
 
-        tekenen'
+        namaken
+
+'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

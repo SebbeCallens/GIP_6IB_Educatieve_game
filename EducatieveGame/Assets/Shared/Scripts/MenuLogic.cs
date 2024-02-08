@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,8 +21,10 @@ public abstract class MenuLogic : MonoBehaviour
     protected bool FromScript { get => _fromScript; set => _fromScript = value; }
     public static int Difficulty { get => _difficulty; private set => _difficulty = value; }
 
-    private void Awake() //difficulty op standaardwaarde en settings toggles instellen
+    protected void AwakeBase() //difficulty op standaardwaarde en settings toggles instellen
     {
+        print("change");
+
         if (ResetDifficulty)
         {
             Difficulty = 1;
@@ -52,17 +53,17 @@ public abstract class MenuLogic : MonoBehaviour
         Menus[0].SetActive(true);
     }
 
-    public void ToggleSetting(string setting) //instelling bijwerken
+    public void ToggleSetting(int index) //instelling bijwerken
     {
         if (!FromScript)
         {
-            if (PlayerPrefs.GetInt(setting) == 1)
+            if (PlayerPrefs.GetInt(Settings[index]) == 1)
             {
-                PlayerPrefs.SetInt(setting, 0);
+                PlayerPrefs.SetInt(Settings[index], 0);
             }
             else
             {
-                PlayerPrefs.SetInt(setting, 1);
+                PlayerPrefs.SetInt(Settings[index], 1);
             }
         }
     }

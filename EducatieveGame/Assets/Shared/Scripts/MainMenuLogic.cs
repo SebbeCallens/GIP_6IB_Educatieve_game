@@ -8,6 +8,7 @@ public class MainMenuLogic : MenuLogic
 
     private void Awake() //laad de pokemon puzzels bij opstarten, voorkomt lag laden puzzels
     {
+        AwakeBase();
         if (GameObject.FindWithTag("Pokemon") == null)
         {
             GameObject pokemonPuzzels = Instantiate(PokemonPuzzels);
