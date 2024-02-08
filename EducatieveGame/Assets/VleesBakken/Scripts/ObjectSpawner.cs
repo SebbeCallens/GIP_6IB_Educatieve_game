@@ -65,7 +65,7 @@ public class ObjectSpawner : MonoBehaviour
         }
 
         GridCells = new GameObject[transform.childCount];
-        SpawnRate = Difficulty;
+        SpawnRate = 6 - Difficulty;
 
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -145,7 +145,7 @@ public class ObjectSpawner : MonoBehaviour
             }
         }
         MenuLogic.SetDifficulty(6);
-        EndScreenLogic.EndGame("ReactionMenu", "Reactie game", score, 5, 0);
+        EndScreenLogic.EndGame("ReactionMenu", "Vlees bakken", score, 5, 0);
         SceneManager.LoadScene("EndScreen");
     }
 }

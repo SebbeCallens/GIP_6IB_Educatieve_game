@@ -23,8 +23,6 @@ public abstract class MenuLogic : MonoBehaviour
 
     protected void AwakeBase() //difficulty op standaardwaarde en settings toggles instellen
     {
-        print("change");
-
         if (ResetDifficulty)
         {
             Difficulty = 1;
@@ -53,7 +51,7 @@ public abstract class MenuLogic : MonoBehaviour
         Menus[0].SetActive(true);
     }
 
-    public void ToggleSetting(int index) //instelling bijwerken
+    public virtual void ToggleSetting(int index) //instelling bijwerken
     {
         if (!FromScript)
         {
@@ -67,6 +65,7 @@ public abstract class MenuLogic : MonoBehaviour
             }
         }
     }
+
     public void LoadScene(string sceneName) //laad een scene met gegeven naam
     {
         SceneManager.LoadScene(sceneName);
