@@ -4,12 +4,11 @@ using UnityEngine.SceneManagement;
 public class ObjectSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject _meat; //de prefab voor een vlees object
-    [SerializeField] private GameObject _statistics; //de statistieken
-    [SerializeField] private int _minutesUntilFastest; //hoeveel minuten tot de snelste spawnrate:
+    [SerializeField] private int _minutesUntilFastest; //hoeveel minuten tot de snelste spawnrate
+    [SerializeField] private Stats _statsObj; //script stats
     private GameObject[] _gridCells; //lijst met de gridcellen
     private GridGenerator _gridGen; //de gridgenerator
     private GridFunctions _gridFunc; //de gridfuncties
-    [SerializeField] private Stats _statsObj;
     private Vector3[] _gridPoints; //lijst met de gridpunten
     private bool _gameActive = true; //of het spel bezig is of al gedaan is
     private float _spawnRate; //hoe vlug er vlees spawned op de barbecue
@@ -18,7 +17,6 @@ public class ObjectSpawner : MonoBehaviour
     private float _difficulty; //moeilijkheid van het spel
 
     private GameObject Meat { get => _meat; set => _meat = value; }
-    private GameObject Statistics { get => _statistics; set => _statistics = value; }
     private int MinutesUntilFastest { get => _minutesUntilFastest; set => _minutesUntilFastest = value; }
     private GameObject[] GridCells { get => _gridCells; set => _gridCells = value; }
     private GridGenerator GridGen { get => _gridGen; set => _gridGen = value; }
@@ -109,7 +107,7 @@ public class ObjectSpawner : MonoBehaviour
         }
         else if (Time.time - LastDecreaseTime > 60 * MinutesUntilFastest)
         {
-            Statistics.SetActive(true);
+            EndGame();
         }
     }
 
