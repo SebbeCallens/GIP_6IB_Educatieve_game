@@ -41,7 +41,7 @@ public class MeatScript : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void Update() //vlees laten bakken
     {
         if (Mask.transform.eulerAngles.z > 45) //wordt uitegevoerd terwijl het vlees op de barbecue ligt
         {
@@ -49,7 +49,7 @@ public class MeatScript : MonoBehaviour
 
             Meat.color = MeatColor.Evaluate((Mask.transform.eulerAngles.z - 45) / 180); //de kleur instellen van het vlees
         }
-        else //-3 score wanneer het vlees volledig opgebrand is
+        else //-3 score wanneer het vlees opgebrand is
         {
             StatsObj.AddStat(5, 1);
             StatsObj.AddStat(0, -3);
@@ -59,7 +59,7 @@ public class MeatScript : MonoBehaviour
 
     public void Clicked()
     {
-        if (Mask.transform.eulerAngles.z > 190) //-2 score als het vlees nog diepgevroren is
+        if (Mask.transform.eulerAngles.z > 190) //-2 score als het vlees nog bevroren is
         {
             StatsObj.AddStat(3, 1);
             StatsObj.AddStat(0, -2);
@@ -74,7 +74,7 @@ public class MeatScript : MonoBehaviour
             StatsObj.AddStat(4, 1);
             StatsObj.AddStat(0, -1);
         }
-        else //+1 score als het vlees goed gebakken is
+        else //+1 score als het vlees gaar is
         {
             StatsObj.AddStat(1, 1);
             StatsObj.AddStat(0, 1);

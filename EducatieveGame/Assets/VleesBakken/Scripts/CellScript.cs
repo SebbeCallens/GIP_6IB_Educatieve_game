@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CellScript : MonoBehaviour
 {
-    private void OnMouseDown()
+    private void OnMouseDown() //vlees aanklikken
     {
         if (transform.childCount > 0)
         {

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,7 +13,7 @@ public class ObjectSpawner : MonoBehaviour
     private GridFunctions _gridFunc; //de gridfuncties
     private Vector3[] _gridPoints; //lijst met de gridpunten
     private bool _gameActive = true; //of het spel bezig is of al gedaan is
-    private float _spawnRate; //hoe vlug er vlees spawned op de barbecue
+    private float _spawnRate = 1f; //hoe vlug er vlees spawned op de barbecue
     private float _lastSpawnTime; //de laatste tijd wanneer er vlees gespawned is
     private float _lastDecreaseTime; //de laatste tijd wanneer de moeilijkheid hoger gezet is
     private float _difficulty; //moeilijkheid van het spel
@@ -63,7 +65,6 @@ public class ObjectSpawner : MonoBehaviour
         }
 
         GridCells = new GameObject[transform.childCount];
-        SpawnRate = 6 - Difficulty;
 
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -76,42 +77,62 @@ public class ObjectSpawner : MonoBehaviour
 
     private void Update() //vlees spawnen op de barbecue
     {
-        if (Time.time - LastSpawnTime > SpawnRate / 1.5f && GameActive)
+        if (Time.time - LastSpawnTime > (6 - Difficulty) / 1.5f / SpawnRate && GameActive)
         {
-            bool meatSpawned = false;
-            int i = 0;
-            foreach (Vector3 gridPoint in GridPoints)
+            //lijst lege gridpunten aanmaken
+            List<Vector3> emptyGridPoints = new();
+            for (int i = 0; i < GridPoints.Length; i++)
             {
-                if (Random.value >= 1 - 1 / (float)GridPoints.Length && !meatSpawned && GridCells[i].transform.childCount == 0)
+                if (GridCells[i].transform.childCount == 0)
                 {
-                    Instantiate(Meat, new Vector3(gridPoint.x + 0.032f, gridPoint.y - 0.032f, gridPoint.z), Quaternion.identity, GridCells[i].transform);
-                    meatSpawned = true;
+                    emptyGridPoints.Add(GridPoints[i]);
                 }
-                i++;
+            }
+
+            if (emptyGridPoints.Count > 0) //spawn vlees op een willekeurig vakje als er een of meerdere lege gridpunten beschikbaar zijn
+            {
+                int randomIndex = UnityEngine.Random.Range(0, emptyGridPoints.Count);
+                Vector3 gridPoint = emptyGridPoints[randomIndex];
+                int cellIndex = Array.IndexOf(GridPoints, gridPoint);
+
+                Instantiate(Meat, new Vector3(gridPoint.x + 0.032f, gridPoint.y - 0.032f, gridPoint.z), Quaternion.identity, GridCells[cellIndex].transform);
             }
 
             LastSpawnTime = Time.time;
         }
 
-        if (SpawnRate < 0.4f * Difficulty)
+        if (SpawnRate < 1.55f) //moeilijkheid omhoog doen
         {
             if (Time.time - LastDecreaseTime > 5 * MinutesUntilFastest)
             {
-                SpawnRate -= 0.05f * Difficulty;
+                SpawnRate += 0.05f;
                 LastDecreaseTime = Time.time;
             }
         }
-        else if (Time.time - LastDecreaseTime > 60 * MinutesUntilFastest - Difficulty * 2 - 1 && GameActive)
+        else if (Time.time - LastDecreaseTime > 60 * MinutesUntilFastest && GameActive) //spawnen stopzetten na 2 minuten
         {
             GameActive = false;
         }
-        else if (Time.time - LastDecreaseTime > 60 * MinutesUntilFastest)
+        else if (Time.time - LastDecreaseTime > 60 * MinutesUntilFastest && GridEmpty()) //game eindigen wanneer er geen vlees meer op de barbecue ligt
         {
             EndGame();
         }
     }
 
-    public void EndGame()
+    private bool GridEmpty() //nakijken of er geen vlees meer op de barbecue ligt
+    {
+        for (int i = 0; i < GridGen.transform.childCount; i++)
+        {
+            if (GridGen.transform.GetChild(i).childCount > 0)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void EndGame() //spel beindigen
     {
         string score = string.Empty;
         for (int i = 0; i < StatsObj.StatNames.Length; i++)

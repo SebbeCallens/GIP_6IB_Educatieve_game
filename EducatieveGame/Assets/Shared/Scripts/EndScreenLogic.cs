@@ -5,17 +5,17 @@ using UnityEngine.UI;
 
 public class EndScreenLogic : MenuLogic
 {
-    [SerializeField] private Transform _difficultys;
-    [SerializeField] private Transform _gameView;
-    [SerializeField] private Transform _preview;
-    [SerializeField] private Transform _gameStats;
-    [SerializeField] private TextMeshProUGUI _scoreText;
-    [SerializeField] private TextMeshProUGUI _titleText;
-    private static string _currentGame = "MainMenu";
-    private static string _gameName = "Eindscherm";
-    private static string _score = "0/0%";
-    private static float _cameraSize = 5;
-    private static float _offsetY = 5;
+    [SerializeField] private Transform _difficultys; //de moeilijkheiden
+    [SerializeField] private Transform _gameView; //preview zonder canvas
+    [SerializeField] private Transform _preview; //preview met canvas
+    [SerializeField] private Transform _gameStats; //statistieken spel
+    [SerializeField] private TextMeshProUGUI _scoreText; //text met score
+    [SerializeField] private TextMeshProUGUI _titleText; //text spelnaam
+    private static string _currentGame = "MainMenu"; //huidig spel scenename
+    private static string _gameName = "Eindscherm"; //huidig spel naam
+    private static string _score = "0/0%"; //behaalde score
+    private static float _cameraSize = 5; //camera grootte instelling
+    private static float _offsetY = 5; //camera Y offset
 
     private Transform Difficultys { get => _difficultys; set => _difficultys = value; }
     private Transform GameView { get => _gameView; set => _gameView = value; }
@@ -29,7 +29,7 @@ public class EndScreenLogic : MenuLogic
     private static float CameraSize { get => _cameraSize; set => _cameraSize = value; }
     private static float OffsetY { get => _offsetY; set => _offsetY = value; }
 
-    private void Awake()
+    private void Awake() //eindscherm instellen
     {
         AwakeBase();
         Difficultys.GetChild(Difficulty-1).gameObject.SetActive(true);
@@ -103,17 +103,17 @@ public class EndScreenLogic : MenuLogic
         }
     }
 
-    public void NewGame()
+    public void NewGame() //scene laden van laatst gespeelde spel
     {
         SceneManager.LoadScene(CurrentGame);
     }
 
-    public static void EndGame(string sceneName, string gameName, string score, float cameraSize, float offsetY)
+    public static void EndGame(string sceneName, string gameName, string score, float cameraSize, float offsetY) //spel beindigen waarden instellen
     {
         CurrentGame = sceneName;
         GameName = gameName;
         Score = score;
         CameraSize = cameraSize;
-        OffsetY = OffsetY;
+        OffsetY = offsetY;
     }
 }
