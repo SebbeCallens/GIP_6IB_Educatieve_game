@@ -12,7 +12,7 @@ public class MailChecker : MonoBehaviour
     [SerializeField] BoxCollider2D boxCollider;
 
     [SerializeField] GameObject _organisingOnTextObject;
-    [SerializeField] GameObject _pointsCounterObject;
+    [SerializeField] private static GameObject _pointsCounterObject;
     [SerializeField] GameObject _gameScriptManager;
 
     [SerializeField] string _mailboxColor;
@@ -70,7 +70,7 @@ public class MailChecker : MonoBehaviour
             }
             else
             {
-                collision.gameObject.GetComponent<Dragging>().SetDragging(false);
+                collision.gameObject.GetComponent<DraggingScript>().Dragging = false;
                 collision.gameObject.transform.position = collision.gameObject.GetComponent<MailScript>().GetoriginalPosition();
 
                 LosePoints();
@@ -86,7 +86,7 @@ public class MailChecker : MonoBehaviour
             }
             else
             {
-                collision.gameObject.GetComponent<Dragging>().SetDragging(false);
+                collision.gameObject.GetComponent<DraggingScript>().Dragging = false;
                 collision.gameObject.transform.position = collision.gameObject.GetComponent<MailScript>().GetoriginalPosition();
 
                 LosePoints();
@@ -113,7 +113,7 @@ public class MailChecker : MonoBehaviour
                 {
                     Debug.Log("color is in selectedcolorbuttons");
 
-                    collision.gameObject.GetComponent<Dragging>().SetDragging(false);
+                    collision.gameObject.GetComponent<DraggingScript>().Dragging = false;
                     collision.gameObject.transform.position = collision.gameObject.GetComponent<MailScript>().GetoriginalPosition();
 
                     LosePoints();
@@ -130,7 +130,7 @@ public class MailChecker : MonoBehaviour
                 {
                     Debug.Log("name from color is in selectedcolorbuttons");
 
-                    collision.gameObject.GetComponent<Dragging>().SetDragging(false);
+                    collision.gameObject.GetComponent<DraggingScript>().Dragging = false;
                     collision.gameObject.transform.position = collision.gameObject.GetComponent<MailScript>().GetoriginalPosition();
 
                     LosePoints();
@@ -160,9 +160,9 @@ public class MailChecker : MonoBehaviour
     }
 
     //verlaagt de score met 1 en past de pointscounter aan
-    public void LosePoints()
+    public static void LosePoints()
     {
-        SpawnMailScript spawnMailScript = _gameScriptManager.GetComponent<SpawnMailScript>();
+        //SpawnMailScript spawnMailScript = _gameScriptManager.GetComponent<SpawnMailScript>();
 
         //aantal punten verlagen met 1.
         Points -= SettingsDataScript._wrongPoints;

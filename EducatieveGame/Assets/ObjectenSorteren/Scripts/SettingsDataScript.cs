@@ -11,25 +11,30 @@ using UnityEngine.UIElements;
 
 public class SettingsDataScript : MonoBehaviour
 {
-    //data to be transfered to the other scene
+    //standaard instellingen
+        //instellingen voor gekozen modus
     public static bool _trashcanSetting = false;
     public static bool _conveyorSetting = false;
     public static bool _testModeSetting = false;
 
+        //instellingen voor tijd
     public static bool _timerSetting = true;
     public static int _timerValue = 60;
 
     public static string _chosenDifficulty;
 
-    public static int _pointsPerAnswer = 1;
+    //public static int _pointsPerAnswer = 1;
 
     //geavanceerde instellingen
+        //instellingen voor puntenverdeling
     public static int _rightPoints = 1;
     public static int _wrongPoints = 1;
-
-    public static int _conveyorSpeed = 3;
-    //
-
+        
+        //instellingen voor loopbandmodus
+    public static int _conveyorSpeed = 10;  //hoe snel objecten zich verplaatsen op de loopband
+    public static int _timeBetweenObjects = 5;  //hoe lang het duurt voordat er een nieuw object spawnt
+    
+    //colorbuttons bijhouden
     public static List<GameObject> _selectedColorButtons = new List<GameObject>();
     public static List<Color> _selectedColorButtonsColors = new List<Color>();
     public static List<string> _selectedColorButtonsNames = new List<string>();
@@ -52,12 +57,13 @@ public class SettingsDataScript : MonoBehaviour
     private GameObject _settingsMenu;
     private GameObject _normalMenu;
     private GameObject _colorMenu;
+    
     private GameObject _colorButtonsObject;
-
     private GameObject _timerInputFieldObject;
-
     private GameObject _pointsRightObject;
     private GameObject _pointsWrongObject;
+    private GameObject _conveyorSpeedObject;
+    private GameObject _timeBetweenObjectsObject;
 
     private GameObject _lastClickedColorButton;
 
@@ -73,7 +79,11 @@ public class SettingsDataScript : MonoBehaviour
         EnableStandardColorButtons();
 
         //dit moet als laatste
+        _timeBetweenObjectsObject.SetActive(false);
+        _conveyorSpeedObject.SetActive(false);
+
         GameObject.Find("SettingsMenu").SetActive(false);
+        //
     }
 
     // Update is called once per frame
@@ -99,6 +109,8 @@ public class SettingsDataScript : MonoBehaviour
         _timerInputFieldObject = GameObject.Find("TijdInputField");
         _pointsRightObject = GameObject.Find("PuntenJuistInstelling");
         _pointsWrongObject = GameObject.Find("PuntenFoutInstelling");
+        _conveyorSpeedObject = GameObject.Find("SnelheidLoopbandInstelling");
+        _timeBetweenObjectsObject = GameObject.Find("TijdTussenObjectenInstelling");
 
         _errorTextObject = GameObject.Find("ErrorTextObject");
     }
@@ -155,9 +167,12 @@ public class SettingsDataScript : MonoBehaviour
         _timerSetting = true;
         _timerValue = 60;
 
-        _pointsPerAnswer = 1;
+        //_pointsPerAnswer = 1;
         _rightPoints = 1;
         _wrongPoints = 1;
+
+        _timeBetweenObjects = 5;
+        _conveyorSpeed = 10;
 
         _chosenDifficulty = null;
 
@@ -202,26 +217,20 @@ public class SettingsDataScript : MonoBehaviour
     public void ToggleTrashbinSetting(bool newValue)
     {
         _trashcanSetting = newValue;
-
-        if (newValue)
-        {
-            _modeObjects[1].gameObject.GetComponent<UnityEngine.UI.Toggle>().isOn = false;
-        }
     }
 
-    public void ToggleTestModeSetting(bool newValue)
+    /*public void ToggleTestModeSetting(bool newValue)
     {
         _testModeSetting = newValue;
-    }
+    }*/
 
     public void ToggleConveyorSetting(bool newValue)
     {
         _conveyorSetting = newValue;
 
-        if (newValue)
-        {
-            _modeObjects[0].gameObject.GetComponent<UnityEngine.UI.Toggle>().isOn = false;
-        }
+        //(in)actief maken van instellingen specifiek voor de loopbandmodus
+        _timeBetweenObjectsObject.SetActive(newValue);
+        _conveyorSpeedObject.SetActive(newValue);
     }
 
     public void ToggleTimerSetting(bool newValue)
@@ -274,7 +283,28 @@ public class SettingsDataScript : MonoBehaviour
         }
     }
 
-    //tekst tonen en weer weghalen lukt nog niet.
+    public void ChangeConveyorSpeed()
+    {
+        if (int.TryParse(_conveyorSpeedObject.GetComponent<TMP_InputField>().text, out int value))
+        {
+            if (value > 0 && value < 30)
+            {
+                _conveyorSpeed = value;
+            }
+        }
+    }
+
+    public void ChangeTimeBetweenObjects()
+    {
+        if (int.TryParse(_timeBetweenObjectsObject.GetComponent<TMP_InputField>().text, out int value))
+        {
+            if (value > 0 && value < 60)
+            {
+                _timeBetweenObjects = value;
+            }
+        }
+    }
+
     public bool CheckStatsValid()
     {
         bool statsValid = true;
@@ -302,6 +332,18 @@ public class SettingsDataScript : MonoBehaviour
 
             statsValid = false;
         }
+
+        //checken andere instellingen
+        else if (_conveyorSpeed < 1 || _conveyorSpeed > 20)
+        {
+            SetErrorText("De snelheid van de loopband moet tussen 1 en 20 zijn.", Color.red);
+
+            statsValid = false;
+        }
+        else if (_timeBetweenObjects < 1 || _timeBetweenObjects > 20)
+        {
+            SetErrorText("De tijd tussen objecten moet tussen 1 en 20 seconden zijn.", Color.red);
+        }
         //WARNINGS
         
 
@@ -312,6 +354,26 @@ public class SettingsDataScript : MonoBehaviour
     {
         _errorTextObject.GetComponent<TextMeshProUGUI>().color = color;
         _errorTextObject.GetComponent<TextMeshProUGUI>().text = text;
+    }
+
+    //code voor de beginner modus
+    public void BeginnerMode()
+    {
+        _chosenDifficulty = "beginner";
+
+        //_pointsPerAnswer = 1;
+        _rightPoints = 1;
+        _wrongPoints = 0;
+
+        _timerSetting = true;
+        _timerValue = 60;
+        
+        _trashcanSetting = false;
+        _conveyorSetting = false;
+
+        GenerateColorButtons(2);
+
+        LoadKleurgameScene();
     }
 
     //code voor de gemakkelijk modus
@@ -325,7 +387,9 @@ public class SettingsDataScript : MonoBehaviour
 
         _timerSetting = true;
         _timerValue = 60;
+        
         _trashcanSetting = false;
+        _conveyorSetting = false;
 
         GenerateColorButtons(3);
 
@@ -339,13 +403,15 @@ public class SettingsDataScript : MonoBehaviour
 
         //_pointsPerAnswer = 2;
         _rightPoints = 2;
-        _wrongPoints = 2;
+        _wrongPoints = 3;
 
         _timerSetting = true;
         _timerValue = 60;
-        _trashcanSetting = false;
+        
+        _trashcanSetting = true;
+        _conveyorSetting = false;
 
-        GenerateColorButtons(4);
+        GenerateColorButtons(3);
 
         LoadKleurgameScene();
     }
@@ -357,11 +423,39 @@ public class SettingsDataScript : MonoBehaviour
 
         //_pointsPerAnswer = 3;
         _rightPoints = 3;
-        _wrongPoints = 3;
+        _wrongPoints = 5;
 
         _timerSetting = true;
         _timerValue = 60;
+        
         _trashcanSetting = true;
+        _conveyorSetting = true;
+
+        _conveyorSpeed = 7;
+        _timeBetweenObjects = 5;
+
+        GenerateColorButtons(4);
+
+        LoadKleurgameScene();
+    }
+
+    //code voor de moeilijk modus
+    public void ExpertMode()
+    {
+        _chosenDifficulty = "expert";
+
+        //_pointsPerAnswer = 3;
+        _rightPoints = 4;
+        _wrongPoints = 8;
+
+        _timerSetting = true;
+        _timerValue = 60;
+        
+        _trashcanSetting = true;
+        _conveyorSetting = true;
+
+        _conveyorSpeed = 5;
+        _timeBetweenObjects = 3;
 
         GenerateColorButtons(5);
 

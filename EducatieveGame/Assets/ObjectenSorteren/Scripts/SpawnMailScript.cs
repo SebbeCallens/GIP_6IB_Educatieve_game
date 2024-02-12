@@ -39,21 +39,24 @@ public class SpawnMailScript : MonoBehaviour
             Debug.Log("KleurString: " + _colorsString[i]);
         }*/
 
-        
 
-        if (SettingsDataScript._trashcanSetting)
+        if (SettingsDataScript._conveyorSetting)
+        {
+            if (SettingsDataScript._trashcanSetting)
+            {
+                SpawnTrashbin();
+            }
+
+            SpawnMailboxes();
+            StartCoroutine(SpawnMailItemsConveyorMode());
+        }
+        else if (SettingsDataScript._trashcanSetting)
         {
             SpawnMailItems();
             SpawnMailboxes();
             SpawnTrashbin();
         }
-        else if (SettingsDataScript._conveyorSetting)
-        {
-            SpawnMailboxes();
-
-
-            //TBA
-        }
+        
         else
         {
             SpawnMailItems();
@@ -118,9 +121,29 @@ public class SpawnMailScript : MonoBehaviour
         
     }
 
-    public void SpawnMailItemsConveyorMode()
+    IEnumerator SpawnMailItemsConveyorMode()
     {
+        Debug.Log("SpawnMailItemsConveyorMode started!");
+        
+        while (true)
+        {
+            GameObject newMailItem;
 
+            if (SettingsDataScript._trashcanSetting)
+            { 
+                newMailItem = GenerateRandomMailItem();
+            }
+            else
+            { 
+                newMailItem = GenerateMailItemFromChosenColors(); 
+            }
+
+            newMailItem.transform.position = new Vector3(ConveyorScript._xValueStart, ConveyorScript._yValue, 1);
+            newMailItem.GetComponent<MailScript>().StartTween();
+            Debug.Log("Spawned a mailItem at " + newMailItem.transform.position);
+
+            yield return new WaitForSeconds(SettingsDataScript._timeBetweenObjects);
+        }
     }
 
     //genereert een nieuw mailitem met een gekozen kleur van de gebruiker

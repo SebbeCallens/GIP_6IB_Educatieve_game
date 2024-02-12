@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class Dragging : MonoBehaviour
+public class DraggingScript : MonoBehaviour
 {
     private bool _dragging = false;
     private Vector3 _offset;
@@ -44,13 +44,9 @@ public class Dragging : MonoBehaviour
         _dragging = false;
     }
 
-    public void SetDragging(bool value)
+    public bool Dragging
     {
-        _dragging = value;
-    }
-
-    public bool GetDragging()
-    {
-        return _dragging;
+        get { return _dragging; }
+        set { _dragging = value; }
     }
 }
