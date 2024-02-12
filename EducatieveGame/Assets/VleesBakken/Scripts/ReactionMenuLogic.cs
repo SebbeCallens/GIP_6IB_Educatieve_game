@@ -12,6 +12,4 @@ public class ReactionMenuLogic : MenuLogic
             PlayerPrefs.SetInt("size", 1);
         }
     }
-
-
 }

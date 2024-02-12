@@ -6,21 +6,24 @@ using UnityEngine.UI;
 
 public class PuzzleManager : MonoBehaviour
 {
-    [SerializeField] private Slicer _puzzleSlicer;
-    [SerializeField] private GameObject _puzzleSlot;
-    [SerializeField] private GameObject _cornerSlot;
-    [SerializeField] private GameObject _coordinateSlot;
-    [SerializeField] private TextMeshProUGUI _scoreText;
-    [SerializeField] private GameObject _coordinates;
-    private bool _extraChance = true;
-    private List<GameObject> _puzzleSlots;
+    [SerializeField] private PuzzleSlicer _puzzleSlicer; //de puzzel slicer
+    [SerializeField] private GameObject _puzzleSlot; //slot voor puzzelstuk
+    [SerializeField] private GameObject _cornerSlot; //slot in de hoek
+    [SerializeField] private GameObject _coordinateSlot; //slot met coordinaat
+    [SerializeField] private TextMeshProUGUI _scoreText; //text met de score
+    [SerializeField] private TextMeshProUGUI _checkButtonText; //text van controleerknop
+    [SerializeField] private GameObject _coordinates; //gameobject coordinaten display
+    private bool _extraChance = true; //extra kans om puzzel te maken
+    private List<GameObject> _puzzleSlots; //de vakjes voor puzzelstukken
 
-    private Slicer PuzzleSlicer { get => _puzzleSlicer; set => _puzzleSlicer = value; }
+    private PuzzleSlicer PuzzleSlicer { get => _puzzleSlicer; set => _puzzleSlicer = value; }
     private GameObject PuzzleSlot { get => _puzzleSlot; set => _puzzleSlot = value; }
     private GameObject CornerSlot { get => _cornerSlot; set => _cornerSlot = value; }
     private GameObject CoordinateSlot { get => _coordinateSlot; set => _coordinateSlot = value; }
     private TextMeshProUGUI ScoreText { get => _scoreText; set => _scoreText = value; }
+    private TextMeshProUGUI CheckButtonText { get => _checkButtonText; set => _checkButtonText = value; }
     private GameObject Coordinates { get => _coordinates; set => _coordinates = value; }
+    private bool ExtraChance { get => _extraChance; set => _extraChance = value; }
     private List<GameObject> PuzzleSlots { get => _puzzleSlots; set => _puzzleSlots = value; }
 
     void Awake()
@@ -82,7 +85,19 @@ public class PuzzleManager : MonoBehaviour
         }
     }
 
-    public void CheckPuzzle()
+    public void CheckPuzzleToggle()
+    {
+        if (CheckButtonText.text.Equals("C"))
+        {
+            CheckPuzzle();
+        }
+        else
+        {
+            ResetPuzzle();
+        }
+    }
+
+    private void CheckPuzzle() //puzzel controleren
     {
         int score = 0;
         for (int i = 0; i < PuzzleSlots.Count; i++)
@@ -105,6 +120,7 @@ public class PuzzleManager : MonoBehaviour
             }
         }
 
+        CheckButtonText.text = "R";
         Coordinates.SetActive(false);
         ScoreText.text = score + "/" + PuzzleSlots.Count;
 
@@ -115,14 +131,14 @@ public class PuzzleManager : MonoBehaviour
             piece.GetComponent<PuzzlePiece>().enabled = false;
         }
 
-        if (!_extraChance)
+        if (!ExtraChance || score == PuzzleSlots.Count)
         {
             EndGame(ScoreText.text);
         }
-        _extraChance = false;
+        ExtraChance = false;
     }
 
-    public void ResetPuzzle()
+    private void ResetPuzzle() //puzzel resetten om verder te spelen met extra kans
     {
         for (int i = 0; i < PuzzleSlots.Count; i++)
         { 
@@ -136,6 +152,7 @@ public class PuzzleManager : MonoBehaviour
             }
         }
 
+        CheckButtonText.text = "C";
         Coordinates.SetActive(true);
         ScoreText.text = "";
 
@@ -147,7 +164,7 @@ public class PuzzleManager : MonoBehaviour
         }
     }
 
-    public void EndGame(string score)
+    private void EndGame(string score) //spel beingigen
     {
         EndScreenLogic.EndGame("PuzzelGameMenu", "Coördinaten puzzel", $"{score}", Camera.main.orthographicSize, 2);
         GameObject preview = GameObject.FindWithTag("Preview");

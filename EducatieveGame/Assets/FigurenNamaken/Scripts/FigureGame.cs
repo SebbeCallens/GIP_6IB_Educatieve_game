@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class FigureGame : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] private GameObject _end; //object voor als de figuur af is
     [SerializeField] private GameObject _instructions; //object van de instructies
     [SerializeField] private TextMeshProUGUI _count; //de tekst voor het pijltje dat aanduid hoeveel keer die richting uit
     [SerializeField] private RectTransform _arrow; //het pijltje dat de richting voor de volgende lijn aanduid
@@ -41,7 +40,6 @@ public class FigureGame : MonoBehaviour
         { (1, 1), "Right-Up" }
     };
 
-    private GameObject End { get => _end; set => _end = value; }
     private GameObject Instructions { get => _instructions; set => _instructions = value; }
     private TextMeshProUGUI Count { get => _count; set => _count = value; }
     private RectTransform Arrow { get => _arrow; set => _arrow = value; }
@@ -175,13 +173,12 @@ public class FigureGame : MonoBehaviour
                 }
             }
         }
-        else //figuur is af, UI updaten
+        else //figuur is af, spel beindigen
         {
             if (AssistLineRend.positionCount > 0)
             {
                 AssistLineRend.positionCount = 0;
-                Instructions.SetActive(false);
-                End.SetActive(true);
+                EndGame();
             }
         }
     }

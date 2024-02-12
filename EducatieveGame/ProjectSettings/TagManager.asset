@@ -13,13 +13,13 @@ TagManager:
   - Check
   - Preview
   - CoordinatesText
-  - Slicer
   - PuzzlePiece
   - Path
   - GameView
   - MenuLogic
   - Pokemon
   - GameLogic
+  - PuzzleSlicer
   layers:
   - Default
   - TransparentFX

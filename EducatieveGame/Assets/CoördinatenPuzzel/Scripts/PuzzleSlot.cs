@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class PuzzleSlot : MonoBehaviour, IDropHandler
 {
-    public void OnDrop(PointerEventData eventData)
+    public void OnDrop(PointerEventData eventData) //puzzelstuk ontvangen
     {
         if (transform.childCount == 0)
         {
