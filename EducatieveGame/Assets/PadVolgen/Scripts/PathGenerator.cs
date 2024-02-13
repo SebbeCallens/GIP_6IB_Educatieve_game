@@ -27,13 +27,13 @@ public class PathGenerator : MonoBehaviour
     private PathManager Pad { get => _pad; set => _pad = value; }
     private GameObject Player { get => _player; set => _player = value; }
     private GameObject Finish { get => _finish; set => _finish = value; }
-    private TextMeshProUGUI TileText { get => _tileText; set => _tileText = value; }
-    private Transform Canvas { get => _canvas; set => _canvas = value; }
+    public TextMeshProUGUI TileText { get => _tileText; private set => _tileText = value; }
+    public Transform Canvas { get => _canvas; private set => _canvas = value; }
     private int Paths { get => _paths; set => _paths = value; }
 
     private void Awake()
     {
-        if (PlayerPrefs.GetInt("symmetrical") == 1)
+        if (PlayerPrefs.GetInt("randomorder") == 1)
         {
             ScrambledOrder = true;
         }
@@ -41,7 +41,7 @@ public class PathGenerator : MonoBehaviour
         {
             ScrambledOrder = false;
         }
-        if (PlayerPrefs.GetInt("arrows") == 1)
+        if (PlayerPrefs.GetInt("chooseorder") == 1)
         {
             RandomOrder = true;
         }
@@ -49,7 +49,7 @@ public class PathGenerator : MonoBehaviour
         {
             RandomOrder = false;
         }
-        if (PlayerPrefs.GetInt("assist") == 1)
+        if (PlayerPrefs.GetInt("pad-assist") == 1)
         {
             Arrows = true;
         }
@@ -57,9 +57,9 @@ public class PathGenerator : MonoBehaviour
         {
             Arrows = false;
         }
-        MinLength = PlayerPrefs.GetInt("puzzeldifficulty") * 8;
-        MaxLength = PlayerPrefs.GetInt("puzzeldifficulty") * 10;
-        MinDistance = PlayerPrefs.GetInt("puzzeldifficulty");
+        MinLength = MenuLogic.Difficulty * 8;
+        MaxLength = MenuLogic.Difficulty * 10;
+        MinDistance = MenuLogic.Difficulty;
     }
 
     public PathTile SpawnPlayer() //speler spawnen
@@ -215,10 +215,8 @@ public class PathGenerator : MonoBehaviour
         PathTile firstCheckpoint = Pad.Checkpoints[0];
         PathTile lastCheckpoint = Pad.Checkpoints[Pad.Checkpoints.Count - 1];
 
-        // Remove first and last elements for shuffling
         List<PathTile> intermediateList = new List<PathTile>(Pad.Checkpoints.GetRange(1, Pad.Checkpoints.Count - 2));
 
-        // Shuffle the intermediate list
         for (int i = 0; i < intermediateList.Count; i++)
         {
             int randomIndex = Random.Range(i, intermediateList.Count);
@@ -227,14 +225,11 @@ public class PathGenerator : MonoBehaviour
             intermediateList[randomIndex] = temp;
         }
 
-        // Insert first and last elements back into the shuffled list
         intermediateList.Insert(0, firstCheckpoint);
         intermediateList.Add(lastCheckpoint);
 
-        // Update the Pad.Checkpoints with the shuffled list
         Pad.Checkpoints = intermediateList;
 
-        // Use the shuffled list in your loop
         for (int i = 1; i < Pad.Checkpoints.Count - 1; i++)
         {
             Vector3 position = Camera.main.WorldToScreenPoint(Pad.Grid.GetTilePosition(Pad.Checkpoints[i]));

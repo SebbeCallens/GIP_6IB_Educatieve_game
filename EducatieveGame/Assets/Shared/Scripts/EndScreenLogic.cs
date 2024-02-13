@@ -15,6 +15,7 @@ public class EndScreenLogic : MenuLogic
     private static string _gameName = "Eindscherm"; //huidig spel naam
     private static string _score = "0/0%"; //behaalde score
     private static float _cameraSize = 5; //camera grootte instelling
+    private static Vector3 _cameraPos = Vector3.zero; //camera positie instelling
     private static float _offsetY = 5; //camera Y offset
 
     private Transform Difficultys { get => _difficultys; set => _difficultys = value; }
@@ -27,16 +28,18 @@ public class EndScreenLogic : MenuLogic
     private static string GameName { get => _gameName; set => _gameName = value; }
     private static string Score { get => _score; set => _score = value; }
     private static float CameraSize { get => _cameraSize; set => _cameraSize = value; }
+    private static Vector3 CameraPos { get => _cameraPos; set => _cameraPos = value; }
     private static float OffsetY { get => _offsetY; set => _offsetY = value; }
 
     private void Awake() //eindscherm instellen
     {
         AwakeBase();
+        Camera.main.transform.position = CameraPos;
         Difficultys.GetChild(Difficulty-1).gameObject.SetActive(true);
         ScoreText.text = Score;
         TitleText.text = GameName;
         GameObject gameView = GameObject.FindWithTag("GameView");
-        if (gameView != null )
+        if (gameView != null)
         {
             GameObject.FindWithTag("GameView").SetActive(true);
             GameObject.FindWithTag("GameView").transform.parent = GameView;
@@ -54,11 +57,11 @@ public class EndScreenLogic : MenuLogic
         if (CurrentGame.Equals("RotateFigure"))
         {
             GameStats.GetChild(0).gameObject.SetActive(true);
-            if (PlayerPrefs.GetInt("rotate-assist") == 1)
+            if (PlayerPrefs.GetInt("symmetrical") == 1)
             {
                 GameStats.GetChild(0).GetChild(0).GetChild(0).GetComponent<Toggle>().isOn = true;
             }
-            if (PlayerPrefs.GetInt("symmetrical") == 1)
+            if (PlayerPrefs.GetInt("rotate-assist") == 1)
             {
                 GameStats.GetChild(0).GetChild(1).GetChild(0).GetComponent<Toggle>().isOn = true;
             }
@@ -99,7 +102,19 @@ public class EndScreenLogic : MenuLogic
         else if (CurrentGame.Equals("PadVolgenMenu"))
         {
             GameStats.GetChild(5).gameObject.SetActive(true);
-
+            GameStats.GetChild(0).gameObject.SetActive(true);
+            if (PlayerPrefs.GetInt("pad-assist") == 1)
+            {
+                GameStats.GetChild(5).GetChild(0).GetChild(0).GetComponent<Toggle>().isOn = true;
+            }
+            if (PlayerPrefs.GetInt("randomorder") == 1)
+            {
+                GameStats.GetChild(5).GetChild(1).GetChild(0).GetComponent<Toggle>().isOn = true;
+            }
+            if (PlayerPrefs.GetInt("chooseorder") == 1)
+            {
+                GameStats.GetChild(5).GetChild(2).GetChild(0).GetComponent<Toggle>().isOn = true;
+            }
         }
     }
 
@@ -108,12 +123,13 @@ public class EndScreenLogic : MenuLogic
         SceneManager.LoadScene(CurrentGame);
     }
 
-    public static void EndGame(string sceneName, string gameName, string score, float cameraSize, float offsetY) //spel beindigen waarden instellen
+    public static void EndGame(string sceneName, string gameName, string score, float cameraSize, Vector3 cameraPos, float offsetY) //spel beindigen waarden instellen
     {
         CurrentGame = sceneName;
         GameName = gameName;
         Score = score;
         CameraSize = cameraSize;
+        CameraPos = cameraPos;
         OffsetY = offsetY;
     }
 }

@@ -6,14 +6,16 @@ public class Player : MonoBehaviour
     private PathManager _pad;
     private Vector2 _currentPosition; //huidige positie speler
     private int _steps = 0;
+    private int _wrongSteps = 0;
 
     private PathManager Pad { get => _pad; set => _pad = value; }
     public Vector2 CurrentPosition { get => _currentPosition; set => _currentPosition = value; }
     public int Steps { get => _steps; private set => _steps = value; }
+    public int WrongSteps { get => _wrongSteps; private set => _wrongSteps = value; }
 
     private void Awake()
     {
-        Pad = GameObject.FindWithTag("Path").GetComponent<PathManager>();
+        Pad = GameObject.FindWithTag("GameView").GetComponent<PathManager>();
     }
 
     public bool TryMove(PathTile tile, Vector2 tilePosition) //speler laten bewegen naar tile als dit mogelijk is
@@ -45,6 +47,14 @@ public class Player : MonoBehaviour
             Steps++;
             return true;
         }
-        return false;
+        else if (Pad.Grid.GetTileAtPosition(CurrentPosition).Equals(tile) || !adjacentPositions.Contains(tilePosition))
+        {
+            return false;
+        }
+        else
+        {
+            WrongSteps++;
+            return false;
+        }
     }
 }

@@ -16,8 +16,8 @@ public class PathGrid : MonoBehaviour
 
     private void Awake()
     {
-        Width = PlayerPrefs.GetInt("puzzeldifficulty") * 4;
-        Height = PlayerPrefs.GetInt("puzzeldifficulty") * 4;
+        Width = MenuLogic.Difficulty * 4;
+        Height = MenuLogic.Difficulty * 4;
     }
 
     public void GenerateGrid() //grid genereren
@@ -45,7 +45,7 @@ public class PathGrid : MonoBehaviour
 
         //camera centreren op het grid
         Camera.main.transform.position = new Vector3((float)Width / 2 - 0.5f, (float)Height / 2 - 0.5f, -10);
-        Camera.main.orthographicSize = (Mathf.Max(Width, Height) / 2f) + PlayerPrefs.GetInt("puzzeldifficulty");
+        Camera.main.orthographicSize = Mathf.Max(Width, Height);
     }
 
     public PathTile GetTileAtPosition(Vector2 pos) //tile op positie vinden

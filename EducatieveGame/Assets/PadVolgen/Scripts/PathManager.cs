@@ -26,6 +26,6 @@ public class PathManager : MonoBehaviour
     private void Start()
     {
         Grid.GenerateGrid();
-        Generator.GeneratePath(Generator.SpawnPlayer(), PlayerPrefs.GetInt("puzzeldifficulty"));
+        Generator.GeneratePath(Generator.SpawnPlayer(), MenuLogic.Difficulty);
     }
 }

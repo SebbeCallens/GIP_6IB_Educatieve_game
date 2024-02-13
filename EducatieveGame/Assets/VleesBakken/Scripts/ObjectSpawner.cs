@@ -164,7 +164,7 @@ public class ObjectSpawner : MonoBehaviour
             }
         }
         MenuLogic.SetDifficulty(6);
-        EndScreenLogic.EndGame("ReactionMenu", "Vlees bakken", score, 5, 0);
+        EndScreenLogic.EndGame("ReactionMenu", "Vlees bakken", score, 5, Camera.main.transform.position, 0);
         SceneManager.LoadScene("EndScreen");
     }
 }

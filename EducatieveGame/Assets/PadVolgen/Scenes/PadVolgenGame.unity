@@ -686,7 +686,7 @@ GameObject:
   - component: {fileID: 2122425352}
   m_Layer: 0
   m_Name: Path
-  m_TagString: Path
+  m_TagString: GameView
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

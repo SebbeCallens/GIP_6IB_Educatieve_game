@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PathTile : MonoBehaviour
 {
@@ -23,7 +26,7 @@ public class PathTile : MonoBehaviour
 
     private void Awake() //highlight uitzetten
     {
-        Pad = GameObject.FindWithTag("Path").GetComponent<PathManager>();
+        Pad = GameObject.FindWithTag("GameView").GetComponent<PathManager>();
         MouseHighlight.SetActive(false);
     }
 
@@ -63,13 +66,30 @@ public class PathTile : MonoBehaviour
                     break;
                 }
             }
+            if (Pad.Generator.RandomOrder)
+            {
+                foreach (PathTile checkpoint in Pad.RandomPath)
+                {
+                    // kijken of de locatie bezocht is
+                    if (checkpoint.IsCheckpoint && !checkpoint.Visited)
+                    {
+                        everyLocationVisited = false;
+                        break;
+                    }
+                }
+            }
             // kijken of alle locaties bezocht zijn
             if (everyLocationVisited)
             {
                 Pad.Generator.ShowAStarPath(Color.red);
-                print(Pad.AStarPath.Count);
-                print(GameObject.FindWithTag("Player").GetComponent<Player>().Steps);
-                print(Math.Round((double)Pad.AStarPath.Count / GameObject.FindWithTag("Player").GetComponent<Player>().Steps, 2));
+                if (Pad.Generator.Arrows)
+                {
+                    EndGame((Math.Round((double)Pad.RandomPath.Count / (GameObject.FindWithTag("Player").GetComponent<Player>().Steps + GameObject.FindWithTag("Player").GetComponent<Player>().WrongSteps), 2) * 100).ToString());
+                }
+                else
+                {
+                    EndGame((Math.Round((double)Pad.AStarPath.Count / (GameObject.FindWithTag("Player").GetComponent<Player>().Steps + GameObject.FindWithTag("Player").GetComponent<Player>().WrongSteps), 2) * 100).ToString());
+                }
             }
         }
     }
@@ -79,5 +99,15 @@ public class PathTile : MonoBehaviour
         SpriteRend.color = color;
         IsObstacle = isObstacle;
         IsCheckpoint = isLocation;
+    }
+
+    private void EndGame(string score)
+    {
+        EndScreenLogic.EndGame("PadVolgenMenu", "Pad volgen", score + "%", Camera.main.orthographicSize * 1.25f, Camera.main.transform.position, Camera.main.orthographicSize / 2.5f);
+        GameObject gameview = GameObject.FindWithTag("GameView");
+        gameview.transform.SetParent(null);
+        gameview.transform.localScale = new(gameview.transform.localScale.x, gameview.transform.localScale.y, 1);
+        DontDestroyOnLoad(gameview);
+        SceneManager.LoadScene("EndScreen");
     }
 }

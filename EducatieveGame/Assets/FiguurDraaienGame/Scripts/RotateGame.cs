@@ -184,7 +184,7 @@ public class RotateGame : MonoBehaviour
         }
 
         GameInProgress = false;
-        EndScreenLogic.EndGame("RotateFigure", "Figuur draaien", $"{correctCells}/{CorrectGrid.transform.childCount}", Camera.main.orthographicSize * 1.75f, 5);
+        EndScreenLogic.EndGame("RotateFigure", "Figuur draaien", $"{correctCells}/{CorrectGrid.transform.childCount}", Camera.main.orthographicSize * 1.75f, Camera.main.transform.position, 5);
         DontDestroyOnLoad(GameGrid.transform.parent);
         CorrectGrid.transform.position = new(-Camera.main.orthographicSize / 2f, CorrectGrid.transform.position.y, CorrectGrid.transform.position.z);
         GameGrid.transform.position = new(Camera.main.orthographicSize / 2f, CorrectGrid.transform.position.y, CorrectGrid.transform.position.z);

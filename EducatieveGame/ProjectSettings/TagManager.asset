@@ -14,7 +14,6 @@ TagManager:
   - Preview
   - CoordinatesText
   - PuzzlePiece
-  - Path
   - GameView
   - MenuLogic
   - Pokemon
