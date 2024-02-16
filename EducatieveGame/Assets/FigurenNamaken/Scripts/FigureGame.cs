@@ -343,11 +343,11 @@ public class FigureGame : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("figure-assist") == 0)
         {
-            EndScreenLogic.EndGame("SelectDrawMode", "Figuur namaken", $"{StatsObj.StatValues[0]}", Camera.main.orthographicSize * 1.75f, Camera.main.transform.position, 5);
+            EndScreenLogic.EndGame("SelectDrawMode", "Figuur namaken", $"{StatsObj.StatValues[0]}", Camera.main.orthographicSize * 1.75f, new(0, 0, -10), 5);
         }
         else
         {
-            EndScreenLogic.EndGame("SelectDrawMode", "Figuur namaken", $"/", Camera.main.orthographicSize * 1.75f, Camera.main.transform.position, 5);
+            EndScreenLogic.EndGame("SelectDrawMode", "Figuur namaken", $"/", Camera.main.orthographicSize * 1.75f, new(0, 0, -10), 5);
         }
         enabled = false;
         DontDestroyOnLoad(gameObject);

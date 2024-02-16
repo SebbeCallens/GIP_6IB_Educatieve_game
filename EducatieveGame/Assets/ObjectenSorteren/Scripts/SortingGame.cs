@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SortingGame : MonoBehaviour
 {
@@ -10,7 +11,11 @@ public class SortingGame : MonoBehaviour
     [SerializeField] private GameObject _sortingItem; //prefab sorteer object
     [SerializeField] private GameObject _sortingBox; //prefab sorteer box
     [SerializeField] private GameObject _trashcan; //de vuilbak
+    [SerializeField] private GameObject _conveyorEnd; //einde loopband
+    [SerializeField] private GameObject _endButton; //knop spel eindigen
     [SerializeField] private TextMeshProUGUI _sortModeText; //de tekst van sorteermodus
+    [SerializeField] private TextMeshProUGUI _scoreText; //de tekst van de score
+    [SerializeField] private TextMeshProUGUI _timeText; //de tekst van de tijd
     private Color[] _sortingColors; //de kleuren om mee te sorteren
     private Color[] _selectedSortingColors; //de geselecteerde kleuren om mee te sorteren
     private string[] _sortingTexts; //de kleur teksten om mee te sorteren
@@ -19,13 +24,19 @@ public class SortingGame : MonoBehaviour
     private bool _trashcanMode = false; //of de vuilbakmodus aan is
     private bool _conveyorMode = false; //of de loopbandmodus aan is
     private int _score = 0; //behaalde score
+    private float _timer = 60f; //tijd tot spel beindigd
+    private float _startTime = 0f; //startijd van het spel
 
     private Vector3[] SpawnLocations { get => _spawnLocations; set => _spawnLocations = value; }
     private Vector3 ConveyorSpawnLocation { get => _conveyorSpawnLocation; set => _conveyorSpawnLocation = value; }
     private GameObject SortingItem { get => _sortingItem; set => _sortingItem = value; }
     private GameObject SortingBox { get => _sortingBox; set => _sortingBox = value; }
     private GameObject Trashcan { get => _trashcan; set => _trashcan = value; }
+    private GameObject ConveyorEnd { get => _conveyorEnd; set => _conveyorEnd = value; }
+    private GameObject EndButton { get => _endButton; set => _endButton = value; }
     private TextMeshProUGUI SortModeText { get => _sortModeText; set => _sortModeText = value; }
+    private TextMeshProUGUI ScoreText { get => _scoreText; set => _scoreText = value; }
+    private TextMeshProUGUI TimeText { get => _timeText; set => _timeText = value; }
     private Color[] SortingColors { get => _sortingColors; set => _sortingColors = value; }
     private Color[] SelectedSortingColors { get => _selectedSortingColors; set => _selectedSortingColors = value; }
     private string[] SortingTexts { get => _sortingTexts; set => _sortingTexts = value; }
@@ -34,6 +45,8 @@ public class SortingGame : MonoBehaviour
     private bool TrashcanMode { get => _trashcanMode; set => _trashcanMode = value; }
     private bool ConveyorMode { get => _conveyorMode; set => _conveyorMode = value; }
     private int Score { get => _score; set => _score = value; }
+    private float Timer { get => _timer; set => _timer = value; }
+    private float StartTime { get => _startTime; set => _startTime = value; }
 
     private void Awake() //spel starten met juiste instellingen
     {
@@ -47,6 +60,7 @@ public class SortingGame : MonoBehaviour
         if (PlayerPrefs.GetInt("conveyor") == 1) //loopband instellen
         {
             ConveyorMode = true;
+            ConveyorEnd.SetActive(true);
         }
 
         int difficulty = MenuLogic.Difficulty + 1;
@@ -74,19 +88,42 @@ public class SortingGame : MonoBehaviour
 
         SpawnSortBoxes(MenuLogic.Difficulty + 1);
 
-        if (!ConveyorMode)
+        if (ConveyorMode)
         {
-            SpawnSortItems();
+            SpawnSortItem(ConveyorSpawnLocation);
+        }
+        else
+        {
+            foreach (Vector3 spawnLocation in SpawnLocations)
+            {
+                SpawnSortItem(spawnLocation);
+            }
         }
 
+        StartTime = Time.time;
         SortModeText.text = "woord";
+        ScoreText.text = $"Score: {Score}";
+        if (PlayerPrefs.GetInt("sort-assist") != 1)
+        {
+            TimeText.text = $"Tijd: {Mathf.Round(Timer - (Time.time - StartTime))}";
+        }
+        else
+        {
+            EndButton.SetActive(true);
+            TimeText.text = $"";
+        }
     }
 
     private void Update() //sorteer objecten op loopband spawnen
     {
-        if (ConveyorMode)
+        if (!EndButton.activeSelf)
         {
+            if (Mathf.Round(Timer - (Time.time - StartTime)) <= 0)
+            {
+                EndGame();
+            }
 
+            TimeText.text = $"Tijd: {Mathf.Round(Timer - (Time.time - StartTime))}";
         }
 
         if (GameObject.FindWithTag("SortItem") == null)
@@ -100,48 +137,64 @@ public class SortingGame : MonoBehaviour
             {
                 SortModeText.text = "woord";
             }
-            SpawnSortItems();
+
+            if (ConveyorMode)
+            {
+                SpawnSortItem(ConveyorSpawnLocation);
+            }
+            else
+            {
+                foreach (Vector3 spawnLocation in SpawnLocations)
+                {
+                    SpawnSortItem(spawnLocation);
+                }
+            }
         }
     }
 
     public void ItemSorted() //item goed gesorteerd
     {
         Score++;
+        ScoreText.text = $"Score: {Score}";
     }
 
     public void ItemLost() //item verloren gegaan of fout gesorteerd
     {
         Score--;
+        ScoreText.text = $"Score: {Score}";
     }
 
-    private void SpawnSortItems() //sorteer objecten spawnen
+    public void EndGame()
     {
-        foreach (Vector3 spawnLocation in SpawnLocations)
+        EndScreenLogic.EndGame("KleurGameMenu", "Objecten sorteren", Score.ToString(), Camera.main.orthographicSize, Camera.main.transform.position, 0);
+        SceneManager.LoadScene("EndScreen");
+    }
+
+    private void SpawnSortItem(Vector3 position) //sorteer object spawnen op gegeven positie
+    {
+        if (TrashcanMode && Random.value > 0.75) //25% kans op vuilbak item als vuilbakmodus
         {
-            if (TrashcanMode && Random.value > 0.75) //25% kans op vuilbak item als vuilbakmodus
-            {
-                int randomIndexColor = Random.Range(0, SortingColors.Length);
-                int randomIndexText = Random.Range(0, SortingTexts.Length);
+            int randomIndexColor = Random.Range(0, SortingColors.Length);
+            int randomIndexText = Random.Range(0, SortingTexts.Length);
 
-                while (SortByColor && SelectedSortingColors.Contains(SortingColors[randomIndexColor])) //ervoor zorgen dat het zeker vuilbak is
-                {
-                    randomIndexColor = Random.Range(0, SortingColors.Length);
-                }
-                while (!SortByColor && SelectedSortingTexts.Contains(SortingTexts[randomIndexText])) //ervoor zorgen dat het zeker vuilbak is
-                {
-                    randomIndexText = Random.Range(0, SortingTexts.Length);
-                }
-
-                SortItem sortItem = Instantiate(SortingItem, spawnLocation, Quaternion.identity, transform).GetComponent<SortItem>();
-                sortItem.Create(SortingColors[randomIndexColor], SortingTexts[randomIndexText], true, false);
-            }
-            else //een sorteerobject spawnen dat niet in de vuilbak hoort
+            while (SortByColor && SelectedSortingColors.Contains(SortingColors[randomIndexColor])) //ervoor zorgen dat het zeker vuilbak is
             {
-                int randomIndexColor = Random.Range(0, SelectedSortingColors.Length);
-                int randomIndexText = Random.Range(0, SelectedSortingTexts.Length);
-                SortItem sortItem = Instantiate(SortingItem, spawnLocation, Quaternion.identity, transform).GetComponent<SortItem>();
-                sortItem.Create(SelectedSortingColors[randomIndexColor], SelectedSortingTexts[randomIndexText], false, false);
+                randomIndexColor = Random.Range(0, SortingColors.Length);
             }
+            while (!SortByColor && SelectedSortingTexts.Contains(SortingTexts[randomIndexText])) //ervoor zorgen dat het zeker vuilbak is
+            {
+                randomIndexText = Random.Range(0, SortingTexts.Length);
+            }
+
+            SortItem sortItem = Instantiate(SortingItem, position, Quaternion.identity, transform).GetComponent<SortItem>();
+            sortItem.Create(SortingColors[randomIndexColor], SortingTexts[randomIndexText], true, ConveyorMode);
+        }
+        else //een sorteerobject spawnen dat niet in de vuilbak hoort
+        {
+            int randomIndexColor = Random.Range(0, SelectedSortingColors.Length);
+            int randomIndexText = Random.Range(0, SelectedSortingTexts.Length);
+            SortItem sortItem = Instantiate(SortingItem, position, Quaternion.identity, transform).GetComponent<SortItem>();
+            sortItem.Create(SelectedSortingColors[randomIndexColor], SelectedSortingTexts[randomIndexText], false, ConveyorMode);
         }
     }
 

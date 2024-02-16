@@ -38,7 +38,7 @@ public class SortItem : MonoBehaviour
         {
             transform.position = new(transform.position.x + 1 * Time.deltaTime, transform.position.y, transform.position.z);
 
-            if (transform.position.x > 10)
+            if (transform.position.x > 8)
             {
                 GameObject.FindWithTag("SortingGame").GetComponent<SortingGame>().ItemLost();
                 Destroy(gameObject);
@@ -60,11 +60,22 @@ public class SortItem : MonoBehaviour
     private void OnMouseDown() //begin slepen sorteer object
     {
         Dragging = true;
+        if (OnConveyor)
+        {
+            StartPosition = transform.position;
+        }
     }
 
     private void OnMouseUp() //eind slepen sorteer object
     {
-        Dragging = false;
+        if (Dragging)
+        {
+            Dragging = false;
+            if (OnConveyor)
+            {
+                transform.position = StartPosition;
+            }
+        }
     }
 
     public void Create(Color color, string text, bool isTrash, bool onConveyor) //sorteer object aanmaken

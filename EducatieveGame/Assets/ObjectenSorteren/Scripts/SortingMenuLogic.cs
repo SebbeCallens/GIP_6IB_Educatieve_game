@@ -1,10 +1,15 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SortingMenuLogic : MenuLogic
 {
     [SerializeField] private GameObject[] _gameColors; //de kleuren voor het spel
+    [SerializeField] private GameObject _colorsWarning; //tekst waarschuwing te weinig geselecteerde kleuren
+    [SerializeField] private Button _startButton; //knop om spel te starten
+    private int _enabledColors = 3; //aantal geselecteerde kleuren
 
     private static Color[] _sortingColors; //de kleuren voor het spel
     private static Color[] _selectedSortingColors; //de geselecteerde kleuren voor het spel
@@ -12,6 +17,9 @@ public class SortingMenuLogic : MenuLogic
     private static string[] _selectedSortingTexts; //de geselecteerde kleur teksten voor het spel
 
     private GameObject[] GameColors { get => _gameColors; set => _gameColors = value; }
+    private GameObject ColorsWarning { get => _colorsWarning; set => _colorsWarning = value; }
+    private Button StartButton { get => _startButton; set => _startButton = value; }
+    private int EnabledColors { get => _enabledColors; set => _enabledColors = value; }
     public static Color[] SortingColors { get => _sortingColors; private set => _sortingColors = value; }
     public static Color[] SelectedSortingColors { get => _selectedSortingColors; private set => _selectedSortingColors = value; }
     public static string[] SortingTexts { get => _sortingTexts; private set => _sortingTexts = value; }
@@ -22,9 +30,35 @@ public class SortingMenuLogic : MenuLogic
         AwakeBase();
     }
 
+    private void Update()
+    {
+        if (ColorsWarning != null && StartButton != null)
+        {
+            if (Difficulty + 1 > EnabledColors)
+            {
+                ColorsWarning.SetActive(true);
+                StartButton.interactable = false;
+            }
+            else
+            {
+                ColorsWarning.SetActive(false);
+                StartButton.interactable = true;
+            }
+        }
+    }
+
     public void ToggleColor(int index) //kleur aan/uit zetten
     {
-        GameColors[index].transform.GetChild(0).GetComponent<Image>().enabled = !GameColors[index].transform.GetChild(0).GetComponent<Image>().enabled;
+        if (GameColors[index].transform.GetChild(0).GetComponent<Image>().enabled)
+        {
+            GameColors[index].transform.GetChild(0).GetComponent<Image>().enabled = false;
+            EnabledColors--;
+        }
+        else
+        {
+            GameColors[index].transform.GetChild(0).GetComponent<Image>().enabled = true;
+            EnabledColors++;
+        }
     }
 
     public void LoadColors() //kleuren laden
@@ -53,5 +87,17 @@ public class SortingMenuLogic : MenuLogic
         SelectedSortingColors = selectedSortingColors.ToArray();
         SortingTexts = sortingTexts.ToArray();
         SelectedSortingTexts = selectedSortingTexts.ToArray();
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is SortingMenuLogic logic &&
+               base.Equals(obj) &&
+               EqualityComparer<GameObject>.Default.Equals(ColorsWarning, logic.ColorsWarning);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(base.GetHashCode(), ColorsWarning);
     }
 }

@@ -94,10 +94,21 @@ public class EndScreenLogic : MenuLogic
             GameStats.GetChild(3).gameObject.SetActive(true);
 
         }
-        else if (CurrentGame.Equals("Startscherm"))
+        else if (CurrentGame.Equals("KleurGameMenu"))
         {
             GameStats.GetChild(4).gameObject.SetActive(true);
-
+            if (PlayerPrefs.GetInt("sort-assist") == 1)
+            {
+                GameStats.GetChild(4).GetChild(0).GetChild(0).GetComponent<Toggle>().isOn = true;
+            }
+            if (PlayerPrefs.GetInt("trashcan") == 1)
+            {
+                GameStats.GetChild(4).GetChild(1).GetChild(0).GetComponent<Toggle>().isOn = true;
+            }
+            if (PlayerPrefs.GetInt("conveyor") == 1)
+            {
+                GameStats.GetChild(4).GetChild(2).GetChild(0).GetComponent<Toggle>().isOn = true;
+            }
         }
         else if (CurrentGame.Equals("PadVolgenMenu"))
         {
