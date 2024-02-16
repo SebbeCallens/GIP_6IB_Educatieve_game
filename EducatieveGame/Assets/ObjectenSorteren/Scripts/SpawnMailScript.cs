@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Collections.LowLevel.Unsafe;
+/*using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class SpawnMailScript : MonoBehaviour
 {
@@ -26,18 +23,18 @@ public class SpawnMailScript : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {   
+    {
         _colors = _gameScriptManager.GetComponent<StatsScript>().GetColors();
         _colorsString = _gameScriptManager.GetComponent<StatsScript>().GetColorsString();
 
-        /*Debug.Log("lengte _colors: " + _colors.Length);
+        Debug.Log("lengte _colors: " + _colors.Length);
         Debug.Log("lengte _colorsString: " + _colors.Length);
 
         for (int i = 0; i < _colors.Length; i++)
         {
             Debug.Log("Kleur: " + _colors[i]);
             Debug.Log("KleurString: " + _colorsString[i]);
-        }*/
+        }
 
 
         if (SettingsDataScript._conveyorSetting)
@@ -56,7 +53,7 @@ public class SpawnMailScript : MonoBehaviour
             SpawnMailboxes();
             SpawnTrashbin();
         }
-        
+
         else
         {
             SpawnMailItems();
@@ -76,7 +73,7 @@ public class SpawnMailScript : MonoBehaviour
     public void SpawnMailItems()
     {
         _amountOfMailItemsLeft = _amountOfMailItems;
-        
+
         //yValue: de y-waarde waarop alle mailItem elementen spawnen    distanceBetween: de hoeveelheid plek tussen elk mailItem    currentXValue: de x-waarde van het volgende mailItem element
         double yValue = -2;
         double distanceBetween = _xScreenSize / _amountOfMailItems;
@@ -118,28 +115,28 @@ public class SpawnMailScript : MonoBehaviour
         {
 
         }
-        
+
     }
 
     IEnumerator SpawnMailItemsConveyorMode()
     {
         Debug.Log("SpawnMailItemsConveyorMode started!");
-        
+
         while (true)
         {
             GameObject newMailItem;
 
             if (SettingsDataScript._trashcanSetting)
-            { 
+            {
                 newMailItem = GenerateRandomMailItem();
             }
             else
-            { 
-                newMailItem = GenerateMailItemFromChosenColors(); 
+            {
+                newMailItem = GenerateMailItemFromChosenColors();
             }
 
             newMailItem.transform.position = new Vector3(ConveyorScript._xValueStart, ConveyorScript._yValue, 1);
-            newMailItem.GetComponent<MailScript>().StartTween();
+            newMailItem.GetComponent<SortItem>().StartTween();
             Debug.Log("Spawned a mailItem at " + newMailItem.transform.position);
 
             yield return new WaitForSeconds(SettingsDataScript._timeBetweenObjects);
@@ -159,13 +156,13 @@ public class SpawnMailScript : MonoBehaviour
         colorIndex = Random.Range(0, SettingsDataScript._selectedColorButtons.Count);
         textIndex = Random.Range(0, SettingsDataScript._selectedColorButtons.Count);
 
-        newMailItem.GetComponent<MailScript>().SetColor(new Color(SettingsDataScript._selectedColorButtonsColors[colorIndex].r, SettingsDataScript._selectedColorButtonsColors[colorIndex].g, SettingsDataScript._selectedColorButtonsColors[colorIndex].b));
-        newMailItem.GetComponent<MailScript>().SetText(new string(SettingsDataScript._selectedColorButtonsNames[textIndex]));
+        newMailItem.GetComponent<SortItem>().SetColor(new Color(SettingsDataScript._selectedColorButtonsColors[colorIndex].r, SettingsDataScript._selectedColorButtonsColors[colorIndex].g, SettingsDataScript._selectedColorButtonsColors[colorIndex].b));
+        newMailItem.GetComponent<SortItem>().SetText(new string(SettingsDataScript._selectedColorButtonsNames[textIndex]));
 
         return newMailItem;
     }
 
-    private GameObject GenerateRandomMailItem() 
+    private GameObject GenerateRandomMailItem()
     {
         int colorIndex;
         int textIndex;
@@ -177,8 +174,8 @@ public class SpawnMailScript : MonoBehaviour
         colorIndex = Random.Range(0, SettingsDataScript._colorButtonsColors.Count);
         textIndex = Random.Range(0, SettingsDataScript._colorButtonsNames.Count);
 
-        newMailItem.GetComponent<MailScript>().SetColor(new Color(SettingsDataScript._colorButtonsColors[colorIndex].r, SettingsDataScript._colorButtonsColors[colorIndex].g, SettingsDataScript._colorButtonsColors[colorIndex].b));
-        newMailItem.GetComponent<MailScript>().SetText(new string(SettingsDataScript._colorButtonsNames[textIndex]));
+        newMailItem.GetComponent<SortItem>().SetColor(new Color(SettingsDataScript._colorButtonsColors[colorIndex].r, SettingsDataScript._colorButtonsColors[colorIndex].g, SettingsDataScript._colorButtonsColors[colorIndex].b));
+        newMailItem.GetComponent<SortItem>().SetText(new string(SettingsDataScript._colorButtonsNames[textIndex]));
 
         return newMailItem;
     }
@@ -198,10 +195,10 @@ public class SpawnMailScript : MonoBehaviour
         {
 
             GameObject newMailbox = Instantiate(_mailbox);
-            newMailbox.transform.position = new Vector3((float) (currentXValue - _xScreenSize / 2), (float) yValue, 1);
+            newMailbox.transform.position = new Vector3((float)(currentXValue - _xScreenSize / 2), (float)yValue, 1);
 
             newMailbox.GetComponent<SpriteRenderer>().color = new Color(SettingsDataScript._selectedColorButtonsColors[i].r, SettingsDataScript._selectedColorButtonsColors[i].g, SettingsDataScript._selectedColorButtonsColors[i].b);
-            newMailbox.GetComponent<MailChecker>().MailboxColor = new string(SettingsDataScript._selectedColorButtonsNames[i]);
+            newMailbox.GetComponent<SortBox>().MailboxColor = new string(SettingsDataScript._selectedColorButtonsNames[i]);
 
             currentXValue += distanceBetween;
         }
@@ -213,7 +210,7 @@ public class SpawnMailScript : MonoBehaviour
         double xValue = -7f;
 
         GameObject newMailbox = Instantiate(_trashbin);
-        newMailbox.transform.position = new Vector3((float) xValue, (float) yValue, 1);
+        newMailbox.transform.position = new Vector3((float)xValue, (float)yValue, 1);
     }
 
     public void GenerateNewMail()
@@ -232,3 +229,4 @@ public class SpawnMailScript : MonoBehaviour
         _amountOfMailItemsLeft = value;
     }
 }
+*/

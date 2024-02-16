@@ -4,12 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - GameScriptManager
-  - MailItem
-  - ColorMenu
-  - Mailbox
-  - Trashbin
-  - ToNextScene
   - Check
   - Preview
   - CoordinatesText
@@ -19,6 +13,9 @@ TagManager:
   - Pokemon
   - GameLogic
   - PuzzleSlicer
+  - SortingGame
+  - SortItem
+  - Bounds
   layers:
   - Default
   - TransparentFX

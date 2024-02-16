@@ -42,7 +42,7 @@ EditorBuildSettings:
     path: "Assets/Co\xF6rdinatenPuzzel/Scenes/PuzzelGame.unity"
     guid: 2cfd977fc4521c94d80cbe71872c0f37
   - enabled: 1
-    path: Assets/ObjectenSorteren/Scenes/Startscherm.unity
+    path: Assets/ObjectenSorteren/Scenes/KleurGameMenu.unity
     guid: 2c305bd9910f1d94fb65060ac0b78b93
   - enabled: 1
     path: Assets/ObjectenSorteren/Scenes/KleurGame.unity
