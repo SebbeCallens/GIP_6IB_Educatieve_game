@@ -36,7 +36,7 @@ public class SortItem : MonoBehaviour
     {
         if (OnConveyor && !Dragging)
         {
-            transform.position = new(transform.position.x + 1 * Time.deltaTime, transform.position.y, transform.position.z);
+            transform.position = new(transform.position.x + 1.6f * Time.deltaTime, transform.position.y, transform.position.z);
 
             if (transform.position.x > 8)
             {

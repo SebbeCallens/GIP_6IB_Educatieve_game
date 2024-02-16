@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,7 +28,7 @@ public class SortingMenuLogic : MenuLogic
         AwakeBase();
     }
 
-    private void Update()
+    private void Update() //nakijken of er genoeg kleuren zijn geselecteerd
     {
         if (ColorsWarning != null && StartButton != null)
         {
@@ -87,17 +85,5 @@ public class SortingMenuLogic : MenuLogic
         SelectedSortingColors = selectedSortingColors.ToArray();
         SortingTexts = sortingTexts.ToArray();
         SelectedSortingTexts = selectedSortingTexts.ToArray();
-    }
-
-    public override bool Equals(object obj)
-    {
-        return obj is SortingMenuLogic logic &&
-               base.Equals(obj) &&
-               EqualityComparer<GameObject>.Default.Equals(ColorsWarning, logic.ColorsWarning);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(base.GetHashCode(), ColorsWarning);
     }
 }

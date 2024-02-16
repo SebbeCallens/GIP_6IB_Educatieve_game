@@ -25,6 +25,9 @@ public class SortingGame : MonoBehaviour
     private bool _conveyorMode = false; //of de loopbandmodus aan is
     private int _score = 0; //behaalde score
     private float _timer = 60f; //tijd tot spel beindigd
+    private float _conveyorSpawnRate = 2.5f; //spawnrate objecten loopband
+    private float _lastSpawnTime = 0f; //laatste object spawntijd op loopband
+    private int _amountSpawned = 0; //teller loopband sorteermodus switchen
     private float _startTime = 0f; //startijd van het spel
 
     private Vector3[] SpawnLocations { get => _spawnLocations; set => _spawnLocations = value; }
@@ -46,6 +49,9 @@ public class SortingGame : MonoBehaviour
     private bool ConveyorMode { get => _conveyorMode; set => _conveyorMode = value; }
     private int Score { get => _score; set => _score = value; }
     private float Timer { get => _timer; set => _timer = value; }
+    private float ConveyorSpawnRate { get => _conveyorSpawnRate; set => _conveyorSpawnRate = value; }
+    private float LastSpawnTime { get => _lastSpawnTime; set => _lastSpawnTime = value; }
+    private int AmountSpawned { get => _amountSpawned; set => _amountSpawned = value; }
     private float StartTime { get => _startTime; set => _startTime = value; }
 
     private void Awake() //spel starten met juiste instellingen
@@ -91,6 +97,8 @@ public class SortingGame : MonoBehaviour
         if (ConveyorMode)
         {
             SpawnSortItem(ConveyorSpawnLocation);
+            AmountSpawned++;
+            LastSpawnTime = Time.time;
         }
         else
         {
@@ -100,6 +108,7 @@ public class SortingGame : MonoBehaviour
             }
         }
 
+        //tekst en timer instellen
         StartTime = Time.time;
         SortModeText.text = "woord";
         ScoreText.text = $"Score: {Score}";
@@ -126,28 +135,51 @@ public class SortingGame : MonoBehaviour
             TimeText.text = $"Tijd: {Mathf.Round(Timer - (Time.time - StartTime))}";
         }
 
-        if (GameObject.FindWithTag("SortItem") == null)
+        if (!ConveyorMode && GameObject.FindWithTag("SortItem") == null)
         {
-            SortByColor = !SortByColor;
-            if (SortByColor)
+            if (Random.value > 0.5f)
             {
-                SortModeText.text = "kleur";
-            }
-            else
-            {
-                SortModeText.text = "woord";
+                SortByColor = !SortByColor;
+                if (SortByColor)
+                {
+                    SortModeText.text = "kleur";
+                }
+                else
+                {
+                    SortModeText.text = "woord";
+                }
             }
 
-            if (ConveyorMode)
+            foreach (Vector3 spawnLocation in SpawnLocations)
+            {
+                SpawnSortItem(spawnLocation);
+            }
+        }
+
+        if (ConveyorMode)
+        {
+            if (AmountSpawned == 5)
+            {
+                AmountSpawned = 0;
+                if (Random.value > 0.5f)
+                {
+                    SortByColor = !SortByColor;
+                    if (SortByColor)
+                    {
+                        SortModeText.text = "kleur";
+                    }
+                    else
+                    {
+                        SortModeText.text = "woord";
+                    }
+                }
+            }
+
+            if (Time.time - LastSpawnTime > ConveyorSpawnRate)
             {
                 SpawnSortItem(ConveyorSpawnLocation);
-            }
-            else
-            {
-                foreach (Vector3 spawnLocation in SpawnLocations)
-                {
-                    SpawnSortItem(spawnLocation);
-                }
+                AmountSpawned++;
+                LastSpawnTime = Time.time;
             }
         }
     }
@@ -164,7 +196,7 @@ public class SortingGame : MonoBehaviour
         ScoreText.text = $"Score: {Score}";
     }
 
-    public void EndGame()
+    public void EndGame() //einde spel --> naar eindscherm gaan
     {
         EndScreenLogic.EndGame("KleurGameMenu", "Objecten sorteren", Score.ToString(), Camera.main.orthographicSize, Camera.main.transform.position, 0);
         SceneManager.LoadScene("EndScreen");
@@ -172,16 +204,16 @@ public class SortingGame : MonoBehaviour
 
     private void SpawnSortItem(Vector3 position) //sorteer object spawnen op gegeven positie
     {
-        if (TrashcanMode && Random.value > 0.75) //25% kans op vuilbak item als vuilbakmodus
+        if (TrashcanMode && Random.value > 0.75f) //25% kans op vuilbak item als vuilbakmodus
         {
             int randomIndexColor = Random.Range(0, SortingColors.Length);
             int randomIndexText = Random.Range(0, SortingTexts.Length);
 
-            while (SortByColor && SelectedSortingColors.Contains(SortingColors[randomIndexColor])) //ervoor zorgen dat het zeker vuilbak is
+            while (SelectedSortingColors.Contains(SortingColors[randomIndexColor])) //ervoor zorgen dat het zeker vuilbak is
             {
                 randomIndexColor = Random.Range(0, SortingColors.Length);
             }
-            while (!SortByColor && SelectedSortingTexts.Contains(SortingTexts[randomIndexText])) //ervoor zorgen dat het zeker vuilbak is
+            while (SelectedSortingTexts.Contains(SortingTexts[randomIndexText])) //ervoor zorgen dat het zeker vuilbak is
             {
                 randomIndexText = Random.Range(0, SortingTexts.Length);
             }

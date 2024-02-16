@@ -3989,7 +3989,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3294946391063509283, guid: 18b12419ddf380d469177ba17c82c2ce, type: 3}
       propertyPath: m_Text
-      value: Vuilbak
+      value: Vuilnisbak
       objectReference: {fileID: 0}
     - target: {fileID: 5297806036953297545, guid: 18b12419ddf380d469177ba17c82c2ce, type: 3}
       propertyPath: m_Pivot.x
@@ -5495,7 +5495,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1977639608
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6313,7 +6313,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Gespeelde moeilijheidsgraad
+  m_text: Gespeelde moeilijkheidsgraad
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
