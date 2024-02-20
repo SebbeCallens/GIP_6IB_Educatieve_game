@@ -48,9 +48,6 @@ EditorBuildSettings:
     path: Assets/ObjectenSorteren/Scenes/KleurGame.unity
     guid: 11232d43e7b0c5b44ae887b64b046559
   - enabled: 1
-    path: Assets/ObjectenSorteren/Scenes/Eindscherm.unity
-    guid: 0991decdf1fe39a4e93d3e892bc56cfc
-  - enabled: 1
     path: Assets/PadVolgen/Scenes/PadVolgenMenu.unity
     guid: ceeb0d7b317b4ec47bcc6da21ba78b93
   - enabled: 1
