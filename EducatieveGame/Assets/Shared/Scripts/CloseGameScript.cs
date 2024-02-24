@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ConformationScript : MonoBehaviour
+public class CloseGameScript : MonoBehaviour
 {
     [SerializeField] private GameObject _conformationUI;
 
@@ -13,7 +13,6 @@ public class ConformationScript : MonoBehaviour
     public void OpenConformationUI()
     {
         _conformationUI.SetActive(true);
-        ToggleTime();
     }
 
     //sluit het spel
@@ -26,20 +25,5 @@ public class ConformationScript : MonoBehaviour
     public void Cancel()
     {
         _conformationUI.SetActive(false);
-        ToggleTime();
-    }
-
-    public void ToggleTime()
-    {
-        if (_conformationUI.activeSelf)
-        {
-            Time.timeScale = 0;
-            Debug.Log("Tijd is uit.");
-        }
-        else
-        {
-            Time.timeScale = 1;
-            Debug.Log("Tijd is aan.");
-        }
     }
 }
