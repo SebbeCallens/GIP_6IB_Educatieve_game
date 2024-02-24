@@ -432,7 +432,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2913588167149344761, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ConformationScript, Assembly-CSharp
+      value: ConformationMenuScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2913588167149344761, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -548,7 +548,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &158215834 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4462460485147838838, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5164855579320598685, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
   m_PrefabInstance: {fileID: 158215832}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
