@@ -1939,6 +1939,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InfoMenuBig
       objectReference: {fileID: 0}
+    - target: {fileID: 6250745239494115884, guid: 0500face04726d9468e15ba5fc78b735, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7343772427063604723, guid: 0500face04726d9468e15ba5fc78b735, type: 3}
       propertyPath: m_Pivot.x
       value: 0
