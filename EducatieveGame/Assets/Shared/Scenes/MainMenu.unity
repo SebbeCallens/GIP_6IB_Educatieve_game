@@ -421,18 +421,18 @@ PrefabInstance:
     - target: {fileID: 2913588167149344761, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2732506}
+      objectReference: {fileID: 158215834}
     - target: {fileID: 2913588167149344761, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2913588167149344761, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Quit
+      value: OpenConformationUI
       objectReference: {fileID: 0}
     - target: {fileID: 2913588167149344761, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MenuLogic, Assembly-CSharp
+      value: ConformationScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2913588167149344761, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -522,22 +522,22 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 876365692043614086, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
-      insertIndex: -1
+      insertIndex: 4
       addedObject: {fileID: 908953296}
     - targetCorrespondingSourceObject: {fileID: 876365692043614086, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
-      insertIndex: -1
+      insertIndex: 5
       addedObject: {fileID: 569567720}
     - targetCorrespondingSourceObject: {fileID: 876365692043614086, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
-      insertIndex: -1
+      insertIndex: 6
       addedObject: {fileID: 2037706248}
     - targetCorrespondingSourceObject: {fileID: 876365692043614086, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
-      insertIndex: -1
+      insertIndex: 7
       addedObject: {fileID: 1914859452}
     - targetCorrespondingSourceObject: {fileID: 876365692043614086, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
-      insertIndex: -1
+      insertIndex: 8
       addedObject: {fileID: 1066732470}
     - targetCorrespondingSourceObject: {fileID: 876365692043614086, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
-      insertIndex: -1
+      insertIndex: 9
       addedObject: {fileID: 141166217}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
@@ -546,6 +546,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 876365692043614086, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
   m_PrefabInstance: {fileID: 158215832}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &158215834 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4462460485147838838, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+  m_PrefabInstance: {fileID: 158215832}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 522f3465defc88241898b7b27228416e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &569567719
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,11 +1,13 @@
 using UnityEngine;
 
-public class CloseGameScript : MonoBehaviour
+public class ConformationMenuScript : MonoBehaviour
 {
-    [SerializeField] private GameObject _conformationUI;
+    private GameObject _conformationUI;
 
     void Start()
     {
+        _conformationUI = this.gameObject;
+
         _conformationUI.SetActive(false);
     }
 
@@ -13,17 +15,21 @@ public class CloseGameScript : MonoBehaviour
     public void OpenConformationUI()
     {
         _conformationUI.SetActive(true);
+
+        Time.timeScale = 0;
     }
 
-    //sluit het spel
-    public void CloseGame()
+    //code voor de 'Ja' optie in het conformation menu
+    public void Quit()
     {
         Application.Quit();
     }
 
-    //code voor de 'verdergaanknop' in het conformation menu
+    //code voor de 'Nee' optie in het conformation menu
     public void Cancel()
     {
         _conformationUI.SetActive(false);
+
+        Time.timeScale = 1;
     }
 }
