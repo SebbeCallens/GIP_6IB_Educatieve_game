@@ -16,6 +16,7 @@ public class SortingGame : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _sortModeText; //de tekst van sorteermodus
     [SerializeField] private TextMeshProUGUI _scoreText; //de tekst van de score
     [SerializeField] private TextMeshProUGUI _timeText; //de tekst van de tijd
+    [SerializeField] private GameObject _conveyor; //de loopband
     private Color[] _sortingColors; //de kleuren om mee te sorteren
     private Color[] _selectedSortingColors; //de geselecteerde kleuren om mee te sorteren
     private string[] _sortingTexts; //de kleur teksten om mee te sorteren
@@ -53,6 +54,7 @@ public class SortingGame : MonoBehaviour
     private float LastSpawnTime { get => _lastSpawnTime; set => _lastSpawnTime = value; }
     private int AmountSpawned { get => _amountSpawned; set => _amountSpawned = value; }
     private float StartTime { get => _startTime; set => _startTime = value; }
+    private GameObject Conveyor { get => _conveyor; set => _conveyor = value; }
 
     private void Awake() //spel starten met juiste instellingen
     {
@@ -67,6 +69,7 @@ public class SortingGame : MonoBehaviour
         {
             ConveyorMode = true;
             ConveyorEnd.SetActive(true);
+            Conveyor.GetComponent<Animator>().enabled = true;
         }
 
         int difficulty = MenuLogic.Difficulty + 1;
