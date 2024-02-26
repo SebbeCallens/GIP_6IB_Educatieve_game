@@ -82,7 +82,7 @@ public class PathTile : MonoBehaviour
             if (everyLocationVisited)
             {
                 Pad.Generator.ShowAStarPath(Color.red);
-                if (Pad.Generator.Arrows)
+                if (Pad.Generator.Arrows && !Pad.Generator.ScrambledOrder)
                 {
                     EndGame((Math.Round((double)Pad.RandomPath.Count / (GameObject.FindWithTag("Player").GetComponent<Player>().Steps + GameObject.FindWithTag("Player").GetComponent<Player>().WrongSteps), 2) * 100).ToString());
                 }
