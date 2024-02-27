@@ -35,7 +35,6 @@ public class EndScreenLogic : MenuLogic
 
     private void Awake() //eindscherm instellen
     {
-        Rearrange();
         AwakeBase();
         Camera.main.transform.position = CameraPos;
         Difficultys.GetChild(Difficulty-1).gameObject.SetActive(true);
@@ -129,6 +128,7 @@ public class EndScreenLogic : MenuLogic
                 GameStats.GetChild(5).GetChild(2).GetChild(0).GetComponent<Toggle>().isOn = true;
             }
         }
+        Rearrange();
     }
 
     public void NewGame() //scene laden van laatst gespeelde spel
