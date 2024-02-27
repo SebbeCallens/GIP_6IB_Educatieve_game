@@ -62,8 +62,8 @@ public class RotateGame : MonoBehaviour
             Height = height;
 
             Vector3 camPosition = new(Camera.main.transform.position.x, Camera.main.transform.position.y, 0);
-            GameGrid.transform.position = camPosition;
-            CorrectGrid.transform.position = new Vector3(camPosition.x - orthographicSizeOffset, camPosition.y, 0);
+            GameGrid.transform.position = new Vector3(camPosition.x + orthographicSizeOffset / 2f, camPosition.y, 0);
+            CorrectGrid.transform.position = new Vector3(camPosition.x - orthographicSizeOffset / 2f, camPosition.y, 0);
             Camera.main.orthographicSize = orthographicSizeOffset;
         }
 
