@@ -745,6 +745,7 @@ MonoBehaviour:
   _width: 10
   _height: 10
   _tile: {fileID: 6906169124038179260, guid: 0991760bd7dd1974fbb6ff0402ec2819, type: 3}
+  _waterSprite: {fileID: 21300000, guid: 8b15c67c8d6023440a0ea676d038336b, type: 3}
 --- !u!114 &2122425349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -799,6 +800,8 @@ MonoBehaviour:
   _finish: {fileID: 7279476843127333383, guid: b00111c8ad596bd439904287197475ab, type: 3}
   _tileText: {fileID: 270408981274666695, guid: 842ea393033d66445b408e44dd1890ca, type: 3}
   _canvas: {fileID: 1335302770}
+  _location: {fileID: 178815426852231153, guid: 5ce82300dd2604144b853c23cd3c5f00, type: 3}
+  _obstacle: {fileID: 2792739166130970423, guid: bc717eec895aee6458d87c15eef1434e, type: 3}
 --- !u!114 &2122425352
 MonoBehaviour:
   m_ObjectHideFlags: 0

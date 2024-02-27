@@ -8,7 +8,7 @@ public class PathGrid : MonoBehaviour
     [SerializeField] private int _height; //hoogte grid
     [SerializeField] private GameObject _tile; //een tile
     private Dictionary<Vector2, PathTile> _tiles = new(); //de tiles van het grid met hun posities
-
+    [SerializeField] private Sprite _waterSprite;
     public int Width { get => _width; set => _width = value; }
     public int Height { get => _height; set => _height = value; }
     private GameObject Tile { get => _tile; set => _tile = value; }
@@ -39,7 +39,7 @@ public class PathGrid : MonoBehaviour
                 spawnedTile.name = x + "-" + y;
 
                 Tiles[new Vector2(x, y)] = spawnedTile.GetComponent<PathTile>();
-                spawnedTile.GetComponent<PathTile>().SetTile(Color.green, false, false);
+                spawnedTile.GetComponent<PathTile>().SetTile(Color.white, false, false);
             }
         }
 

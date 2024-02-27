@@ -53,6 +53,15 @@ public class PathTile : MonoBehaviour
             }
         }
 
+        if(Visited && IsCheckpoint)
+        {
+            if (transform.Find("Location(Clone)") != null)
+            {
+                Destroy(transform.Find("Location(Clone)").gameObject);
+                Debug.Log("test");
+            }
+        }
+
         if(IsFinish && success)
         {
             bool everyLocationVisited = true;
@@ -100,6 +109,8 @@ public class PathTile : MonoBehaviour
         IsObstacle = isObstacle;
         IsCheckpoint = isLocation;
     }
+
+
 
     private void EndGame(string score)
     {

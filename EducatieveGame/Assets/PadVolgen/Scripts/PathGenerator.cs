@@ -16,6 +16,8 @@ public class PathGenerator : MonoBehaviour
     [SerializeField] private GameObject _finish; //de finish
     [SerializeField] private TextMeshProUGUI _tileText; //text voor locatie nummer
     [SerializeField] private Transform _canvas; //canvas in de scene
+    [SerializeField] private GameObject _location;
+    [SerializeField] private GameObject _obstacle;
     private int _paths = 0; //hoeveel paden er geprobeerd zijn
 
     private int MinLength { get => _minLength; set => _minLength = value; }
@@ -115,7 +117,8 @@ public class PathGenerator : MonoBehaviour
                 locationCount++;
                 //huidige tile instellen
                 currentTile = Pad.Functions.GetRandomTile(_possibleTiles, Pad.Grid.GetTilePosition(spawnTile));
-                currentTile.SetTile(Color.grey, false, true);
+                currentTile.SetTile(Color.white, false, true);
+                Instantiate(_location, currentTile.transform.position, Quaternion.identity, currentTile.transform);
                 if (!RandomOrder)
                 {
                     Pad.Checkpoints.Add(currentTile);
@@ -129,7 +132,7 @@ public class PathGenerator : MonoBehaviour
             {
                 //huidige tile instellen
                 currentTile = Pad.Functions.GetRandomTile(_possibleTiles, Pad.Grid.GetTilePosition(spawnTile));
-                currentTile.SetTile(Color.green, false, false);
+                currentTile.SetTile(Color.white, false, false);
             }
             Pad.RandomPath.Add(currentTile);
         }
@@ -182,7 +185,8 @@ public class PathGenerator : MonoBehaviour
         {
             if (Random.value > 0.75f) //25% kans per tile
             {
-                tile.SetTile(Color.yellow, true, false);
+                tile.SetTile(Color.white, true, false);
+                Instantiate(_obstacle, tile.transform.position, Quaternion.identity, tile.transform);
             }
         }
 
