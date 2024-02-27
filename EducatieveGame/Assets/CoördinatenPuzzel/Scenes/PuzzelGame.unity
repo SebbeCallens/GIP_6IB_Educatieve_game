@@ -675,9 +675,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 167347209776930992, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 167347209776930992, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8d68b0983a0d01947bb2e2aa092c8ba8, type: 3}
     - target: {fileID: 760340723576060489, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_text
-      value: C
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 760340723576060489, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_fontColor.a
