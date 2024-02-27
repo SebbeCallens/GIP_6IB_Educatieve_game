@@ -11,6 +11,7 @@ public class EndScreenLogic : MenuLogic
     [SerializeField] private Transform _gameStats; //statistieken spel
     [SerializeField] private TextMeshProUGUI _scoreText; //text met score
     [SerializeField] private TextMeshProUGUI _titleText; //text spelnaam
+    [SerializeField] private EndScreens _endScreens; // de eindschermen van de 6 games
     private static string _currentGame = "MainMenu"; //huidig spel scenename
     private static string _gameName = "Eindscherm"; //huidig spel naam
     private static string _score = "0/0%"; //behaalde score
@@ -24,6 +25,7 @@ public class EndScreenLogic : MenuLogic
     private Transform GameStats { get => _gameStats; set => _gameStats = value; }
     private TextMeshProUGUI ScoreText { get => _scoreText; set => _scoreText = value; }
     private TextMeshProUGUI TitleText { get => _titleText; set => _titleText = value; }
+    private EndScreens EndScreens { get => _endScreens; set =>  _endScreens = value; }
     private static string CurrentGame { get => _currentGame; set => _currentGame = value; }
     private static string GameName { get => _gameName; set => _gameName = value; }
     private static string Score { get => _score; set => _score = value; }
@@ -33,6 +35,7 @@ public class EndScreenLogic : MenuLogic
 
     private void Awake() //eindscherm instellen
     {
+        Rearrange();
         AwakeBase();
         Camera.main.transform.position = CameraPos;
         Difficultys.GetChild(Difficulty-1).gameObject.SetActive(true);
@@ -113,7 +116,6 @@ public class EndScreenLogic : MenuLogic
         else if (CurrentGame.Equals("PadVolgenMenu"))
         {
             GameStats.GetChild(5).gameObject.SetActive(true);
-            GameStats.GetChild(0).gameObject.SetActive(true);
             if (PlayerPrefs.GetInt("pad-assist") == 1)
             {
                 GameStats.GetChild(5).GetChild(0).GetChild(0).GetComponent<Toggle>().isOn = true;
@@ -142,5 +144,32 @@ public class EndScreenLogic : MenuLogic
         CameraSize = cameraSize;
         CameraPos = cameraPos;
         OffsetY = offsetY;
+    }
+    private void Rearrange()
+    {
+        if (CurrentGame.Equals("KleurGameMenu"))
+        {
+            EndScreens.Rearrange(0);
+        }
+        else if (CurrentGame.Equals("RotateFigure"))
+        {
+            EndScreens.Rearrange(1);
+        }
+        else if (CurrentGame.Equals("ReactionMenu"))
+        {
+            EndScreens.Rearrange(2);
+        }
+        else if (CurrentGame.Equals("PuzzelGameMenu"))
+        {
+            EndScreens.Rearrange(3);
+        }
+        else if (CurrentGame.Equals("PadVolgenMenu"))
+        {
+            EndScreens.Rearrange(4);
+        }
+        else
+        {
+            EndScreens.Rearrange(5);
+        }
     }
 }
