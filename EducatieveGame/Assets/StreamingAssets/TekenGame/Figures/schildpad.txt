@@ -1,0 +1,43 @@
+CellSize: 1
+Width: 24
+Height: 10
+StartPos: 38, 35, 0
+LineSegments:
+Up
+Left
+Up
+Up
+Up
+Left
+Up
+Up
+Right
+Right
+Down
+Down
+Down
+Down
+Right
+Up
+Up
+Right
+Up
+Right
+Right
+Right
+Right
+Down
+Right
+Down
+Down
+Down
+Left
+Down
+Left
+Up
+Left
+Left
+Left
+Left
+Down
+Left

@@ -1,0 +1,17 @@
+CellSize: 2
+Width: 12
+Height: 5
+StartPos: 36, 35, 0
+LineSegments:
+Up
+Up
+Up
+Right-Down
+Right-Down
+Down
+Up
+Right-Up
+Right-Up
+Down
+Down
+Down

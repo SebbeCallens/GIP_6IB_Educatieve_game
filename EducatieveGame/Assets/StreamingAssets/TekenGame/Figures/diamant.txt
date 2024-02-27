@@ -5,9 +5,13 @@ StartPos: 40, 35, 0
 LineSegments:
 Left-Up
 Left-Up
+Left-Up
 Right-Up
 Right
 Right
+Right
+Right
 Right-Down
+Left-Down
 Left-Down
 Left-Down
