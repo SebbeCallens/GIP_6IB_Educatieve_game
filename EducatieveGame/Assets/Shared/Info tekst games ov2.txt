@@ -1,0 +1,146 @@
+Info tekst games ov2
+
+Figuur namaken
+
+Welkom bij de Figuren Namaken minigame!
+
+//rest ontbreekt
+
+
+Vlees bakken
+
+Welkom bij de Vlees Bakken minigame!
+
+In deze minigame draait alles om het perfect bakken van verschillende soorten vlees. Jouw taak is om op het juiste moment op het vlees te klikken wanneer het perfect gaar is. Als je te vroeg of te laat klikt, verdien je minder punten of kun je zelfs punten verliezen.
+
+Moeilijkheidsgraden
+
+Het spel kent vijf moeilijkheidsgraden: beginner, gemakkelijk, normaal, moeilijk en expert. Elke moeilijkheidsgraad heeft zijn eigen instellingen. Je kunt deze moeilijkheidsgraden drie keer aanpassen voor verschillende instellingen. 
+
+Instellingen
+
+De baksnelheid van het vlees, de hoeveelheid vlees op de barbecue en de grootte van de barbecue kan je allemaal instellen.
+
+Duurtijd spel
+
+Na één minuut eindigt het spel. Op dat moment zie je hoe vaak het vlees goed gebakken was, te gaar was of nog bevroren was. Je totaalscore wordt bovenaan het scherm weergegeven.
+
+
+Figuur draaien
+
+Welkom bij de Figuur Draaien minigame!
+
+In deze minigame teken je een willekeurig gegenereerde figuur na. Jouw taak is om er voor te zorgen dat jouw figuur er hetzelfde uitziet als de voorbeeldfiguur. 
+
+Hoe speel ik de minigame?
+
+Je kan op de vakjes van jouw figuur klikken om het vakje 90° te draaien. Probeer dit te doen voor elk vakje.
+
+Moeilijkheidsgraden
+
+Het spel kent vijf moeilijkheidsgraden: beginner, gemakkelijk, normaal, moeilijk en expert. Elke moeilijkheidsgraad heeft zijn eigen instellingen. Hoe moeilijker de moeilijkheidsgraad is, hoe groter de figuur wordt die je zal moeten namaken.
+
+Extra modi
+
+Daarnaast zijn er ook nog wat extra modi die je kan instellen. Je kan kiezen om de voorbeeldfiguur symmetrisch te maken, wat het iets gemakkelijker maakt. 
+
+Rooster
+
+Je kan ook kiezen om het juist moeilijker te maken door de ‘geen rooster’ instelling aan te zetten. Nu wordt het rooster rondom de vakjes weggehaald.
+
+Ik ben klaar! Wat nu?
+
+Als je denkt dat je klaar bent, klik dan op 'controleer figuur'. Op dat moment wordt je score berekend en krijg je te zien hoe nauwkeurig je de figuur hebt nagemaakt. Elk correct gedraaid vakje is 1 punt waard. Veel succes!
+
+
+Coördinaten puzzel
+
+Welkom bij de Coördinaten Puzzel game!
+
+In deze minigame moet je een puzzel oplossen waarvan de puzzelstukken allemaal hun eigen coördinaat krijgen. 
+
+Hoe start ik een puzzel?
+
+Om een puzzel te starten, kies je een afbeelding uit het menu. Je kan ook kiezen om zelf een afbeelding toe te voegen om te maken als puzzel. Klik op ‘Maak Puzzel’ om te starten met puzzelen. 
+
+Waar plaats ik het puzzelstuk?
+
+Je krijgt een rooster te zien met coördinaten. Rechts op het scherm liggen alle puzzelstukken. Neem een puzzelstuk vast om te zien wat de coördinaat is van het puzzelstuk. Sleep het vervolgens op het rooster op de juiste plek. 
+
+Ik ben klaar met de puzzel, wat nu?
+
+Wanneer je denkt dat je klaar bent met de puzzel, kan je de puzzel laten controleren door op ‘Controleer’ te klikken. Je krijgt je score boven te zien. Alle puzzelstukken gelegd op de juiste plek krijgen een groene kleur en de foute puzzelstukken een rode kleur. 
+
+2de poging.
+
+Na het controleren kan je kiezen om jezelf te verbeteren door op ‘Reset’ te klikken Als je klaar bent met het spel, klik je op ‘Terug’ om terug te gaan naar het startscherm van de minigame. 
+
+
+Objecten sorteren
+
+Welkom bij de Objecten Sorteren minigame!
+
+In deze minigame is het de bedoeling om objecten correct te sorteren. Dit doe je door de objecten in de juiste doos te slepen. 
+
+Hoe sorteren?
+
+Je kunt op twee manieren sorteren: op basis van de kleur van het woord of op basis van de tekstkleur van het woord. Hoe je moet sorteren, wordt aangegeven bovenaan het scherm.
+
+Moeilijkheidsgraden
+
+Het spel kent vijf moeilijkheidsgraden: beginner, gemakkelijk, normaal, moeilijk en expert. Elke moeilijkheidsgraad heeft zijn eigen instellingen. Bij moeilijkere moeilijkheidsgraden zijn er extra dozen en kun je meer punten verdienen of verliezen.
+
+kleuren kiezen
+
+In het menu kan je de kleuren van de dozen en voorwerpen . Voor sommige moeilijkheidsgraden moet je meer kleuren kiezen.
+
+Vuilnisbakmodus
+
+Daarnaast zijn er nog een aantal modi waarin je kunt spelen. Als je op de normale of moeilijkere modus speelt (of de vuilnisbakmodus aanvinkt in de instellingen), bestaat de mogelijkheid dat er objecten zijn die nergens passen in een doos. In dat geval moet je ze naar de vuilnisbak slepen.
+
+Loopbandmodus
+
+Een andere modus is de loopbandmodus. Hierbij verplaatsen de objecten zich op een loopband. Wanneer de objecten aan het einde van de loopband komen, vallen ze eraf en verlies je punten.
+
+
+Pad volgen
+
+Welkom bij de Pad Volgen minigame!
+
+In deze minigame moet je een eendje helpen om allerlei locaties te bezoeken en hem dan uiteindelijk naar het nest te brengen. 
+
+Hoe verplaats ik het eendje?
+
+Je kan de eend verplaatsen door op een cel te klikken naast het eendje. Je kan je dus naar boven, onder, links en rechts verplaatsen!
+
+Wat betekenen al die vakjes?
+
+Er zijn een aantal verschillende vakjes. Groene vakjes zijn vakjes waar de eend zich op kan verplaatsen. Gele vakjes zijn vakjes waar het eendje zich niet kan op verplaatsen. 
+
+Locaties
+
+Dan heb je ook nog grijze vakjes. De grijze vakjes zijn locaties waar het eendje naar toe moet gaan. Grijze vakjes hebben een getal. Dit getal kan verschillende betekenissen hebben naargelang welke modus je hebt geselecteerd.
+
+Finish
+
+Tenslotte heb je ook nog een vakje met een driehoek. Dit is de eindbestemming van het eendje.
+
+standaard modus
+
+Als je geen modi hebt aangeduid, dan kies je zelf de beste manier om zo snel mogelijk alle grijze vakjes te bezoeken in volgorde van de getallen. Nadat je alle grijze vakjes hebt bezocht, ga je naar de eindbestemming.
+
+instructies modus
+
+Als je ‘instructies’ hebt aangeduid, moet je een bepaald pad volgen. Het juiste pad wordt aangeduid met een zwarte pijl links op het scherm.
+
+willekeurige modus
+
+Als je ‘willekeurige modus’ inschakelt, dan zijn de grijze vakjes niet meer in een logische volgorde. Het kan nu zijn dat een grijs vakje met getal ‘3’ dichterbij is dan vakje ‘2’.
+
+zelf volgorde kiezen
+
+Als je ‘zelf volgorde kiezen’ aanduidt, dan hoef je niet meer rekening te houden met welk grijs vakje je eerst moet bezoeken. Je mag nu zelf het snelste pad zoeken om alle grijze vakjes te bezoeken en zo snel mogelijk naar de finish te geraken.
+
+Einde van het spel
+
+Nadat je op de eindbestemming bent geraakt, krijg je je behaalde score te zien in procent %. De behaalde score wordt berekend op hoe efficiënt je pad was.

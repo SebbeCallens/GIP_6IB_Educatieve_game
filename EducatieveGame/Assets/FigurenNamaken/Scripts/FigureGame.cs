@@ -13,9 +13,11 @@ public class FigureGame : MonoBehaviour
     [SerializeField] private Stats _statsObj; //scorescript
     [Header("Other")]
     [SerializeField] private GameObject _startDot; //startpunt object
+    [SerializeField] private GameObject _currentDot; //huidig punt object
     [SerializeField] private LineRenderer _assistLineRend; //de linerenderer om te gebruiken in hulpmodus
     [SerializeField] private Material _lineCorrect; //material voor in hulpmodus
     [SerializeField] private Material _lineWrong; //material voor in hulpmodus
+    [SerializeField] private Material _lineStandard; //material voor lijn
     private LineRenderer _lineRend; //de linerenderer voor de figuur
     private GridGenerator _gridGen; //de gridgenerator
     private GridFunctions _gridFuncs; //de functies van het grid
@@ -45,9 +47,11 @@ public class FigureGame : MonoBehaviour
     private RectTransform Arrow { get => _arrow; set => _arrow = value; }
     private Stats StatsObj { get => _statsObj; set => _statsObj = value; }
     private GameObject StartDot { get => _startDot; set => _startDot = value; }
+    private GameObject CurrentDot { get => _currentDot; set => _currentDot = value; }
     private LineRenderer AssistLineRend { get => _assistLineRend; set => _assistLineRend = value; }
     private Material LineCorrect { get => _lineCorrect; set => _lineCorrect = value; }
     private Material LineWrong { get => _lineWrong; set => _lineWrong = value; }
+    private Material LineStandard { get => _lineStandard; set => _lineStandard = value; }
     private LineRenderer LineRend { get => _lineRend; set => _lineRend = value; }
     private GridGenerator GridGen { get => _gridGen; set => _gridGen = value; }
     private GridFunctions GridFuncs { get => _gridFuncs; set => _gridFuncs = value; }
@@ -92,16 +96,8 @@ public class FigureGame : MonoBehaviour
         {
             Arrows = TransformList(Arrows);
             AddLinePoint(LineRend);
-            if (AssistMode)
-            {
-                AddLinePoint(AssistLineRend);
-                AddLinePoint(AssistLineRend);
-            }
-            else
-            {
-                AddLinePoint(AssistLineRend);
-                AddLinePoint(LineRend);
-            }
+            AddLinePoint(AssistLineRend);
+            AddLinePoint(AssistLineRend);
             I++;
         }
 
@@ -119,33 +115,31 @@ public class FigureGame : MonoBehaviour
             {
                 Vector3 closestPositionOnGrid;
 
-                if (AssistMode)
-                {
-                    closestPositionOnGrid = GridFuncs.ClosestPosition(mousePosition, LineRend.GetPosition(LineRend.positionCount - 1), CellSize);
-                    AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, closestPositionOnGrid);
-                }
-                else
-                {
-                    closestPositionOnGrid = GridFuncs.ClosestPosition(mousePosition, LineRend.GetPosition(LineRend.positionCount - 2), CellSize);
-                    LineRend.SetPosition(LineRend.positionCount - 1, closestPositionOnGrid);
-                }
+                closestPositionOnGrid = GridFuncs.ClosestPosition(mousePosition, LineRend.GetPosition(LineRend.positionCount - 1), CellSize);
+                CurrentDot.transform.position  = closestPositionOnGrid;
+                AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, closestPositionOnGrid);
+
 
                 if (closestPositionOnGrid == LinePoints[I])
                 {
-                    AssistLineRend.sharedMaterial = LineCorrect;
+                    if (AssistMode)
+                    {
+                        AssistLineRend.sharedMaterial = LineCorrect;
+                    }
+                    else
+                    {
+                        AssistLineRend.sharedMaterial = LineStandard;
+                    }
 
                     if (Input.GetMouseButtonDown(0))
                     {
-                        if (AssistMode)
-                        {
-                            AssistLineRend.SetPosition(AssistLineRend.positionCount - 2, LinePoints[I]);
-                            AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, LinePoints[I]);
-                        }
-                        else
+                        if (!AssistMode)
                         {
                             StatsObj.AddStat(0, 1);
                         }
 
+                        AssistLineRend.SetPosition(AssistLineRend.positionCount - 2, LinePoints[I]);
+                        AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, LinePoints[I]);
                         AddLinePoint(LineRend);
                         I++;
                     }
@@ -153,9 +147,16 @@ public class FigureGame : MonoBehaviour
 
                 else
                 {
-                    AssistLineRend.sharedMaterial = LineWrong;
-                    
-                    if (Input.GetMouseButtonDown(0) && !AssistMode && LineRend.GetPosition(LineRend.positionCount - 2) != closestPositionOnGrid)
+                    if (AssistMode)
+                    {
+                        AssistLineRend.sharedMaterial = LineWrong;
+                    }
+                    else
+                    {
+                        AssistLineRend.sharedMaterial = LineStandard;
+                    }
+
+                    if (Input.GetMouseButtonDown(0) && !AssistMode && LineRend.GetPosition(LineRend.positionCount - 1) != closestPositionOnGrid)
                     {
                         StatsObj.AddStat(0, -1);
                     }
@@ -163,14 +164,8 @@ public class FigureGame : MonoBehaviour
             }
             else //ervoor zorgen dat als de muis niet in het grid is dat de laatste lijn niet blijft staan
             {
-                if (AssistMode)
-                {
-                    AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, AssistLineRend.GetPosition(AssistLineRend.positionCount - 2));
-                }
-                else
-                {
-                    LineRend.SetPosition(LineRend.positionCount - 1, LineRend.GetPosition(LineRend.positionCount - 2));
-                }
+                CurrentDot.transform.position = new(1000, 0, 0);
+                AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, AssistLineRend.GetPosition(AssistLineRend.positionCount - 2));
             }
         }
         else //figuur is af, spel beindigen

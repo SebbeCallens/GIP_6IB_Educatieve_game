@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System.Linq;
 using UnityEngine.UI;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
 public class DrawFigure : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class DrawFigure : MonoBehaviour
     [SerializeField] private int _maxHeight; //maximum hoogte grid
     [Header("Other")]
     [SerializeField] private GameObject _startDot; //startpunt object
+    [SerializeField] private GameObject _currentDot; //huidig punt object
+    [SerializeField] private LineRenderer _assistLineRend; //de linerenderer voor de figuur
     [SerializeField] private GameObject _menuLogObject; //script voor menu logica
     private string _figureName = ""; //de figuurnaam
     private string[] _figures; //lijst met alle figuren
@@ -63,6 +66,8 @@ public class DrawFigure : MonoBehaviour
     private int MaxWidth { get => _maxWidth; set => _maxWidth = value; }
     private int MaxHeight { get => _maxHeight; set => _maxHeight = value; }
     private GameObject StartDot { get => _startDot; set => _startDot = value; }
+    private GameObject CurrentDot { get => _currentDot; set => _currentDot = value; }
+    private LineRenderer AssistLineRend { get => _assistLineRend; set => _assistLineRend = value; }
     private GameObject MenuLogObject { get => _menuLogObject; set => _menuLogObject = value; }
     private string FigureName { get => _figureName; set => _figureName = value; }
     private string[] Figures { get => _figures; set => _figures = value; }
@@ -91,11 +96,11 @@ public class DrawFigure : MonoBehaviour
         Actions = new List<string>();
         UndoneActions = new List<(string, Vector3)>();
         Start = Instantiate(StartDot, Vector3.zero, Quaternion.identity, transform);
-        Width = MinWidth;
-        Height = MinHeight;
-        WidthText.text = Width.ToString();
-        HeightText.text = Height.ToString();
-        CellSizeText.text = CellSize.ToString();
+        Width = MaxWidth;
+        Height = MaxHeight;
+        //WidthText.text = Width.ToString();
+        //HeightText.text = Height.ToString();
+        //CellSizeText.text = CellSize.ToString();
         LoadFigures();
     }
 
@@ -118,34 +123,42 @@ public class DrawFigure : MonoBehaviour
                         AddStartPos(closestPositionOnGrid);
                         LineRend.positionCount++;
                         LineRend.SetPosition(LineRend.positionCount - 1, closestPositionOnGrid);
-                        LineRend.positionCount++;
-                        LineRend.SetPosition(LineRend.positionCount - 1, closestPositionOnGrid);
+                        AssistLineRend.positionCount++;
+                        AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, closestPositionOnGrid);
+                        AssistLineRend.positionCount++;
+                        AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, closestPositionOnGrid);
                     }
+                    CurrentDot.transform.position = closestPositionOnGrid;
                 }
 
                 else
                 {
-                    Vector3 closestPositionOnGrid = GridFuncs.ClosestPosition(mousePosition, LineRend.GetPosition(LineRend.positionCount - 2), CellSize);
-                    LineRend.SetPosition(LineRend.positionCount - 1, closestPositionOnGrid);
+                    Vector3 closestPositionOnGrid = GridFuncs.ClosestPosition(mousePosition, LineRend.GetPosition(LineRend.positionCount - 1), CellSize);
+                    AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, closestPositionOnGrid);
 
-                    if (Directions.ContainsKey(((closestPositionOnGrid.x - LineRend.GetPosition(LineRend.positionCount - 2).x) / CellSize, (closestPositionOnGrid.y - LineRend.GetPosition(LineRend.positionCount - 2).y) / CellSize)) && Input.GetMouseButtonDown(0))
+                    if (Directions.ContainsKey(((closestPositionOnGrid.x - LineRend.GetPosition(LineRend.positionCount - 1).x) / CellSize, (closestPositionOnGrid.y - LineRend.GetPosition(LineRend.positionCount - 1).y) / CellSize)) && Input.GetMouseButtonDown(0))
                     {
                         UndoneActions.Clear();
                         UndoneStartDot = Vector3.zero;
-                        string direction = Directions[((closestPositionOnGrid.x - LineRend.GetPosition(LineRend.positionCount - 2).x) / CellSize, (closestPositionOnGrid.y - LineRend.GetPosition(LineRend.positionCount - 2).y) / CellSize)];
+                        string direction = Directions[((closestPositionOnGrid.x - LineRend.GetPosition(LineRend.positionCount - 1).x) / CellSize, (closestPositionOnGrid.y - LineRend.GetPosition(LineRend.positionCount - 1).y) / CellSize)];
                         AddLineSegment(direction);
                         LineRend.positionCount++;
                         LineRend.SetPosition(LineRend.positionCount - 1, closestPositionOnGrid);
+                        AssistLineRend.SetPosition(AssistLineRend.positionCount - 2, closestPositionOnGrid);
+                        AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, closestPositionOnGrid);
                     }
+                    CurrentDot.transform.position = closestPositionOnGrid;
                 }
             }
             else if (StartDotPlaced) //ervoor zorgen dat als de muis niet in het grid is dat de laatste lijn niet blijft staan
             {
-                LineRend.SetPosition(LineRend.positionCount - 1, LineRend.GetPosition(LineRend.positionCount - 2));
+                AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, AssistLineRend.GetPosition(AssistLineRend.positionCount - 2));
+                CurrentDot.transform.position = Vector3.zero;
             }
             else //ervoor zorgen als de muis niet in het grid is dat het startpunt dat nog niet gezet is verdwijnt
             {
                 Start.transform.position = Vector3.zero;
+                CurrentDot.transform.position = Vector3.zero;
             }
         }
     }
@@ -266,11 +279,14 @@ public class DrawFigure : MonoBehaviour
                 string action = Actions[Actions.Count - 1];
                 RemoveLineSegment(action, LineRend.GetPosition(LineRend.positionCount - 1));
                 LineRend.positionCount--;
+                AssistLineRend.SetPosition(AssistLineRend.positionCount - 2, LineRend.GetPosition(LineRend.positionCount - 1));
+                AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, LineRend.GetPosition(LineRend.positionCount - 1));
             }
             else
             {
                 LineRend.positionCount--;
-                LineRend.positionCount--;
+                AssistLineRend.positionCount--;
+                AssistLineRend.positionCount--;
                 UndoneStartDot = Start.transform.position;
                 Start.transform.position = Vector3.zero;
                 StartDotPlaced = false;
@@ -286,8 +302,10 @@ public class DrawFigure : MonoBehaviour
             AddStartPos(UndoneStartDot);
             LineRend.positionCount++;
             LineRend.SetPosition(LineRend.positionCount - 1, UndoneStartDot);
-            LineRend.positionCount++;
-            LineRend.SetPosition(LineRend.positionCount - 1, UndoneStartDot);
+            AssistLineRend.positionCount++;
+            AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, UndoneStartDot);
+            AssistLineRend.positionCount++;
+            AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, UndoneStartDot);
             UndoneStartDot = Vector3.zero;
             StartDotPlaced = true;
         }
@@ -298,7 +316,9 @@ public class DrawFigure : MonoBehaviour
             string action = lastItem.Item1;
             Vector3 position = lastItem.Item2;
             LineRend.positionCount++;
-            LineRend.SetPosition(LineRend.positionCount - 2, position);
+            LineRend.SetPosition(LineRend.positionCount - 1, position);
+            AssistLineRend.SetPosition(AssistLineRend.positionCount - 2, LineRend.GetPosition(LineRend.positionCount - 1));
+            AssistLineRend.SetPosition(AssistLineRend.positionCount - 1, LineRend.GetPosition(LineRend.positionCount - 1));
             UndoneActions.RemoveAt(UndoneActions.Count - 1);
             AddLineSegment(action);
         }

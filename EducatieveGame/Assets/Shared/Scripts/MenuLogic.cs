@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,7 @@ public abstract class MenuLogic : MonoBehaviour
     [SerializeField] private GameObject[] _infoTabs;
     [SerializeField] private GameObject _infoMenu;
     private bool _fromScript = false; //of toggle uit script getoggled wordt
+    private bool _cooldown = false;
     private int _currentMenu = 0; //index van huidig menu
     private int _currentInfoTab = 0;
 
@@ -27,9 +29,10 @@ public abstract class MenuLogic : MonoBehaviour
     protected TextMeshProUGUI TabCounter { get => _tabCounter; set => _tabCounter = value; }
     protected GameObject[] InfoTabs { get => _infoTabs; set => _infoTabs = value; }
     protected GameObject InfoMenu { get => _infoMenu; set => _infoMenu = value; }
-    protected int CurrentInfoTab { get => _currentInfoTab; set => _currentInfoTab = value; }
-    protected int CurrentMenu { get => _currentMenu; set => _currentMenu = value; }
     protected bool FromScript { get => _fromScript; set => _fromScript = value; }
+    protected bool Cooldown { get => _cooldown; set => _cooldown = value; }
+    protected int CurrentMenu { get => _currentMenu; set => _currentMenu = value; }
+    protected int CurrentInfoTab { get => _currentInfoTab; set => _currentInfoTab = value; }
     public static int Difficulty { get => _difficulty; private set => _difficulty = value; }
 
     protected void AwakeBase() //difficulty op standaardwaarde en settings toggles instellen
@@ -146,80 +149,94 @@ public abstract class MenuLogic : MonoBehaviour
 
     public void ButtonForwardsClicked()
     {
-        int _exitingTabIndex;
-
-        //de actieve pagina-indexwaarde updaten
-        if (CurrentInfoTab + 1 < InfoTabs.Length)
+        if (!Cooldown)
         {
-            CurrentInfoTab += 1;
-        }
-        else
-        {
-            CurrentInfoTab = 0;
-        }
+            int _exitingTabIndex;
 
-        //het uitzetten van alle tabs niet nodig voor de animaties
-        for (int i = 0; i < InfoTabs.Length; i++)
-        {
-            InfoTabs[i].SetActive(false);
-        }
+            //de actieve pagina-indexwaarde updaten
+            if (CurrentInfoTab + 1 < InfoTabs.Length)
+            {
+                CurrentInfoTab += 1;
+            }
+            else
+            {
+                CurrentInfoTab = 0;
+            }
 
-        //de actieve tab wordt aangezet
-        InfoTabs[CurrentInfoTab].SetActive(true);
+            //het uitzetten van alle tabs niet nodig voor de animaties
+            for (int i = 0; i < InfoTabs.Length; i++)
+            {
+                InfoTabs[i].SetActive(false);
+            }
 
-        //de vorige tab wordt aangezet (checken welke waarde voorop was zonder errors)
-        if (CurrentInfoTab - 1 == -1)
-        {
-            InfoTabs[InfoTabs.Length - 1].SetActive(true);
-            _exitingTabIndex = InfoTabs.Length - 1;
-        }
-        else
-        {
-            InfoTabs[CurrentInfoTab - 1].SetActive(true);
-            _exitingTabIndex = CurrentInfoTab - 1;
-        }
+            //de actieve tab wordt aangezet
+            InfoTabs[CurrentInfoTab].SetActive(true);
 
-        TweenTabs(CurrentInfoTab, _exitingTabIndex, true);
-        UpdateTabCounter(CurrentInfoTab + 1);
+            //de vorige tab wordt aangezet (checken welke waarde voorop was zonder errors)
+            if (CurrentInfoTab - 1 == -1)
+            {
+                InfoTabs[InfoTabs.Length - 1].SetActive(true);
+                _exitingTabIndex = InfoTabs.Length - 1;
+            }
+            else
+            {
+                InfoTabs[CurrentInfoTab - 1].SetActive(true);
+                _exitingTabIndex = CurrentInfoTab - 1;
+            }
+
+            TweenTabs(CurrentInfoTab, _exitingTabIndex, true);
+            UpdateTabCounter(CurrentInfoTab + 1);
+            Cooldown = true;
+            StartCoroutine(ButtonCooldown());
+        }
     }
 
     public void ButtonBackwardsClicked()
     {
-        int _exitingTabIndex;
-
-        if (CurrentInfoTab - 1 >= 0)
+        if (!Cooldown)
         {
-            CurrentInfoTab -= 1;
-        }
-        else
-        {
-            CurrentInfoTab = InfoTabs.Length - 1;
-        }
+            int _exitingTabIndex;
 
-        Debug.Log("new active index: " + CurrentInfoTab);
+            if (CurrentInfoTab - 1 >= 0)
+            {
+                CurrentInfoTab -= 1;
+            }
+            else
+            {
+                CurrentInfoTab = InfoTabs.Length - 1;
+            }
 
-        //het uitzetten van alle tabs niet nodig voor de animaties
-        for (int i = 0; i < InfoTabs.Length; i++)
-        {
-            InfoTabs[i].SetActive(false);
+            //het uitzetten van alle tabs niet nodig voor de animaties
+            for (int i = 0; i < InfoTabs.Length; i++)
+            {
+                InfoTabs[i].SetActive(false);
+            }
+
+            //de actieve tab wordt aangezet
+            InfoTabs[CurrentInfoTab].SetActive(true);
+
+            //de volgende tab wordt aangezet (checken welke waarde voorop was zonder errors)
+            if (CurrentInfoTab + 1 == InfoTabs.Length)
+            {
+                InfoTabs[0].SetActive(true);
+                _exitingTabIndex = 0;
+            }
+            else
+            {
+                InfoTabs[CurrentInfoTab + 1].SetActive(true);
+                _exitingTabIndex = CurrentInfoTab + 1;
+            }
+
+            TweenTabs(CurrentInfoTab, _exitingTabIndex, false);
+            UpdateTabCounter(CurrentInfoTab + 1);
+            Cooldown = true;
+            StartCoroutine(ButtonCooldown());
         }
+    }
 
-        //de actieve tab wordt aangezet
-        InfoTabs[CurrentInfoTab].SetActive(true);
-
-        //de volgende tab wordt aangezet (checken welke waarde voorop was zonder errors)
-        if (CurrentInfoTab + 1 == InfoTabs.Length)
-        {
-            InfoTabs[0].SetActive(true);
-            _exitingTabIndex = 0;
-        }
-        else
-        {
-            InfoTabs[CurrentInfoTab + 1].SetActive(true);
-            _exitingTabIndex = CurrentInfoTab + 1;
-        }
-
-        TweenTabs(CurrentInfoTab, _exitingTabIndex, false);
-        UpdateTabCounter(CurrentInfoTab + 1);
+    private IEnumerator ButtonCooldown()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        Cooldown = false;
     }
 }
