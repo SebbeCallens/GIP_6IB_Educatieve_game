@@ -2,6 +2,7 @@ using SFB;
 using System.Collections;
 using System.IO;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class PuzzleMenuLogic : MenuLogic
     [SerializeField] private Transform _pokemonPuzzles; //de pokemon puzzels
     [SerializeField] private GameObject _deleteButton; //de verwijder knop
     [SerializeField] private Button _startButton; //de start knop
+    [SerializeField] private TextMeshProUGUI _piecesText;
 
     private static Sprite _puzzleImage; //afbeelding van puzzel
     private static string _puzzleName; //naam puzzel
@@ -21,6 +23,7 @@ public class PuzzleMenuLogic : MenuLogic
     private Transform PokemonPuzzles { get => _pokemonPuzzles; set => _pokemonPuzzles = value; }
     private GameObject DeleteButton { get => _deleteButton; set => _deleteButton = value; }
     private Button StartButton { get => _startButton; set => _startButton = value; }
+    private TextMeshProUGUI PiecesText { get => _piecesText; set => _piecesText = value; }
     public static Sprite PuzzleImage { get => _puzzleImage; set => _puzzleImage = value; }
     public static string PuzzleName { get => _puzzleName; set => _puzzleName = value; }
 
@@ -53,7 +56,28 @@ public class PuzzleMenuLogic : MenuLogic
         Image preview = GameObject.FindWithTag("Preview").GetComponent<Image>();
         preview.sprite = PuzzleImage;
         preview.preserveAspect = true;
+        CalculatePieces(preview);
         DeleteButton.SetActive(PuzzleName.Contains("custom-"));
+    }
+
+    public void CalculatePieces(Image imageSprite)
+    {
+        Texture2D image = imageSprite.sprite.texture;
+        float imageAspect = (float)image.width / image.height;
+
+        int columns, rows;
+
+        if (image.width > image.height) //landscape
+        {
+            columns = Mathf.Min(Difficulty * 3, image.width);
+            rows = Mathf.RoundToInt(columns / imageAspect);
+        }
+        else //portrait
+        {
+            rows = Mathf.Min(Difficulty * 3, image.height);
+            columns = Mathf.RoundToInt(rows * imageAspect);
+        }
+        PiecesText.text = "Aantal stukken: " + rows * columns;
     }
 
     public void CloseDifficultySelection() //sluit difficulty menu

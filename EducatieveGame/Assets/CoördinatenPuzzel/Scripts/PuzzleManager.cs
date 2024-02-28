@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class PuzzleManager : MonoBehaviour
@@ -107,11 +108,13 @@ public class PuzzleManager : MonoBehaviour
                 if (PuzzleSlots[i].name.Equals(PuzzleSlots[i].transform.GetChild(0).name))
                 {
                     PuzzleSlots[i].transform.GetChild(0).GetComponent<Image>().color = Color.green;
+                    PuzzleSlots[i].GetComponent<Image>().color = Color.green;
                     score++;
                 }
                 else
                 {
                     PuzzleSlots[i].transform.GetChild(0).GetComponent<Image>().color = Color.red;
+                    PuzzleSlots[i].GetComponent<Image>().color = Color.red;
                 }
             }
             else
@@ -141,15 +144,17 @@ public class PuzzleManager : MonoBehaviour
     private void ResetPuzzle() //puzzel resetten om verder te spelen met extra kans
     {
         for (int i = 0; i < PuzzleSlots.Count; i++)
-        { 
+        {
             if (PuzzleSlots[i].transform.childCount > 0)
             {
                 PuzzleSlots[i].transform.GetChild(0).GetComponent<Image>().color = Color.white;
+                if (!PuzzleSlots[i].name.Equals(PuzzleSlots[i].transform.GetChild(0).name))
+                {
+                    PuzzleSlots[i].transform.GetChild(0).SetParent(PuzzleSlicer.transform.GetChild(0));
+                }
             }
-            else
-            {
-                PuzzleSlots[i].GetComponent<Image>().color = Color.white;
-            }
+
+            PuzzleSlots[i].GetComponent<Image>().color = new(1, 1, 0);
         }
 
         CheckButtonText.text = "C";
