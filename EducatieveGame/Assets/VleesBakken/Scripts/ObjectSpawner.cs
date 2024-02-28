@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ObjectSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject _meat; //de prefab voor een vlees object
-    [SerializeField] private int _minutesUntilFastest; //hoeveel minuten tot de snelste spawnrate
+    [SerializeField] private float _minutesUntilFastest; //hoeveel minuten tot de snelste spawnrate
     [SerializeField] private Stats _statsObj; //script stats
+    [SerializeField] private GameObject _grillBackground;
+    [SerializeField] private TextMeshProUGUI _timerText;
     private GameObject[] _gridCells; //lijst met de gridcellen
     private GridGenerator _gridGen; //de gridgenerator
     private GridFunctions _gridFunc; //de gridfuncties
@@ -16,23 +19,29 @@ public class ObjectSpawner : MonoBehaviour
     private float _spawnRate = 1f; //hoe vlug er vlees spawned op de barbecue
     private float _lastSpawnTime; //de laatste tijd wanneer er vlees gespawned is
     private float _lastDecreaseTime; //de laatste tijd wanneer de moeilijkheid hoger gezet is
+    private float _timeLeft; //de laatste tijd wanneer de moeilijkheid hoger gezet is
     private float _difficulty; //moeilijkheid van het spel
 
     private GameObject Meat { get => _meat; set => _meat = value; }
-    private int MinutesUntilFastest { get => _minutesUntilFastest; set => _minutesUntilFastest = value; }
+    private float MinutesUntilFastest { get => _minutesUntilFastest; set => _minutesUntilFastest = value; }
     private GameObject[] GridCells { get => _gridCells; set => _gridCells = value; }
     private GridGenerator GridGen { get => _gridGen; set => _gridGen = value; }
     private GridFunctions GridFunc { get => _gridFunc; set => _gridFunc = value; }
     private Stats StatsObj { get => _statsObj; set => _statsObj = value; }
+    private GameObject GrillBackground { get => _grillBackground; set => _grillBackground = value; }
+    private TextMeshProUGUI TimerText { get => _timerText; set => _timerText = value; }
     private Vector3[] GridPoints { get => _gridPoints; set => _gridPoints = value; }
     private bool GameActive { get => _gameActive; set => _gameActive = value; }
     private float SpawnRate { get => _spawnRate; set => _spawnRate = value; }
     private float LastSpawnTime { get => _lastSpawnTime; set => _lastSpawnTime = value; }
     private float LastDecreaseTime { get => _lastDecreaseTime; set => _lastDecreaseTime = value; }
+    private float TimeLeft { get => _timeLeft; set => _timeLeft = value; }
     private float Difficulty { get => _difficulty; set => _difficulty = value; }
 
     private void Awake() //grid genereren
     {
+        TimeLeft = MinutesUntilFastest * 120;
+        TimerText.text = Mathf.Round(TimeLeft) + " s";
         GridGen = GetComponent<GridGenerator>();
         GridFunc = GetComponent<GridFunctions>();
         Difficulty = PlayerPrefs.GetInt("rate");
@@ -62,6 +71,7 @@ public class ObjectSpawner : MonoBehaviour
             GridGen.GenerateGrid(width, height, cellSize);
             GridPoints = GridFunc.CenterGridPoints(cellSize);
             Camera.main.orthographicSize = orthographicSize;
+            GrillBackground.transform.localScale = new(orthographicSize / 2f, orthographicSize / 2f, 1);
         }
 
         GridCells = new GameObject[transform.childCount];
@@ -77,6 +87,13 @@ public class ObjectSpawner : MonoBehaviour
 
     private void Update() //vlees spawnen op de barbecue
     {
+        TimeLeft -= Time.deltaTime;
+        if (TimeLeft < 0 )
+        {
+            TimeLeft = 0;
+        }
+        TimerText.text = Mathf.Round(TimeLeft) + " s";
+
         if (Time.time - LastSpawnTime > (6 - Difficulty) / 1.5f / SpawnRate && GameActive)
         {
             //lijst lege gridpunten aanmaken

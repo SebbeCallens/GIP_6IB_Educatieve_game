@@ -5,6 +5,7 @@ public class RotateGame : MonoBehaviour
 {
     [SerializeField] private GameObject _correctGrid; //object van het voorbeeld grid
     [SerializeField] private GameObject _gameGrid; //object van het game grid
+    [SerializeField] private GameObject _background;
     [SerializeField] private Sprite _partSprite; //part sprite zonder rooster
     private GridGenerator _correctGridGen; //gridgenerator van het voorbeeldgrid
     private GridGenerator _gameGridGen; //gridgenerator van het gamegrid
@@ -14,6 +15,7 @@ public class RotateGame : MonoBehaviour
 
     private GameObject CorrectGrid { get => _correctGrid; set => _correctGrid = value; }
     private GameObject GameGrid { get => _gameGrid; set => _gameGrid = value; }
+    private GameObject Background { get => _background; set => _background = value; }
     private Sprite PartSprite { get => _partSprite; set => _partSprite = value; }
     private GridGenerator CorrectGridGen { get => _correctGridGen; set => _correctGridGen = value; }
     private GridGenerator GameGridGen { get => _gameGridGen; set => _gameGridGen = value; }
@@ -65,6 +67,7 @@ public class RotateGame : MonoBehaviour
             GameGrid.transform.position = new Vector3(camPosition.x + orthographicSizeOffset / 2f, camPosition.y, 0);
             CorrectGrid.transform.position = new Vector3(camPosition.x - orthographicSizeOffset / 2f, camPosition.y, 0);
             Camera.main.orthographicSize = orthographicSizeOffset;
+            Background.transform.localScale = new(orthographicSizeOffset / 12f, orthographicSizeOffset / 12f, 1);
         }
 
         int col = 0;
