@@ -122,10 +122,7 @@ public class PathGenerator : MonoBehaviour
                 if (!RandomOrder)
                 {
                     Pad.Checkpoints.Add(currentTile);
-                    Vector3 position = Camera.main.WorldToScreenPoint(Pad.Grid.GetTilePosition(currentTile));
-                    TextMeshProUGUI tileText = Instantiate(TileText, position, Quaternion.identity, Canvas.transform).GetComponent<TextMeshProUGUI>();
-                    tileText.text = locationCount.ToString();
-                    tileText.fontSize = 500f / Camera.main.orthographicSize;
+                    currentTile.GetComponentInChildren<TextMeshPro>().text = locationCount.ToString();
                 }
             }
             else
@@ -236,10 +233,7 @@ public class PathGenerator : MonoBehaviour
 
         for (int i = 1; i < Pad.Checkpoints.Count - 1; i++)
         {
-            Vector3 position = Camera.main.WorldToScreenPoint(Pad.Grid.GetTilePosition(Pad.Checkpoints[i]));
-            TextMeshProUGUI tileText = Instantiate(TileText, position, Quaternion.identity, Canvas.transform).GetComponent<TextMeshProUGUI>();
-            tileText.text = i.ToString();
-            tileText.fontSize = 500f / Camera.main.orthographicSize;
+            Pad.Checkpoints[i].GetComponentInChildren<TextMeshPro>().text = i.ToString();
         }
     }
 

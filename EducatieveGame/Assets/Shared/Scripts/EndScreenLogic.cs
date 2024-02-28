@@ -113,7 +113,6 @@ public class EndScreenLogic : MenuLogic
         else if (CurrentGame.Equals("PadVolgenMenu"))
         {
             GameStats.GetChild(5).gameObject.SetActive(true);
-            GameStats.GetChild(0).gameObject.SetActive(true);
             if (PlayerPrefs.GetInt("pad-assist") == 1)
             {
                 GameStats.GetChild(5).GetChild(0).GetChild(0).GetComponent<Toggle>().isOn = true;

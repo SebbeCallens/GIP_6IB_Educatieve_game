@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class PathManager : MonoBehaviour
 {
@@ -27,5 +29,15 @@ public class PathManager : MonoBehaviour
     {
         Grid.GenerateGrid();
         Generator.GeneratePath(Generator.SpawnPlayer(), MenuLogic.Difficulty);
+    }
+
+    public void EndGame()
+    {
+        EndScreenLogic.EndGame("PadVolgenMenu", "Pad volgen", "Finish niet behaald", Camera.main.orthographicSize * 1.25f * 1.95f, Camera.main.transform.position, Camera.main.orthographicSize / 2.5f);
+        GameObject gameview = GameObject.FindWithTag("GameView");
+        gameview.transform.SetParent(null);
+        gameview.transform.localScale = new(gameview.transform.localScale.x, gameview.transform.localScale.y, 1);
+        DontDestroyOnLoad(gameview);
+        SceneManager.LoadScene("EndScreen");
     }
 }
