@@ -19,7 +19,7 @@ public class SortingMenuLogic : MenuLogic
     private Button StartButton { get => _startButton; set => _startButton = value; }
     private int EnabledColors { get => _enabledColors; set => _enabledColors = value; }
     public static Color[] SortingColors { get => _sortingColors; private set => _sortingColors = value; }
-    public static Color[] SelectedSortingColors { get => _selectedSortingColors; private set => _selectedSortingColors = value; }
+    public static Color[] SelectedSortingColors { get => _selectedSortingColors; set => _selectedSortingColors = value; }
     public static string[] SortingTexts { get => _sortingTexts; private set => _sortingTexts = value; }
     public static string[] SelectedSortingTexts { get => _selectedSortingTexts; private set => _selectedSortingTexts = value; }
 

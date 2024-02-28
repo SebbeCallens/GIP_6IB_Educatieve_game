@@ -7,11 +7,13 @@ public class Player : MonoBehaviour
     private Vector2 _currentPosition; //huidige positie speler
     private int _steps = 0;
     private int _wrongSteps = 0;
+    private int _targetLocation = 1;
 
     private PathManager Pad { get => _pad; set => _pad = value; }
     public Vector2 CurrentPosition { get => _currentPosition; set => _currentPosition = value; }
     public int Steps { get => _steps; private set => _steps = value; }
     public int WrongSteps { get => _wrongSteps; private set => _wrongSteps = value; }
+    public int TargetLocation { get => _targetLocation; set => _targetLocation = value; }
 
     private void Awake()
     {

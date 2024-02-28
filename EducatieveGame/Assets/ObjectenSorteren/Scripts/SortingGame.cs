@@ -96,6 +96,8 @@ public class SortingGame : MonoBehaviour
             selectedSortingTexts.RemoveAt(randomIndex);
         }
 
+        SortingMenuLogic.SelectedSortingColors = SelectedSortingColors;
+
         //begin spawnen
 
         SpawnSortBoxes(MenuLogic.Difficulty + 1);

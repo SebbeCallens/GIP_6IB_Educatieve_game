@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using System.Linq;
 
 public class EndScreenLogic : MenuLogic
 {
@@ -108,6 +109,17 @@ public class EndScreenLogic : MenuLogic
             if (PlayerPrefs.GetInt("conveyor") == 1)
             {
                 GameStats.GetChild(4).GetChild(2).GetChild(0).GetComponent<Toggle>().isOn = true;
+            }
+
+            GameObject selectedColors = GameStats.GetChild(4).GetChild(3).gameObject;
+            Color[] usedColors = SortingMenuLogic.SelectedSortingColors;
+
+            for (int i = 0; i < selectedColors.transform.childCount; i++)
+            {
+                if (usedColors.Contains(selectedColors.transform.GetChild(i).GetComponent<Image>().color))
+                {
+                    selectedColors.transform.GetChild(i).GetChild(0).GetComponent<Image>().enabled = true;
+                }
             }
         }
         else if (CurrentGame.Equals("PadVolgenMenu"))

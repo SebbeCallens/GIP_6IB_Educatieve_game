@@ -44,21 +44,14 @@ public class PathTile : MonoBehaviour
     {
         bool success = GameObject.FindWithTag("Player").GetComponent<Player>().TryMove(this, Pad.Grid.GetTilePosition(this));
 
-        if (success && !Visited)
+        if (IsCheckpoint && success && !Visited && GetComponentInChildren<TextMeshPro>().text.Equals(GameObject.FindWithTag("Player").GetComponent<Player>().TargetLocation.ToString()))
         {
             Visited = true;
+            GameObject.FindWithTag("Player").GetComponent<Player>().TargetLocation++;
+            Destroy(transform.GetChild(transform.childCount - 2).gameObject);
             if (Pad.Generator.RandomOrder && IsCheckpoint)
             {
                 Pad.Checkpoints.Insert(Pad.Checkpoints.Count - 1, this);
-            }
-        }
-
-        if(Visited && IsCheckpoint)
-        {
-            if (transform.Find("Location(Clone)") != null)
-            {
-                Destroy(transform.Find("Location(Clone)").gameObject);
-                Debug.Log("test");
             }
         }
 
