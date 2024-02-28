@@ -35,7 +35,7 @@ public class EndScreenLogic : MenuLogic
     {
         AwakeBase();
         Camera.main.transform.position = CameraPos;
-        Difficultys.GetChild(Difficulty-1).gameObject.SetActive(true);
+        Difficultys.GetChild(Difficulty - 1).gameObject.SetActive(true);
         ScoreText.text = Score;
         TitleText.text = GameName;
         GameObject gameView = GameObject.FindWithTag("GameView");
