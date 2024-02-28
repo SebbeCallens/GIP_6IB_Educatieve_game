@@ -1,4 +1,5 @@
 using SFB;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -39,6 +40,11 @@ public class PuzzleMenuLogic : MenuLogic
         PokemonPuzzles.GetComponent<ScrollRect>().content = pokemonPuzzlesContent.GetComponent<RectTransform>();
     }
 
+    private void Start()
+    {
+        StartCoroutine(ResetScrollRect());
+    }
+
     public void OpenDifficultySelection() //open difficulty menu met puzzel
     {
         StartButton.interactable = true;
@@ -59,7 +65,7 @@ public class PuzzleMenuLogic : MenuLogic
 
     private void AddPuzzle(Sprite puzzleImage, string name) //puzzelknop toevoegen met sprite en naam
     {
-        PuzzleButton puzzleButton = Instantiate(PzButton, new Vector2(0f, 0f), Quaternion.identity, Puzzles.transform).GetComponent<PuzzleButton>();
+        PuzzleButton puzzleButton = Instantiate(PzButton, Vector3.zero, Quaternion.identity, Puzzles.transform).GetComponent<PuzzleButton>();
         puzzleButton.CreatePuzzle(puzzleImage);
         puzzleButton.name = name;
     }
@@ -80,18 +86,6 @@ public class PuzzleMenuLogic : MenuLogic
 
             AddPuzzle(Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f)), name + "-" + Path.GetFileName(imageFile));
         }
-
-        ScrollRect scrollRect = Puzzles.transform.parent.transform.parent.GetComponentInChildren<ScrollRect>();
-        if (scrollRect != null)
-        {
-            scrollRect.normalizedPosition = new Vector2(0, 1);
-
-            Scrollbar scrollbar = scrollRect.verticalScrollbar;
-            if (scrollbar != null)
-            {
-                scrollbar.value = 1;
-            }
-        }
     }
 
     public void AddCustomPuzzle() //een puzzel vanuit de verkenner toevoegen
@@ -109,7 +103,7 @@ public class PuzzleMenuLogic : MenuLogic
             File.Copy(imagePath, Path.Combine(Application.persistentDataPath, "Puzzels", Path.GetFileName(imagePath)), true);
         }
 
-        ScrollRect scrollRect = Puzzles.transform.parent.transform.parent.GetComponentInChildren<ScrollRect>();
+        ScrollRect scrollRect = Puzzles.transform.parent.GetComponentInChildren<ScrollRect>();
         if (scrollRect != null)
         {
             scrollRect.normalizedPosition = new Vector2(0, 0);
@@ -128,5 +122,22 @@ public class PuzzleMenuLogic : MenuLogic
         Menus[0].SetActive(true);
         Destroy(GameObject.Find(PuzzleName));
         Menus[0].SetActive(false);
+    }
+
+    private IEnumerator ResetScrollRect()
+    {
+        yield return null;
+
+        ScrollRect scrollRect = Puzzles.transform.parent.GetComponent<ScrollRect>();
+        if (scrollRect != null)
+        {
+            scrollRect.verticalNormalizedPosition = 1;
+
+            Scrollbar scrollbar = scrollRect.verticalScrollbar;
+            if (scrollbar != null)
+            {
+                scrollbar.value = 1;
+            }
+        }
     }
 }

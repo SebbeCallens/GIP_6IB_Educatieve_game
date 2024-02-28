@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
@@ -78,7 +79,7 @@ public class FigureListLoader : MonoBehaviour
                 int i = 0;
                 foreach ((string figurePath, float difficulty) in figureList) //leest de lijst met figuren en hun moeilijkheidsgraad en maakt voor elke figuur een knop aan
                 {
-                    GameObject figureBut = Instantiate(FigureButton, transform);
+                    GameObject figureBut = Instantiate(FigureButton, new Vector2(0f, 0f), Quaternion.identity, transform);
                     TextMeshProUGUI[] figureText = figureBut.GetComponentsInChildren<TextMeshProUGUI>();
                     figureText[0].text = Path.GetFileNameWithoutExtension(figurePath);
                     Image[] difficultyImages = figureBut.GetComponentsInChildren<Image>();
@@ -100,6 +101,25 @@ public class FigureListLoader : MonoBehaviour
         else //als er geen figuren zijn wordt het geen figuren object geplaaatst
         {
             Instantiate(NoFigures, transform);
+        }
+
+        StartCoroutine(ResetScrollRect());
+    }
+
+    private IEnumerator ResetScrollRect()
+    {
+        yield return null;
+
+        ScrollRect scrollRect = transform.parent.GetComponent<ScrollRect>();
+        if (scrollRect != null)
+        {
+            scrollRect.verticalNormalizedPosition = 1;
+
+            Scrollbar scrollbar = scrollRect.verticalScrollbar;
+            if (scrollbar != null)
+            {
+                scrollbar.value = 1;
+            }
         }
     }
 }

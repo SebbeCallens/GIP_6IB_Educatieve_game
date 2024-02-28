@@ -155,7 +155,7 @@ public class FigureGame : MonoBehaviour
                 {
                     AssistLineRend.sharedMaterial = LineWrong;
                     
-                    if (Input.GetMouseButtonDown(0) && !AssistMode)
+                    if (Input.GetMouseButtonDown(0) && !AssistMode && LineRend.GetPosition(LineRend.positionCount - 2) != closestPositionOnGrid)
                     {
                         StatsObj.AddStat(0, -1);
                     }

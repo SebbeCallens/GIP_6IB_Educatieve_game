@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine;
 using TMPro;
 using System.Linq;
+using UnityEngine.UI;
 
 public class DrawFigure : MonoBehaviour
 {
@@ -13,8 +14,7 @@ public class DrawFigure : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _cellSizeText; //text voor celgrootte grid
     [SerializeField] private GameObject _gridSettings; //object van de gridinstellingen
     [SerializeField] private GameObject _drawMode; //object van alle functies in tekenmodus
-    [SerializeField] private GameObject _warning; //object voor waarschuwing aanmaken figuur
-    [SerializeField] private GameObject _noLinesWarning; //object voor waarschuwing geen lijnen getekend
+    [SerializeField] private Button _startButton; //object voor waarschuwing aanmaken figuur
     [Header("Settings")]
     [SerializeField] private int _minWidth; //minimum breedte grid
     [SerializeField] private int _minHeight; //minimum hoogte grid
@@ -23,7 +23,7 @@ public class DrawFigure : MonoBehaviour
     [Header("Other")]
     [SerializeField] private GameObject _startDot; //startpunt object
     [SerializeField] private GameObject _menuLogObject; //script voor menu logica
-    private string _figureName; //de figuurnaam
+    private string _figureName = ""; //de figuurnaam
     private string[] _figures; //lijst met alle figuren
     private List<string> _actions; //lijst met alle genomen acties
     private List<(string, Vector3)> _undoneActions; //lijst met acties die ongedaan zijn gemaakt
@@ -32,7 +32,7 @@ public class DrawFigure : MonoBehaviour
     private int _cellSize = 1; //grootte cel grid
     private bool _settingGridValues = true; //of je het grid aan het instelllen bent
     private bool _startDotPlaced = false; //of het startpunt al geplaatst is
-    private bool _noLines = true; //of er geen lijnen zijn
+    private bool _figureDone = false;
     private Vector3 _undoneStartDot = Vector3.zero; //houd het verwijderde startpunt bij
     private GameObject _start; //Het object voor het startpunt
     private LineRenderer _lineRend; //de linerenderer voor de figuur
@@ -57,8 +57,7 @@ public class DrawFigure : MonoBehaviour
     private TextMeshProUGUI CellSizeText { get => _cellSizeText; set => _cellSizeText = value; }
     private GameObject GridSettings { get => _gridSettings; set => _gridSettings = value; }
     private GameObject DrawMode { get => _drawMode; set => _drawMode = value; }
-    private GameObject Warning { get => _warning; set => _warning = value; }
-    private GameObject NoLinesWarning { get => _noLinesWarning; set => _noLinesWarning = value; }
+    private Button StartButton { get => _startButton; set => _startButton = value; }
     private int MinWidth { get => _minWidth; set => _minWidth = value; }
     private int MinHeight { get => _minHeight; set => _minHeight = value; }
     private int MaxWidth { get => _maxWidth; set => _maxWidth = value; }
@@ -74,7 +73,7 @@ public class DrawFigure : MonoBehaviour
     private int CellSize { get => _cellSize; set => _cellSize = value; }
     private bool SettingGridValues { get => _settingGridValues; set => _settingGridValues = value; }
     private bool StartDotPlaced { get => _startDotPlaced; set => _startDotPlaced = value; }
-    private bool NoLines { get => _noLines; set => _noLines = value; }
+    private bool FigureDone { get => _figureDone; set => _figureDone = value; }
     private Vector3 UndoneStartDot { get => _undoneStartDot; set => _undoneStartDot = value; }
     private GameObject Start { get => _start; set => _start = value; }
     private LineRenderer LineRend { get => _lineRend; set => _lineRend = value; }
@@ -153,7 +152,7 @@ public class DrawFigure : MonoBehaviour
 
     public void GenerateGrid() //genereer het grid, verberg de gridinstellingen en maak de instellingen voor tekenmodus zichtbaar
     {
-        if (!string.IsNullOrWhiteSpace(FigureNameText.text) && !Figures.Contains(FigureNameText.text)) //kijkt na of de figuurnaam niet leeg is of geen spaties zijn en of de figuurnaam nog niet bestaat
+        if (SettingGridValues)
         {
             SettingGridValues = false;
             GridGen.GenerateGrid(Width, Height, CellSize);
@@ -161,10 +160,24 @@ public class DrawFigure : MonoBehaviour
             DrawMode.SetActive(true);
             GameObject.FindWithTag("MenuLogic").GetComponent<FigureMenuLogic>().DisableMenuButtons();
             FigureName = FigureNameText.text + ".txt";
+            StartButton.interactable = false;
         }
         else
         {
-            Warning.SetActive(true);
+            FigureDone = true;
+            MenuLog.LoadScene("SelectDrawMode");
+        }
+    }
+
+    public void ValidateName()
+    {
+        if (!string.IsNullOrWhiteSpace(FigureNameText.text) && !Figures.Contains(FigureNameText.text)) //kijkt na of de figuurnaam niet leeg is of geen spaties zijn en of de figuurnaam nog niet bestaat
+        {
+            StartButton.interactable = true;
+        }
+        else
+        {
+            StartButton.interactable = false;
         }
     }
 
@@ -280,7 +293,7 @@ public class DrawFigure : MonoBehaviour
         }
         else if (UndoneActions.Count != 0)
         {
-            NoLines = false;
+            StartButton.interactable = true;
             var lastItem = UndoneActions[UndoneActions.Count - 1];
             string action = lastItem.Item1;
             Vector3 position = lastItem.Item2;
@@ -313,7 +326,7 @@ public class DrawFigure : MonoBehaviour
     private void AddLineSegment(string direction) //voegt de delen van de figuur toe aan het figuurbestand
     {
         Actions.Add(direction);
-        NoLines = false;
+        StartButton.interactable = true;
         string filePath = Path.Combine(Application.persistentDataPath, "Figuren", FigureName);
 
         using (StreamWriter writer = new StreamWriter(filePath, true))
@@ -328,7 +341,7 @@ public class DrawFigure : MonoBehaviour
         UndoneActions.Add((direction, position));
         if (Actions.Count == 0)
         {
-            NoLines = true;
+            StartButton.interactable = false;
         }
         string filePath = Path.Combine(Application.persistentDataPath, "Figuren", FigureName);
 
@@ -355,6 +368,11 @@ public class DrawFigure : MonoBehaviour
     {
         string figureDirectory = Path.Combine(Application.persistentDataPath, "Figuren");
 
+        if (!Directory.Exists(figureDirectory))
+        {
+            Directory.CreateDirectory(figureDirectory);
+        }
+
         if (Directory.Exists(figureDirectory))
         {
             string[] allFiles = Directory.GetFiles(figureDirectory, "*.txt");
@@ -362,15 +380,11 @@ public class DrawFigure : MonoBehaviour
         }
     }
 
-    public void Done()
+    private void OnDestroy()
     {
-        if (NoLines)
+        if (!FigureDone && !FigureName.Equals(string.Empty) && File.Exists(Path.Combine(Application.persistentDataPath, "Figuren", FigureName)))
         {
-            NoLinesWarning.SetActive(true);
-        }
-        else
-        {
-            MenuLog.LoadScene("SelectDrawMode");
+            File.Delete(Path.Combine(Application.persistentDataPath, "Figuren", FigureName));
         }
     }
 }
