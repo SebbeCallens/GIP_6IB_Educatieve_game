@@ -27,6 +27,7 @@ public class FigureButton : MonoBehaviour
         TextMeshProUGUI buttonText = GetComponentInChildren<TextMeshProUGUI>();
         string figureName = buttonText.text;
         FigureMenuLogic.SetFigure(figureName);
+        MenuLog.SetDeleteFigure(gameObject);
         Image[] difficultyImages = GetComponentsInChildren<Image>();
         int difficulty = Mathf.RoundToInt(difficultyImages[1].fillAmount * 5f);
         if (difficulty == 0)

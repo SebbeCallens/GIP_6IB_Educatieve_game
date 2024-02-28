@@ -1,3 +1,4 @@
+using System.IO;
 using TMPro;
 using UnityEngine;
 
@@ -5,10 +6,14 @@ public class FigureMenuLogic : MenuLogic
 {
     [SerializeField] private GameObject _confirmationWarning; //de warning voor in hulpmodus
     [SerializeField] private GameObject[] _menuButtons; //de menuknoppen
+    [SerializeField] private GameObject _deleteButton; //de menuknoppen
+    private GameObject _deletedFigureButton;
     private static string _figure; //de naam van de figuur
 
     private GameObject ConfirmationWarning { get => _confirmationWarning; set => _confirmationWarning = value; }
     private GameObject[] MenuButtons { get => _menuButtons; set => _menuButtons = value; }
+    private GameObject DeleteButton { get => _deleteButton; set => _deleteButton = value; }
+    private GameObject DeletedFigureButton { get => _deletedFigureButton; set => _deletedFigureButton = value; }
     public static string Figure { get => _figure; private set => _figure = value; }
 
     private void Awake()
@@ -32,8 +37,33 @@ public class FigureMenuLogic : MenuLogic
             {
                 ConfirmationWarning.SetActive(false);
             }
+
+            if (PlayerPrefs.GetInt("original") == 0)
+            {
+                DeleteButton.SetActive(true);
+            }
+            else
+            {
+                DeleteButton.SetActive(false);
+            }
         }
         CurrentMenu = index;
+    }
+
+    public void DeleteFigure()
+    {
+        string filePath = Path.Combine(Application.persistentDataPath, "Figuren", Figure + ".txt");
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
+        Destroy(DeletedFigureButton);
+        OpenMenu(0);
+    }
+
+    public void SetDeleteFigure(GameObject figure)
+    {
+        DeletedFigureButton = figure;
     }
 
     public void DisableMenuButtons()

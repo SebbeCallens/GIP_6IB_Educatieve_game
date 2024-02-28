@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SortBox : MonoBehaviour
@@ -20,6 +21,45 @@ public class SortBox : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) //een object raakt de doos
     {
         if (collision.gameObject.CompareTag("SortItem")) //nakijken of dit een sorteerobject is
+        {
+            if (collision.GetComponent<SortItem>().Dragging)
+            {
+                if (!(!SortGame.TrashcanMode && IsTrashcan))
+                {
+                    StartCoroutine(CheckSortItem(collision.GetComponent<SortItem>(), collision));
+                }
+            }
+            else
+            {
+                if (collision.GetComponent<SortItem>().IsTrash)
+                {
+                    SortGame.ItemSorted();
+                }
+                else
+                {
+                    SortGame.ItemLost();
+                }
+                Destroy(collision.gameObject);
+            }
+        }
+    }
+
+    public void Create(Color color, string text, bool isTrashcan) //de sorteer doos instellen
+    {
+        SortColor = color;
+        SortText = text;
+        IsTrashcan = isTrashcan;
+        GetComponent<SpriteRenderer>().color = color;
+    }
+
+    private IEnumerator CheckSortItem(SortItem item, Collider2D collision)
+    {
+        while (item.Dragging)
+        {
+            yield return null;
+        }
+
+        if (GetComponent<Collider2D>().IsTouching(collision))
         {
             if (IsTrashcan) //code als dit een vuilbak is
             {
@@ -67,13 +107,5 @@ public class SortBox : MonoBehaviour
                 }
             }
         }
-    }
-
-    public void Create(Color color, string text, bool isTrashcan) //de sorteer doos instellen
-    {
-        SortColor = color;
-        SortText = text;
-        IsTrashcan = isTrashcan;
-        GetComponent<SpriteRenderer>().color = color;
     }
 }

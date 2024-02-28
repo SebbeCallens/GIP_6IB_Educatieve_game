@@ -36,13 +36,7 @@ public class SortItem : MonoBehaviour
     {
         if (OnConveyor && !Dragging)
         {
-            transform.position = new(transform.position.x + 1.6f * Time.deltaTime, transform.position.y, transform.position.z);
-
-            if (transform.position.x > 8)
-            {
-                GameObject.FindWithTag("SortingGame").GetComponent<SortingGame>().ItemLost();
-                Destroy(gameObject);
-            }
+            transform.position = new(transform.position.x + 0.6f * Time.deltaTime * MenuLogic.Difficulty, transform.position.y, transform.position.z);
         }
 
         if (Dragging)

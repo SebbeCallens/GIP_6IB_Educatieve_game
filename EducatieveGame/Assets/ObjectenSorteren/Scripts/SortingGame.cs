@@ -10,9 +10,7 @@ public class SortingGame : MonoBehaviour
     [SerializeField] private Vector3 _conveyorSpawnLocation; //locatie waar object spawned op conveyor
     [SerializeField] private GameObject _sortingItem; //prefab sorteer object
     [SerializeField] private GameObject _sortingBox; //prefab sorteer box
-    [SerializeField] private GameObject _trashcan; //de vuilbak
     [SerializeField] private GameObject _conveyorEnd; //einde loopband
-    [SerializeField] private GameObject _endButton; //knop spel eindigen
     [SerializeField] private TextMeshProUGUI _sortModeText; //de tekst van sorteermodus
     [SerializeField] private TextMeshProUGUI _scoreText; //de tekst van de score
     [SerializeField] private TextMeshProUGUI _timeText; //de tekst van de tijd
@@ -24,9 +22,10 @@ public class SortingGame : MonoBehaviour
     private bool _sortByColor = false; //of er volgen kleur wordt gesorteerd
     private bool _trashcanMode = false; //of de vuilbakmodus aan is
     private bool _conveyorMode = false; //of de loopbandmodus aan is
+    private bool _assistMode = false;
     private int _score = 0; //behaalde score
-    private float _timer = 60f; //tijd tot spel beindigd
-    private float _conveyorSpawnRate = 2.5f; //spawnrate objecten loopband
+    private float _timer = 90f; //tijd tot spel beindigd
+    private float _conveyorSpawnRate = 8f; //spawnrate objecten loopband
     private float _lastSpawnTime = 0f; //laatste object spawntijd op loopband
     private int _amountSpawned = 0; //teller loopband sorteermodus switchen
     private float _startTime = 0f; //startijd van het spel
@@ -35,9 +34,7 @@ public class SortingGame : MonoBehaviour
     private Vector3 ConveyorSpawnLocation { get => _conveyorSpawnLocation; set => _conveyorSpawnLocation = value; }
     private GameObject SortingItem { get => _sortingItem; set => _sortingItem = value; }
     private GameObject SortingBox { get => _sortingBox; set => _sortingBox = value; }
-    private GameObject Trashcan { get => _trashcan; set => _trashcan = value; }
     private GameObject ConveyorEnd { get => _conveyorEnd; set => _conveyorEnd = value; }
-    private GameObject EndButton { get => _endButton; set => _endButton = value; }
     private TextMeshProUGUI SortModeText { get => _sortModeText; set => _sortModeText = value; }
     private TextMeshProUGUI ScoreText { get => _scoreText; set => _scoreText = value; }
     private TextMeshProUGUI TimeText { get => _timeText; set => _timeText = value; }
@@ -46,8 +43,9 @@ public class SortingGame : MonoBehaviour
     private string[] SortingTexts { get => _sortingTexts; set => _sortingTexts = value; }
     private string[] SelectedSortingTexts { get => _selectedSortingTexts; set => _selectedSortingTexts = value; }
     public bool SortByColor { get => _sortByColor; private set => _sortByColor = value; }
-    private bool TrashcanMode { get => _trashcanMode; set => _trashcanMode = value; }
-    private bool ConveyorMode { get => _conveyorMode; set => _conveyorMode = value; }
+    public bool TrashcanMode { get => _trashcanMode; private set => _trashcanMode = value; }
+    public bool ConveyorMode { get => _conveyorMode; private set => _conveyorMode = value; }
+    private bool AssistMode { get => _assistMode; set => _assistMode = value; }
     private int Score { get => _score; set => _score = value; }
     private float Timer { get => _timer; set => _timer = value; }
     private float ConveyorSpawnRate { get => _conveyorSpawnRate; set => _conveyorSpawnRate = value; }
@@ -58,18 +56,23 @@ public class SortingGame : MonoBehaviour
 
     private void Awake() //spel starten met juiste instellingen
     {
+        ConveyorEnd.GetComponent<SortBox>().Create(Color.white, string.Empty, true);
+
         if (PlayerPrefs.GetInt("trashcan") == 1) //vuilbak instellen
         {
             TrashcanMode = true;
-            Trashcan.SetActive(true);
-            Trashcan.GetComponent<SortBox>().Create(Color.white, string.Empty, true);
         }
 
         if (PlayerPrefs.GetInt("conveyor") == 1) //loopband instellen
         {
             ConveyorMode = true;
-            ConveyorEnd.SetActive(true);
+            ConveyorSpawnRate /= MenuLogic.Difficulty;
             Conveyor.GetComponent<Animator>().enabled = true;
+        }
+
+        if (!TrashcanMode && !ConveyorMode)
+        {
+            ConveyorEnd.GetComponent<Collider2D>().enabled = false;
         }
 
         int difficulty = MenuLogic.Difficulty + 1;
@@ -121,14 +124,14 @@ public class SortingGame : MonoBehaviour
         }
         else
         {
-            EndButton.SetActive(true);
+            AssistMode = true;
             TimeText.text = $"";
         }
     }
 
     private void Update() //sorteer objecten op loopband spawnen
     {
-        if (!EndButton.activeSelf)
+        if (!AssistMode)
         {
             if (Mathf.Round(Timer - (Time.time - StartTime)) <= 0)
             {
