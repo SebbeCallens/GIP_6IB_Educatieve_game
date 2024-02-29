@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -44,13 +43,22 @@ public class PathTile : MonoBehaviour
     {
         bool success = GameObject.FindWithTag("Player").GetComponent<Player>().TryMove(this, Pad.Grid.GetTilePosition(this));
 
-        if (IsCheckpoint && success && !Visited && GetComponentInChildren<TextMeshPro>().text.Equals(GameObject.FindWithTag("Player").GetComponent<Player>().TargetLocation.ToString()))
+        if (!Pad.Generator.RandomOrder)
         {
-            Visited = true;
-            GameObject.FindWithTag("Player").GetComponent<Player>().TargetLocation++;
-            Destroy(transform.GetChild(transform.childCount - 2).gameObject);
-            if (Pad.Generator.RandomOrder && IsCheckpoint)
+            if (IsCheckpoint && success && !Visited && GetComponentInChildren<TextMeshPro>().text.Equals(GameObject.FindWithTag("Player").GetComponent<Player>().TargetLocation.ToString()))
             {
+                Visited = true;
+                GameObject.FindWithTag("Player").GetComponent<Player>().TargetLocation++;
+                Destroy(transform.GetChild(transform.childCount - 2).gameObject);
+            }
+        }
+        else
+        {
+            if (IsCheckpoint && success && !Visited)
+            {
+                Visited = true;
+                GameObject.FindWithTag("Player").GetComponent<Player>().TargetLocation++;
+                Destroy(transform.GetChild(transform.childCount - 2).gameObject);
                 Pad.Checkpoints.Insert(Pad.Checkpoints.Count - 1, this);
             }
         }
@@ -102,8 +110,6 @@ public class PathTile : MonoBehaviour
         IsObstacle = isObstacle;
         IsCheckpoint = isLocation;
     }
-
-
 
     private void EndGame(string score)
     {
