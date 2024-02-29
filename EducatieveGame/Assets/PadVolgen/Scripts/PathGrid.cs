@@ -18,8 +18,8 @@ public class PathGrid : MonoBehaviour
 
     private void Awake()
     {
-        Width = MenuLogic.Difficulty * 4;
-        Height = MenuLogic.Difficulty * 4;
+        Width = MenuLogic.Difficulty * 5;
+        Height = MenuLogic.Difficulty * 3;
     }
 
     public void GenerateGrid() //grid genereren
@@ -47,7 +47,7 @@ public class PathGrid : MonoBehaviour
 
         //camera centreren op het grid
         Camera.main.transform.position = new Vector3((float)Width / 2 - 0.5f, (float)Height / 2 - 0.5f, -10);
-        Camera.main.orthographicSize = Mathf.Max(Width, Height) / 1.95f;
+        Camera.main.orthographicSize = Mathf.Max(Width, Height) / 2.5f;
         Background.transform.localScale = new(Camera.main.orthographicSize / 5f, Camera.main.orthographicSize / 5f, 1);
     }
 
@@ -72,5 +72,21 @@ public class PathGrid : MonoBehaviour
         }
 
         return Vector2.zero;
+    }
+
+    public void DisableAllTiles()
+    {
+        foreach (KeyValuePair<Vector2, PathTile> kvp in Tiles)
+        {
+            kvp.Value.enabled = false;
+        }
+    }
+
+    public void EnableAllTiles()
+    {
+        foreach (KeyValuePair<Vector2, PathTile> kvp in Tiles)
+        {
+            kvp.Value.enabled = true;
+        }
     }
 }

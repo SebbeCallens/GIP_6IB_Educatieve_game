@@ -31,54 +31,51 @@ public class PathTile : MonoBehaviour
 
     private void OnMouseEnter() //highlight aanzetten
     {
-        MouseHighlight.SetActive(true);
+        if (enabled)
+        {
+            MouseHighlight.SetActive(true);
+        }
     }
 
     private void OnMouseExit() //highlight uitzetten
     {
-        MouseHighlight.SetActive(false);
+        if (enabled)
+        {
+            MouseHighlight.SetActive(false);
+        }
     }
 
     private void OnMouseDown() //speler zoeken en hem proberen verplaatsen naar deze tile als dat mogelijk is
     {
-        bool success = GameObject.FindWithTag("Player").GetComponent<Player>().TryMove(this, Pad.Grid.GetTilePosition(this));
-
-        if (!Pad.Generator.RandomOrder)
+        if (enabled)
         {
-            if (IsCheckpoint && success && !Visited && GetComponentInChildren<TextMeshPro>().text.Equals(GameObject.FindWithTag("Player").GetComponent<Player>().TargetLocation.ToString()))
-            {
-                Visited = true;
-                GameObject.FindWithTag("Player").GetComponent<Player>().TargetLocation++;
-                Destroy(transform.GetChild(transform.childCount - 2).gameObject);
-            }
-        }
-        else
-        {
-            if (IsCheckpoint && success && !Visited)
-            {
-                Visited = true;
-                GameObject.FindWithTag("Player").GetComponent<Player>().TargetLocation++;
-                Destroy(transform.GetChild(transform.childCount - 2).gameObject);
-                Pad.Checkpoints.Insert(Pad.Checkpoints.Count - 1, this);
-            }
-        }
+            bool success = GameObject.FindWithTag("Player").GetComponent<Player>().TryMove(this, Pad.Grid.GetTilePosition(this));
 
-        if(IsFinish && success)
-        {
-            bool everyLocationVisited = true;
-
-            foreach (PathTile checkpoint in Pad.Checkpoints)
+            if (!Pad.Generator.RandomOrder)
             {
-                // kijken of de locatie bezocht is
-                if (checkpoint.IsCheckpoint && !checkpoint.Visited)
+                if (IsCheckpoint && success && !Visited && GetComponentInChildren<TextMeshPro>().text.Equals(GameObject.FindWithTag("Player").GetComponent<Player>().TargetLocation.ToString()))
                 {
-                    everyLocationVisited = false;
-                    break;
+                    Visited = true;
+                    GameObject.FindWithTag("Player").GetComponent<Player>().TargetLocation++;
+                    Destroy(transform.GetChild(transform.childCount - 2).gameObject);
                 }
             }
-            if (Pad.Generator.RandomOrder)
+            else
             {
-                foreach (PathTile checkpoint in Pad.RandomPath)
+                if (IsCheckpoint && success && !Visited)
+                {
+                    Visited = true;
+                    GameObject.FindWithTag("Player").GetComponent<Player>().TargetLocation++;
+                    Destroy(transform.GetChild(transform.childCount - 2).gameObject);
+                    Pad.Checkpoints.Insert(Pad.Checkpoints.Count - 1, this);
+                }
+            }
+
+            if (IsFinish && success)
+            {
+                bool everyLocationVisited = true;
+
+                foreach (PathTile checkpoint in Pad.Checkpoints)
                 {
                     // kijken of de locatie bezocht is
                     if (checkpoint.IsCheckpoint && !checkpoint.Visited)
@@ -87,18 +84,30 @@ public class PathTile : MonoBehaviour
                         break;
                     }
                 }
-            }
-            // kijken of alle locaties bezocht zijn
-            if (everyLocationVisited)
-            {
-                Pad.Generator.ShowAStarPath(Color.red);
-                if (Pad.Generator.Arrows && !Pad.Generator.ScrambledOrder)
+                if (Pad.Generator.RandomOrder)
                 {
-                    EndGame((Math.Round((double)Pad.RandomPath.Count / (GameObject.FindWithTag("Player").GetComponent<Player>().Steps + GameObject.FindWithTag("Player").GetComponent<Player>().WrongSteps), 2) * 100).ToString());
+                    foreach (PathTile checkpoint in Pad.RandomPath)
+                    {
+                        // kijken of de locatie bezocht is
+                        if (checkpoint.IsCheckpoint && !checkpoint.Visited)
+                        {
+                            everyLocationVisited = false;
+                            break;
+                        }
+                    }
                 }
-                else
+                // kijken of alle locaties bezocht zijn
+                if (everyLocationVisited)
                 {
-                    EndGame((Math.Round((double)Pad.AStarPath.Count / (GameObject.FindWithTag("Player").GetComponent<Player>().Steps + GameObject.FindWithTag("Player").GetComponent<Player>().WrongSteps), 2) * 100).ToString());
+                    Pad.Generator.ShowAStarPath(Color.red);
+                    if (Pad.Generator.Arrows && !Pad.Generator.ScrambledOrder)
+                    {
+                        EndGame((Math.Round((double)Pad.RandomPath.Count / (GameObject.FindWithTag("Player").GetComponent<Player>().Steps + GameObject.FindWithTag("Player").GetComponent<Player>().WrongSteps), 2) * 100).ToString());
+                    }
+                    else
+                    {
+                        EndGame((Math.Round((double)Pad.AStarPath.Count / (GameObject.FindWithTag("Player").GetComponent<Player>().Steps + GameObject.FindWithTag("Player").GetComponent<Player>().WrongSteps), 2) * 100).ToString());
+                    }
                 }
             }
         }
@@ -113,7 +122,8 @@ public class PathTile : MonoBehaviour
 
     private void EndGame(string score)
     {
-        EndScreenLogic.EndGame("PadVolgenMenu", "Pad volgen", score + "%", Camera.main.orthographicSize * 1.25f * 1.95f, Camera.main.transform.position, Camera.main.orthographicSize / 2.5f);
+        Pad.Grid.DisableAllTiles();
+        EndScreenLogic.EndGame("PadVolgenMenu", "Pad volgen", score + "%", Camera.main.orthographicSize * 1.25f, Camera.main.transform.position, Camera.main.orthographicSize / 2.5f);
         GameObject gameview = GameObject.FindWithTag("GameView");
         gameview.transform.SetParent(null);
         gameview.transform.localScale = new(gameview.transform.localScale.x, gameview.transform.localScale.y, 1);

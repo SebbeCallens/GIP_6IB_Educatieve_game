@@ -15,6 +15,7 @@ public class PuzzleManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _checkButtonText; //text van controleerknop
     [SerializeField] private GameObject _coordinates; //gameobject coordinaten display
     private bool _extraChance = true; //extra kans om puzzel te maken
+    private bool _resetting = false;
     private List<GameObject> _puzzleSlots; //de vakjes voor puzzelstukken
 
     private PuzzleSlicer PuzzleSlicer { get => _puzzleSlicer; set => _puzzleSlicer = value; }
@@ -25,6 +26,7 @@ public class PuzzleManager : MonoBehaviour
     private TextMeshProUGUI CheckButtonText { get => _checkButtonText; set => _checkButtonText = value; }
     private GameObject Coordinates { get => _coordinates; set => _coordinates = value; }
     private bool ExtraChance { get => _extraChance; set => _extraChance = value; }
+    private bool Resetting { get => _resetting; set => _resetting = value; }
     private List<GameObject> PuzzleSlots { get => _puzzleSlots; set => _puzzleSlots = value; }
 
     void Awake()
@@ -124,6 +126,7 @@ public class PuzzleManager : MonoBehaviour
         }
 
         CheckButtonText.text = "R";
+        Resetting = true;
         Coordinates.SetActive(false);
         ScoreText.text = score + "/" + PuzzleSlots.Count;
 
@@ -158,6 +161,7 @@ public class PuzzleManager : MonoBehaviour
         }
 
         CheckButtonText.text = "C";
+        Resetting = false;
         Coordinates.SetActive(true);
         ScoreText.text = "";
 
@@ -177,5 +181,31 @@ public class PuzzleManager : MonoBehaviour
         preview.transform.localScale = new(preview.transform.localScale.x * 0.75f, preview.transform.localScale.y * 0.75f, 1);
         DontDestroyOnLoad(preview);
         SceneManager.LoadScene("EndScreen");
+    }
+
+    public void DisablePieces()
+    {
+        if (!Resetting)
+        {
+            GameObject[] puzzlePieces = GameObject.FindGameObjectsWithTag("PuzzlePiece");
+
+            foreach (GameObject piece in puzzlePieces)
+            {
+                piece.GetComponent<PuzzlePiece>().enabled = false;
+            }
+        }
+    }
+
+    public void EnablePieces()
+    {
+        if (!Resetting)
+        {
+            GameObject[] puzzlePieces = GameObject.FindGameObjectsWithTag("PuzzlePiece");
+
+            foreach (GameObject piece in puzzlePieces)
+            {
+                piece.GetComponent<PuzzlePiece>().enabled = true;
+            }
+        }
     }
 }

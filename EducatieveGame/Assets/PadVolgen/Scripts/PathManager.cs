@@ -32,7 +32,8 @@ public class PathManager : MonoBehaviour
 
     public void EndGame()
     {
-        EndScreenLogic.EndGame("PadVolgenMenu", "Pad volgen", "Finish niet behaald", Camera.main.orthographicSize * 1.25f * 1.95f, Camera.main.transform.position, Camera.main.orthographicSize / 2.5f);
+        Grid.DisableAllTiles();
+        EndScreenLogic.EndGame("PadVolgenMenu", "Pad volgen", "Finish niet behaald", Camera.main.orthographicSize * 1.25f, Camera.main.transform.position, Camera.main.orthographicSize / 2.5f);
         GameObject gameview = GameObject.FindWithTag("GameView");
         gameview.transform.SetParent(null);
         gameview.transform.localScale = new(gameview.transform.localScale.x, gameview.transform.localScale.y, 1);

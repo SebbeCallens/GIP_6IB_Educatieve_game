@@ -11,6 +11,7 @@ public class SortItem : MonoBehaviour
     private bool _onConveyor = false; //of het sorteer object op een loopband ligt
     private bool _isTrash = false; //of het sorteer object voor in de vuilbak is
     private Collider2D _bounds; //limiet speelveld
+    private SortingGame _sortGame;
 
     private Sprite[] SortItems { get => _sortItems; set => _sortItems = value; }
     public Vector3 StartPosition { get => _startPosition; private set => _startPosition = value; }
@@ -20,6 +21,7 @@ public class SortItem : MonoBehaviour
     private bool OnConveyor { get => _onConveyor; set => _onConveyor = value; }
     public bool IsTrash { get => _isTrash; private set => _isTrash = value; }
     private Collider2D Bounds { get => _bounds; set => _bounds = value; }
+    private SortingGame SortGame { get => _sortGame; set => _sortGame = value; }
 
     private void Awake() //start positie instellen
     {
@@ -53,26 +55,34 @@ public class SortItem : MonoBehaviour
 
     private void OnMouseDown() //begin slepen sorteer object
     {
-        Dragging = true;
-        if (OnConveyor)
+        if (enabled)
         {
-            StartPosition = transform.position;
+            Dragging = true;
+            SortGame.Dragging = true;
+            if (OnConveyor)
+            {
+                StartPosition = transform.position;
+            }
         }
     }
 
     private void OnMouseUp() //eind slepen sorteer object
     {
-        if (Dragging)
+        if (enabled)
         {
-            Dragging = false;
-            if (OnConveyor)
+            if (Dragging)
             {
-                transform.position = StartPosition;
+                Dragging = false;
+                SortGame.Dragging = false;
+                if (OnConveyor)
+                {
+                    transform.position = StartPosition;
+                }
             }
         }
     }
 
-    public void Create(Color color, string text, bool isTrash, bool onConveyor) //sorteer object aanmaken
+    public void Create(Color color, string text, bool isTrash, bool onConveyor, SortingGame sortGame) //sorteer object aanmaken
     {
         SortColor = color;
         SortText = text;
@@ -80,5 +90,6 @@ public class SortItem : MonoBehaviour
         OnConveyor = onConveyor;
         transform.GetComponentInChildren<TextMeshPro>().color = SortColor;
         transform.GetComponentInChildren<TextMeshPro>().text = SortText;
+        SortGame = sortGame;
     }
 }

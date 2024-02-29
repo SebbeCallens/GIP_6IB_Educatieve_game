@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using System.Linq;
 using UnityEngine.UI;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
 public class DrawFigure : MonoBehaviour
 {
@@ -109,7 +108,7 @@ public class DrawFigure : MonoBehaviour
         if (!SettingGridValues)
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (GridFuncs.PositionInGrid(mousePosition)) //logica voor de figuur te tekenen
+            if (GridFuncs.PositionInGrid(mousePosition) && Time.timeScale != 0) //logica voor de figuur te tekenen
             {
                 if (!StartDotPlaced)
                 {

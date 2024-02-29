@@ -111,7 +111,7 @@ public class FigureGame : MonoBehaviour
             Count.text = count.ToString();
             Arrow.localEulerAngles = new Vector3(Arrow.localEulerAngles.x, Arrow.localEulerAngles.y, rotation);
 
-            if (GridFuncs.PositionInGrid(mousePosition))
+            if (GridFuncs.PositionInGrid(mousePosition) && Time.timeScale != 0)
             {
                 Vector3 closestPositionOnGrid;
 

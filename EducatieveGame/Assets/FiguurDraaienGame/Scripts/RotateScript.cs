@@ -13,7 +13,7 @@ public class RotateScript : MonoBehaviour
 
     private void OnMouseDown() //cel draaien wanneer de muis er op klikt
     {
-        if (Game.GameInProgress)
+        if (Game.GameInProgress && Time.timeScale != 0)
         {
             transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z - 90f);
         }

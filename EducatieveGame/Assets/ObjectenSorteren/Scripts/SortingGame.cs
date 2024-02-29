@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -29,6 +30,7 @@ public class SortingGame : MonoBehaviour
     private float _lastSpawnTime = 0f; //laatste object spawntijd op loopband
     private int _amountSpawned = 0; //teller loopband sorteermodus switchen
     private float _startTime = 0f; //startijd van het spel
+    private bool _dragging = false;
 
     private Vector3[] SpawnLocations { get => _spawnLocations; set => _spawnLocations = value; }
     private Vector3 ConveyorSpawnLocation { get => _conveyorSpawnLocation; set => _conveyorSpawnLocation = value; }
@@ -53,6 +55,7 @@ public class SortingGame : MonoBehaviour
     private int AmountSpawned { get => _amountSpawned; set => _amountSpawned = value; }
     private float StartTime { get => _startTime; set => _startTime = value; }
     private GameObject Conveyor { get => _conveyor; set => _conveyor = value; }
+    public bool Dragging { get => _dragging; set => _dragging = value; }
 
     private void Awake() //spel starten met juiste instellingen
     {
@@ -171,15 +174,7 @@ public class SortingGame : MonoBehaviour
                 AmountSpawned = 0;
                 if (Random.value > 0.5f)
                 {
-                    SortByColor = !SortByColor;
-                    if (SortByColor)
-                    {
-                        SortModeText.text = "kleur";
-                    }
-                    else
-                    {
-                        SortModeText.text = "woord";
-                    }
+                    StartCoroutine(ChangeMode());
                 }
             }
 
@@ -227,14 +222,14 @@ public class SortingGame : MonoBehaviour
             }
 
             SortItem sortItem = Instantiate(SortingItem, position, Quaternion.identity, transform).GetComponent<SortItem>();
-            sortItem.Create(SortingColors[randomIndexColor], SortingTexts[randomIndexText], true, ConveyorMode);
+            sortItem.Create(SortingColors[randomIndexColor], SortingTexts[randomIndexText], true, ConveyorMode, this);
         }
         else //een sorteerobject spawnen dat niet in de vuilbak hoort
         {
             int randomIndexColor = Random.Range(0, SelectedSortingColors.Length);
             int randomIndexText = Random.Range(0, SelectedSortingTexts.Length);
             SortItem sortItem = Instantiate(SortingItem, position, Quaternion.identity, transform).GetComponent<SortItem>();
-            sortItem.Create(SelectedSortingColors[randomIndexColor], SelectedSortingTexts[randomIndexText], false, ConveyorMode);
+            sortItem.Create(SelectedSortingColors[randomIndexColor], SelectedSortingTexts[randomIndexText], false, ConveyorMode, this);
         }
     }
 
@@ -247,6 +242,41 @@ public class SortingGame : MonoBehaviour
         {
             SortBox sortBox = Instantiate(SortingBox, new Vector3(startX + i * 2.5f, 2f, 0f), Quaternion.identity, transform).GetComponent<SortBox>();
             sortBox.Create(SelectedSortingColors[i], SelectedSortingTexts[i], false);
+        }
+    }
+
+    private IEnumerator ChangeMode()
+    {
+        while (Dragging)
+        {
+            yield return null;
+        }
+        SortByColor = !SortByColor;
+        if (SortByColor)
+        {
+            SortModeText.text = "kleur";
+        }
+        else
+        {
+            SortModeText.text = "woord";
+        }
+    }
+
+    public void DisableSortItems()
+    {
+        GameObject[] sortItems = GameObject.FindGameObjectsWithTag("SortItem");
+        foreach (GameObject sortItem in sortItems)
+        {
+            sortItem.GetComponent<SortItem>().enabled = false;
+        }
+    }
+
+    public void EnableSortItems()
+    {
+        GameObject[] sortItems = GameObject.FindGameObjectsWithTag("SortItem");
+        foreach (GameObject sortItem in sortItems)
+        {
+            sortItem.GetComponent<SortItem>().enabled = true;
         }
     }
 }
