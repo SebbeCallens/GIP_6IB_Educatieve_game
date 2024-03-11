@@ -118,6 +118,11 @@ public abstract class MenuLogic : MonoBehaviour
         InfoMenu.SetActive(false);
     }
 
+    public void ToggleInfoMenu()
+    {
+        InfoMenu.SetActive(!InfoMenu.activeSelf);
+    }
+
     private void UpdateTabCounter(int value)
     {
         TabCounter.text = value.ToString();
