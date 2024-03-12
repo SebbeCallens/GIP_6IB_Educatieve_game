@@ -16,6 +16,9 @@ TagManager:
   - SortingGame
   - SortItem
   - Bounds
+  - FxTemporaire
+  - PlayerHighlight
+  - AstarrHighlight
   layers:
   - Default
   - TransparentFX

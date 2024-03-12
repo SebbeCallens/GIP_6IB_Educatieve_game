@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,7 +36,7 @@ public class Player : MonoBehaviour
         if (Pad.Generator.Arrows && Pad.Finder.NextTile.Equals(tile))
         {
             transform.parent = tile.transform;
-            transform.position = transform.parent.position;
+            StartCoroutine(MoveToParentPosition());
             CurrentPosition = tilePosition;
             Steps++;
             Pad.Finder.ShowNextArrow();
@@ -44,7 +45,7 @@ public class Player : MonoBehaviour
         else if (adjacentPositions.Contains(tilePosition) && !tile.IsObstacle && !Pad.Generator.Arrows)
         {
             transform.parent = tile.transform;
-            transform.position = transform.parent.position;
+            StartCoroutine(MoveToParentPosition());
             CurrentPosition = tilePosition;
             Steps++;
             return true;
@@ -58,5 +59,25 @@ public class Player : MonoBehaviour
             WrongSteps++;
             return false;
         }
+    }
+
+    private IEnumerator MoveToParentPosition()
+    {
+        float timeElapsed = 0f;
+        float duration = 0.4f;
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = transform.parent.position;
+
+        while (timeElapsed < duration)
+        {
+            float t = timeElapsed / duration;
+            transform.position = Vector2.Lerp(startPos, targetPos, t);
+
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        transform.position = targetPos;
     }
 }

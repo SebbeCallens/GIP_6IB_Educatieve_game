@@ -256,7 +256,9 @@ public class PathGenerator : MonoBehaviour
 
         foreach (PathTile tile in Pad.AStarPath)
         {
+            float scaleFactor = 0.1f + (0.8f * Pad.AStarPath.IndexOf(tile) / (float)(Pad.AStarPath.Count - 1));
             tile.PathHighlight.GetComponent<SpriteRenderer>().color = color;
+            tile.PathHighlight.transform.localScale = new Vector3(scaleFactor, scaleFactor, 1);
         }
     }
 

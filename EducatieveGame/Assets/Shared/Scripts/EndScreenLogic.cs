@@ -12,6 +12,7 @@ public class EndScreenLogic : MenuLogic
     [SerializeField] private Transform _gameStats; //statistieken spel
     [SerializeField] private TextMeshProUGUI _scoreText; //text met score
     [SerializeField] private TextMeshProUGUI _titleText; //text spelnaam
+    [SerializeField] private Toggle[] _pathToggles;
     private static string _currentGame = "MainMenu"; //huidig spel scenename
     private static string _gameName = "Eindscherm"; //huidig spel naam
     private static string _score = "0/0%"; //behaalde score
@@ -25,6 +26,7 @@ public class EndScreenLogic : MenuLogic
     private Transform GameStats { get => _gameStats; set => _gameStats = value; }
     private TextMeshProUGUI ScoreText { get => _scoreText; set => _scoreText = value; }
     private TextMeshProUGUI TitleText { get => _titleText; set => _titleText = value; }
+    private Toggle[] PathToggles { get => _pathToggles; set => _pathToggles = value; }
     private static string CurrentGame { get => _currentGame; set => _currentGame = value; }
     private static string GameName { get => _gameName; set => _gameName = value; }
     private static string Score { get => _score; set => _score = value; }
@@ -153,5 +155,23 @@ public class EndScreenLogic : MenuLogic
         CameraSize = cameraSize;
         CameraPos = cameraPos;
         OffsetY = offsetY;
+    }
+
+    public void ToggleShortestPath()
+    {
+        GameObject[] highlights = GameObject.FindGameObjectsWithTag("AstarrHighlight");
+        foreach (GameObject highlight in highlights)
+        {
+            highlight.GetComponent<SpriteRenderer>().enabled = PathToggles[0].isOn;
+        }
+    }
+
+    public void ToggleOwnPath()
+    {
+        GameObject[] highlights = GameObject.FindGameObjectsWithTag("PlayerHighlight");
+        foreach (GameObject highlight in highlights)
+        {
+            highlight.GetComponent<SpriteRenderer>().enabled = PathToggles[1].isOn;
+        }
     }
 }
