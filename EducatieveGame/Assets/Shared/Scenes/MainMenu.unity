@@ -401,6 +401,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2965555075887319552, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1327.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 2965555075887319552, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 713.93
+      objectReference: {fileID: 0}
     - target: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_Name
       value: InfoTab3
@@ -412,13 +420,25 @@ PrefabInstance:
     - target: {fileID: 5876867194602136271, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_text
       value: 'Als je meer info wilt specifiek over 1 bepaalde minigame, klik dan
-        op de blauwe info knop als je een van de minigames hebt geselecteerd.
+        op de blauwe info knop op een van de hoofdmenu''s van de minigames.
 
 '
       objectReference: {fileID: 0}
     - target: {fileID: 7427720211838189365, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_text
       value: Infomenu's
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821564410395182922, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 706
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821564410395182922, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822760647489921834, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1670,6 +1690,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 710
       objectReference: {fileID: 0}
+    - target: {fileID: 7821564410395182922, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 8822760647489921834, guid: 2841f999c232efe468506481faa56264, type: 3}
@@ -2774,6 +2798,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2965555075887319552, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1336.67
+      objectReference: {fileID: 0}
+    - target: {fileID: 2965555075887319552, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 718.33
+      objectReference: {fileID: 0}
     - target: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_Name
       value: InfoTab2
@@ -2790,6 +2822,18 @@ PrefabInstance:
     - target: {fileID: 7427720211838189365, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_text
       value: Moeilijkheidsgraden
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821564410395182922, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 706
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821564410395182922, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822760647489921834, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

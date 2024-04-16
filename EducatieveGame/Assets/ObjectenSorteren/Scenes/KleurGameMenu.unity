@@ -183,6 +183,7 @@ MonoBehaviour:
   - {fileID: 1724146801}
   - {fileID: 288540614}
   - {fileID: 189645740}
+  - {fileID: 300490917}
   - {fileID: 2084440411}
   - {fileID: 1964459284}
   - {fileID: 1961201936}
@@ -278,6 +279,97 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 49803608}
+  m_CullTransparentMesh: 1
+--- !u!1 &76395493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 76395494}
+  - component: {fileID: 76395497}
+  - component: {fileID: 76395496}
+  - component: {fileID: 76395495}
+  m_Layer: 5
+  m_Name: Image (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &76395494
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76395493}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 300490918}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 424, y: -3}
+  m_SizeDelta: {x: 513.03, y: 411}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &76395495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76395493}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.43137258, g: 0.427451, b: 0.43137258, a: 1}
+  m_EffectDistance: {x: 10, y: -10}
+  m_UseGraphicAlpha: 1
+--- !u!114 &76395496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76395493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 5d7d1841dfd24784faeea877da153a40, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &76395497
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76395493}
   m_CullTransparentMesh: 1
 --- !u!1001 &87954786
 PrefabInstance:
@@ -762,6 +854,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 548494813397172904, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 760340723576060489, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_text
       value: Start
@@ -849,6 +945,10 @@ PrefabInstance:
     - target: {fileID: 876365692043614086, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1567926757373236566, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 484
       objectReference: {fileID: 0}
     - target: {fileID: 1576888960676459575, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_Pivot.y
@@ -1006,6 +1106,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 52.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3984821157756006537, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4404092152404059910, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_text
       value: Objecten sorteren
@@ -1069,6 +1173,10 @@ PrefabInstance:
     - target: {fileID: 4930046761507078861, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: MenuLogic, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5086006149208063100, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5345293894566978188, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_Interactable
@@ -1185,6 +1293,10 @@ PrefabInstance:
     - target: {fileID: 5751800255710001057, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5795682818547800092, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 684
       objectReference: {fileID: 0}
     - target: {fileID: 5929319977378898624, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -1390,8 +1502,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7884521082684259737, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_text
-      value: "In deze minigame is het de bedoeling om objecten correct te sorteren.
-        Dit doe je door de objecten in de juiste doos te slepen. \r\n"
+      value: 'Sorteer objecten correct door ze in de juiste doos te slepen.
+
+
+
+        Sorteer
+        op basis van de kleur van het woord of de tekstkleur van het woord.
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 8086431355402358119, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_fontSize
@@ -1465,6 +1583,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1347637492186199925, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 495212820}
+    - targetCorrespondingSourceObject: {fileID: 1347637492186199925, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 300490918}
     - targetCorrespondingSourceObject: {fileID: 1347637492186199925, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1469061831}
@@ -1748,7 +1869,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_Name
-      value: InfoTab (4)
+      value: InfoTab (5)
       objectReference: {fileID: 0}
     - target: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_IsActive
@@ -1756,18 +1877,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5876867194602136271, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_text
-      value: 'Daarnaast zijn er nog een aantal modi waarin je kunt spelen. Als je
-        op de normale of moeilijkere modus speelt (of de vuilnisbakmodus aanvinkt
-        in de instellingen), bestaat de mogelijkheid dat er objecten zijn die nergens
-        passen in een doos. In dat geval moet je ze naar de vuilnisbak slepen.
+      value: 'Objecten bewegen zich voort op een loopband.
+
+        Als ze verbranden,
+        verlies je punten.
+
+        Een object dat nergens in een doos past mag wel
+        verbrand worden.
 
 '
       objectReference: {fileID: 0}
     - target: {fileID: 7427720211838189365, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_text
-      value: 'Vuilnisbakmodus
-
-'
+      value: Loopbandmodus
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822760647489921834, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1995,6 +2121,16 @@ RectTransform:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
   m_PrefabInstance: {fileID: 1334130564}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &300490917 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
+  m_PrefabInstance: {fileID: 977808309}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &300490918 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+  m_PrefabInstance: {fileID: 977808309}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &405672209
 GameObject:
@@ -2512,6 +2648,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 267913163}
     m_Modifications:
+    - target: {fileID: 461530305626563149, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 99faf7ba73a711842842598ce5e3802a, type: 3}
+    - target: {fileID: 1843130324511417998, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2604,6 +2748,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 390.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 432
+      objectReference: {fileID: 0}
+    - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -69
+      objectReference: {fileID: 0}
     - target: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_Name
       value: InfoTab (2)
@@ -2614,18 +2770,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5876867194602136271, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_text
-      value: 'Het spel kent vijf moeilijkheidsgraden: beginner, gemakkelijk, normaal,
-        moeilijk en expert. Elke moeilijkheidsgraad heeft zijn eigen instellingen.
-        Bij moeilijkere moeilijkheidsgraden zijn er extra dozen en kun je meer punten
-        verdienen of verliezen.
+      value: 'In het menu kun je de kleuren van de dozen en voorwerpen aanpassen.
+
+        Voor
+        sommige moeilijkheidsgraden moet je meer kleuren kiezen.
 
 '
       objectReference: {fileID: 0}
     - target: {fileID: 7427720211838189365, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_text
-      value: 'Moeilijkheidsgraden
-
-'
+      value: Kleuren kiezen
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3324,6 +3478,160 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 974123724}
   m_CullTransparentMesh: 1
+--- !u!1001 &977808309
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 267913163}
+    m_Modifications:
+    - target: {fileID: 461530305626563149, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ac2a822f419597a459ab3c91fad30cc6, type: 3}
+    - target: {fileID: 1843130324511417998, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1420
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 380
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 161.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -114
+      objectReference: {fileID: 0}
+    - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2965555075887319552, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 736.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2965555075887319552, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 418.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 2965555075887319552, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -173
+      objectReference: {fileID: 0}
+    - target: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_Name
+      value: InfoTab (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876867194602136271, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_text
+      value: "Dit is een voorwerp. Op het voorwerp zie je twee dingen:\r\n- een kleur
+        in tekstvorm\r\n- een kleur van het woord\r\n\r\nBoven op het scherm zie
+        je op welke manier je moet sorteren. \r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7427720211838189365, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_text
+      value: Sorteren
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821564410395182922, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 76395494}
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2841f999c232efe468506481faa56264, type: 3}
 --- !u!1001 &1088106782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4045,6 +4353,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 267913163}
     m_Modifications:
+    - target: {fileID: 461530305626563149, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e3fc290f8416bea46ae677c9ba3f8895, type: 3}
+    - target: {fileID: 1843130324511417998, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4137,6 +4453,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 370
+      objectReference: {fileID: 0}
+    - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 440.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 425
+      objectReference: {fileID: 0}
+    - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -65
+      objectReference: {fileID: 0}
     - target: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_Name
       value: InfoTab (1)
@@ -4147,17 +4479,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5876867194602136271, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_text
-      value: 'Je kunt op twee manieren sorteren: op basis van de kleur van het woord
-        of op basis van de tekstkleur van het woord. Hoe je moet sorteren, wordt
-        aangegeven bovenaan het scherm.
+      value: 'Je kan kiezen uit supermakkelijk, makkelijk, middelmatig, moeilijk
+        en supermoeilijk.
+
+
+        Hoe moeilijker, hoe meer sorteerdozen er zijn.
 
 '
       objectReference: {fileID: 0}
     - target: {fileID: 7427720211838189365, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_text
-      value: 'Hoe sorteren?
-
-'
+      value: Moeilijkheidsgraden
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4252,6 +4584,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 267913163}
     m_Modifications:
+    - target: {fileID: 461530305626563149, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ac2f4c322b96da842b77079f58e41366, type: 3}
+    - target: {fileID: 1843130324511417998, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2562495029835219874, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4344,9 +4684,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 356.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 415.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 431.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -64
+      objectReference: {fileID: 0}
     - target: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_Name
-      value: InfoTab (3)
+      value: InfoTab (4)
       objectReference: {fileID: 0}
     - target: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_IsActive
@@ -4354,16 +4710,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5876867194602136271, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_text
-      value: 'In het menu kan je de kleuren van de dozen en voorwerpen . Voor sommige
-        moeilijkheidsgraden moet je meer kleuren kiezen.
+      value: 'Deze instelling maakt het mogelijk dat een object in geen doos past.
+
+        In
+        dit geval, sleep het object naar de oven.
 
 '
       objectReference: {fileID: 0}
     - target: {fileID: 7427720211838189365, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_text
-      value: 'kleuren kiezen
-
-'
+      value: Vuilnisbakmodus
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5722,7 +6078,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_Name
-      value: InfoTab (5)
+      value: InfoTab (6)
       objectReference: {fileID: 0}
     - target: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_IsActive
@@ -5730,17 +6086,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5876867194602136271, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_text
-      value: 'Een andere modus is de loopbandmodus. Hierbij verplaatsen de objecten
-        zich op een loopband. Wanneer de objecten aan het einde van de loopband komen,
-        vallen ze eraf en verlies je punten.
-
-'
+      value: Het spel stopt na 90 seconden. Je kan jouw punten zien boven op het
+        scherm en de instellingen die je hebt gebruikt.
       objectReference: {fileID: 0}
     - target: {fileID: 7427720211838189365, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_text
-      value: 'Loopbandmodus
-
-'
+      value: Einde van het spel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822760647489921834, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

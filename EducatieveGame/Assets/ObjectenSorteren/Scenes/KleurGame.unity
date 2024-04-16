@@ -133,7 +133,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 324198870923637405, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 876365692043614086, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_Pivot.x
@@ -1052,7 +1052,7 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Sorteer objecten correct door ze in de juiste doos te slepen.
 
-        
+
 
         Sorteer
         op basis van de kleur van het woord of de tekstkleur van het woord.
@@ -2379,8 +2379,8 @@ PrefabInstance:
         Als ze verbranden,
         verlies je punten.
 
-        Een object dat nergens in een doos past mag
-        wel verbrand worden.
+        Een object dat nergens in een doos past mag wel
+        verbrand worden.
 
 '
       objectReference: {fileID: 0}
