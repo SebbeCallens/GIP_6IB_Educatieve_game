@@ -7,6 +7,9 @@ public class SortBox : MonoBehaviour
     private Color _sortColor; //de kleur van deze doos
     private string _sortText; //de tekst van de kleur van deze doos
     private bool _isTrashcan; //of dit de vuilbak is
+    [SerializeField] private GameObject _burnItemParticle;
+    [SerializeField] private GameObject[] _sortedItemParticles;
+    [SerializeField] private GameObject _lostItemParticle;
 
     private SortingGame SortGame { get => _sortGame; set => _sortGame = value; }
     private Color SortColor { get => _sortColor; set => _sortColor = value; }
@@ -38,6 +41,7 @@ public class SortBox : MonoBehaviour
                 else
                 {
                     SortGame.ItemLost();
+                    Instantiate(_burnItemParticle, new Vector3(collision.gameObject.transform.position.x, collision.gameObject.transform.position.y - 0.5f, collision.gameObject.transform.position.z), collision.gameObject.transform.rotation);
                 }
                 Destroy(collision.gameObject);
             }
@@ -66,11 +70,13 @@ public class SortBox : MonoBehaviour
                 if (collision.GetComponent<SortItem>().IsTrash)
                 {
                     SortGame.ItemSorted();
+                    Instantiate(_burnItemParticle, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
                     Destroy(collision.gameObject);
                 }
                 else
                 {
                     SortGame.ItemLost();
+                    Instantiate(_lostItemParticle, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
                     collision.gameObject.GetComponent<SortItem>().Dragging = false;
                     collision.gameObject.transform.position = collision.gameObject.GetComponent<SortItem>().StartPosition;
                 }
@@ -82,11 +88,13 @@ public class SortBox : MonoBehaviour
                     if (collision.GetComponent<SortItem>().SortColor == SortColor)
                     {
                         SortGame.ItemSorted();
+                        Instantiate(_sortedItemParticles[Random.Range(0, _sortedItemParticles.Length)], collision.gameObject.transform.position, collision.gameObject.transform.rotation);
                         Destroy(collision.gameObject);
                     }
                     else
                     {
                         SortGame.ItemLost();
+                        Instantiate(_lostItemParticle, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
                         collision.gameObject.GetComponent<SortItem>().Dragging = false;
                         collision.gameObject.transform.position = collision.gameObject.GetComponent<SortItem>().StartPosition;
                     }
@@ -96,11 +104,13 @@ public class SortBox : MonoBehaviour
                     if (collision.GetComponent<SortItem>().SortText == SortText)
                     {
                         SortGame.ItemSorted();
+                        Instantiate(_sortedItemParticles[Random.Range(0, _sortedItemParticles.Length)], collision.gameObject.transform.position, collision.gameObject.transform.rotation);
                         Destroy(collision.gameObject);
                     }
                     else
                     {
                         SortGame.ItemLost();
+                        Instantiate(_lostItemParticle, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
                         collision.gameObject.GetComponent<SortItem>().Dragging = false;
                         collision.gameObject.transform.position = collision.gameObject.GetComponent<SortItem>().StartPosition;
                     }
