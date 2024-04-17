@@ -445,6 +445,8 @@ MonoBehaviour:
   _mouseHighlight: {fileID: 203717722597101235}
   _pathHighlight: {fileID: 8589371232447544691}
   _playerHighlight: {fileID: 847614599361363087, guid: 438a87cdf8863154bb96ac9b47c58e66, type: 3}
+  _finishParticle: {fileID: 8791802859087666345, guid: ae07f2a45f14a82428409cfe410e6002, type: 3}
+  _locationParticle: {fileID: 8205706795460263314, guid: 326e86d5729c54e479798cacab220bb2, type: 3}
 --- !u!61 &-3184701873338631816
 BoxCollider2D:
   m_ObjectHideFlags: 0

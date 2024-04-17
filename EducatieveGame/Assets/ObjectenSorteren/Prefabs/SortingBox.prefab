@@ -99,6 +99,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55477f90b4eca0f49bf2272879ba493c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _burnItemParticle: {fileID: 8764043878647920493, guid: 46b69d029cd91834fbda428f88ac79a2, type: 3}
+  _sortedItemParticles:
+  - {fileID: 2883797502249945402, guid: fd2045cdb3e34f340aa5d3a4bad4687b, type: 3}
+  - {fileID: 2883797502249945402, guid: 1e54877675f6e4a46ad7ca7c4d7a5bf6, type: 3}
+  - {fileID: 2883797502249945402, guid: f7cd77d907f290345ab1e596ee2bc83b, type: 3}
+  _lostItemParticle: {fileID: 8433079331162208932, guid: 02eabc2bee215514ea5faf37a7cfddb0, type: 3}
 --- !u!61 &5941077174889686847
 BoxCollider2D:
   m_ObjectHideFlags: 0

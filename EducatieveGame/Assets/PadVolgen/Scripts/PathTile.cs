@@ -11,6 +11,8 @@ public class PathTile : MonoBehaviour
     [SerializeField] private GameObject _mouseHighlight; //highlight
     [SerializeField] private GameObject _pathHighlight; //highlight debug
     [SerializeField] private GameObject _playerHighlight; //highlight debug
+    [SerializeField] public GameObject _finishParticle;
+    [SerializeField] public GameObject _locationParticle;
     private bool _isFinish = false; //of de tile de finish is
     private bool _isObstacle = false; //of de tile een obstakel is
     private bool _isCheckpoint = false; //of de tile een locatie is
@@ -74,6 +76,8 @@ public class PathTile : MonoBehaviour
                 {
                     Visited = true;
                     GameObject.FindWithTag("Player").GetComponent<Player>().TargetLocation++;
+                    StartCooldown();
+                    Instantiate(_locationParticle, transform.position, transform.rotation);
                     Destroy(transform.GetChild(4).gameObject);
                 }
             }
@@ -83,6 +87,8 @@ public class PathTile : MonoBehaviour
                 {
                     Visited = true;
                     GameObject.FindWithTag("Player").GetComponent<Player>().TargetLocation++;
+                    StartCooldown();
+                    Instantiate(_locationParticle, transform.position, transform.rotation);
                     Destroy(transform.GetChild(4).gameObject);
                     Pad.Checkpoints.Insert(Pad.Checkpoints.Count - 1, this);
                 }
@@ -140,6 +146,8 @@ public class PathTile : MonoBehaviour
     private IEnumerator EndGame(string score)
     {
         Pad.Grid.DisableAllTiles();
+        yield return new WaitForSeconds(0.4f);
+        Instantiate(_finishParticle, transform.position, transform.rotation);
         yield return new WaitForSeconds(0.4f);
         EndScreenLogic.EndGame("PadVolgenMenu", "Pad volgen", score + "%", Camera.main.orthographicSize * 1.25f, Camera.main.transform.position, Camera.main.orthographicSize / 2.5f);
         GameObject gameview = GameObject.FindWithTag("GameView");
