@@ -76,7 +76,6 @@ public class SortBox : MonoBehaviour
                 else
                 {
                     SortGame.ItemLost();
-                    Instantiate(_lostItemParticle, transform.position, transform.rotation);
                     collision.gameObject.GetComponent<SortItem>().Dragging = false;
                     collision.gameObject.transform.position = collision.gameObject.GetComponent<SortItem>().StartPosition;
                 }
