@@ -203,6 +203,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c225ef76ed7bd9e44afd08190c8846b9, type: 3}
   - {fileID: 21300000, guid: 21d2af39fabbf114685aa6934ae2bbfd, type: 3}
   - {fileID: 21300000, guid: 41382311177d5f340b03e287e9ebdfd4, type: 3}
+  _burnMeatParticle: {fileID: 8764043878647920493, guid: 46b69d029cd91834fbda428f88ac79a2, type: 3}
 --- !u!1 &3399375994769567956
 GameObject:
   m_ObjectHideFlags: 0

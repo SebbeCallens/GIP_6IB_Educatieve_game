@@ -6,6 +6,7 @@ public class MeatScript : MonoBehaviour
     [SerializeField] private Gradient _meatColor; //de gradient kleur voor het vlees, van rauw naar verbrand
     [SerializeField] private SpriteRenderer _meat; //de spriterenderer van het vlees
     [SerializeField] private Sprite[] _meats; //alle mogelijke sprites voor het vlees
+    [SerializeField] private GameObject _burnMeatParticle;
     private Stats _statsObj; //het scorescript
     private float _rotationSpeed = -80f; //hoe vlug het vlees kookt
 
@@ -53,6 +54,7 @@ public class MeatScript : MonoBehaviour
         {
             StatsObj.AddStat(5, 1);
             StatsObj.AddStat(0, -3);
+            Instantiate(_burnMeatParticle, transform.position, transform.rotation);
             Destroy(gameObject);
         }
     }
