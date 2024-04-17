@@ -334,6 +334,7 @@ MonoBehaviour:
   _statsObj: {fileID: 257158373}
   _grillBackground: {fileID: 1038928122}
   _timerText: {fileID: 2029984334}
+  _meatCookingParticle: {fileID: 8656522925564163052, guid: e509867be4f82f246a95eca1ee5a2d61, type: 3}
 --- !u!114 &257158373
 MonoBehaviour:
   m_ObjectHideFlags: 0
