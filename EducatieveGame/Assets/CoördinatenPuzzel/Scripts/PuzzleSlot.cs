@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 public class PuzzleSlot : MonoBehaviour, IDropHandler
 {
     private static bool _dropping;
+    [SerializeField] private GameObject _dropPieceParticle;
 
     private static bool Dropping { get => _dropping; set => _dropping = value; }
 
@@ -19,6 +20,7 @@ public class PuzzleSlot : MonoBehaviour, IDropHandler
                 {
                     PuzzlePiece piece = dropped.GetComponent<PuzzlePiece>();
                     piece.ParentAfterDrag = transform;
+                    Instantiate(_dropPieceParticle, transform.position, transform.rotation);
                 }
             }
             Dropping = false;
