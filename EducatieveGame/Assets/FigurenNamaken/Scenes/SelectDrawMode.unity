@@ -225,6 +225,10 @@ PrefabInstance:
       propertyPath: m_Type
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 821276970171921711, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      propertyPath: m_text
+      value: Figuur namaken info
+      objectReference: {fileID: 0}
     - target: {fileID: 876365692043614086, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1564,8 +1568,8 @@ PrefabInstance:
       propertyPath: m_text
       value: "1. Klik op 'Zelf een figuur maken' om een figuur toe te voegen.\n2.
         Geef je figuur een naam en klik op de startknop.\n3. Klik de pijltjes om
-        een lijn te verwijderen of te verschijnen.\n4. Klik de groene knop als je
-        \nklaar bent.\n"
+        een lijn te verwijderen of te laten verschijnen.\n4. Klik de groene knop
+        als je \nklaar bent.\n"
       objectReference: {fileID: 0}
     - target: {fileID: 5876867194602136271, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_margin.z
@@ -2077,6 +2081,8 @@ PrefabInstance:
 
         Zie je eindscore
         bovenaan het scherm.
+
+
 
 '
       objectReference: {fileID: 0}

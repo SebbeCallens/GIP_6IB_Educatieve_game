@@ -270,12 +270,12 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Klik op de groene knop voor feedback.
 
-        Groene kleur voor correct
-        geplaatste stukken, rood voor fouten.
+        Groen gekleurde puzzelstukken
+        zijn juist geplaatst, rood gekleurde zijn fout.
 
 
-        Bij fouten, klik op de groene
-        knop om opnieuw te proberen als je een foutje hebt gemaakt.
+        Als je een foutje
+        zou gemaakt hebben, krijg je nog een kans om je fouten te corrigeren.
 
 
 '
