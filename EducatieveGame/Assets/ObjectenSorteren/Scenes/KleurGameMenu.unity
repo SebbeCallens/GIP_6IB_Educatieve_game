@@ -353,7 +353,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5d7d1841dfd24784faeea877da153a40, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d40118e0898a7334fbc8481dd14b6d7d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -947,8 +947,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1567926757373236566, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1301.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 1567926757373236566, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 484
+      value: 709.71
       objectReference: {fileID: 0}
     - target: {fileID: 1576888960676459575, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_Pivot.y
@@ -1867,6 +1871,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2965555075887319552, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1310.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2965555075887319552, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 705.1201
+      objectReference: {fileID: 0}
     - target: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_Name
       value: InfoTab (5)
@@ -1890,6 +1902,10 @@ PrefabInstance:
     - target: {fileID: 7427720211838189365, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_text
       value: Loopbandmodus
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821564410395182922, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 724
       objectReference: {fileID: 0}
     - target: {fileID: 8822760647489921834, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_IsActive
@@ -3489,7 +3505,7 @@ PrefabInstance:
     - target: {fileID: 461530305626563149, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ac2a822f419597a459ab3c91fad30cc6, type: 3}
+      objectReference: {fileID: 21300000, guid: 22a85f0f1eb25914495f6445dc5d7b9c, type: 3}
     - target: {fileID: 1843130324511417998, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -3576,7 +3592,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 161.03
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_SizeDelta.y
@@ -3584,7 +3600,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -114
+      value: -117.3
       objectReference: {fileID: 0}
     - target: {fileID: 2816901021201762617, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -6076,6 +6092,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2965555075887319552, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1303.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 2965555075887319552, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 701.82
+      objectReference: {fileID: 0}
     - target: {fileID: 4285461560341552638, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_Name
       value: InfoTab (6)
@@ -6092,6 +6116,10 @@ PrefabInstance:
     - target: {fileID: 7427720211838189365, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_text
       value: Einde van het spel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821564410395182922, guid: 2841f999c232efe468506481faa56264, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 713
       objectReference: {fileID: 0}
     - target: {fileID: 8822760647489921834, guid: 2841f999c232efe468506481faa56264, type: 3}
       propertyPath: m_IsActive
