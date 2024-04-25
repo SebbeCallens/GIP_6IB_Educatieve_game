@@ -41,7 +41,7 @@ public class ObjectSpawner : MonoBehaviour
     private void Awake() //grid genereren
     {
         TimeLeft = MinutesUntilFastest * 120;
-        TimerText.text = Mathf.Round(TimeLeft) + " s";
+        TimerText.text = Mathf.Round(TimeLeft) + "s";
         GridGen = GetComponent<GridGenerator>();
         GridFunc = GetComponent<GridFunctions>();
         Difficulty = PlayerPrefs.GetInt("rate");
@@ -92,7 +92,7 @@ public class ObjectSpawner : MonoBehaviour
         {
             TimeLeft = 0;
         }
-        TimerText.text = Mathf.Round(TimeLeft) + " s";
+        TimerText.text = Mathf.Round(TimeLeft) + "s";
 
         if (Time.time - LastSpawnTime > (6 - Difficulty) / 1.5f / SpawnRate && GameActive)
         {
