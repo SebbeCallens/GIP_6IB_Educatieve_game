@@ -69,7 +69,7 @@ public class SortingGame : MonoBehaviour
         if (PlayerPrefs.GetInt("conveyor") == 1) //loopband instellen
         {
             ConveyorMode = true;
-            ConveyorSpawnRate /= MenuLogic.Difficulty;
+            ConveyorSpawnRate /= (MenuLogic.Difficulty / 1.5f);
             Conveyor.GetComponent<Animator>().enabled = true;
         }
 

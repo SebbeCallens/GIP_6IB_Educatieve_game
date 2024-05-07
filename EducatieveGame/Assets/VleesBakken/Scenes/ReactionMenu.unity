@@ -5211,6 +5211,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1581029652}
     m_Modifications:
+    - target: {fileID: 1255694501188233733, guid: 4fb2fb7690c94c74bb308856561ac459, type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1933159524198635136, guid: 4fb2fb7690c94c74bb308856561ac459, type: 3}
       propertyPath: m_Name
       value: DifficultyButton
@@ -5345,6 +5349,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6381717984822689379, guid: 4fb2fb7690c94c74bb308856561ac459, type: 3}
       propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6381717984822689379, guid: 4fb2fb7690c94c74bb308856561ac459, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6381717984822689379, guid: 4fb2fb7690c94c74bb308856561ac459, type: 3}
+      propertyPath: m_UseSpriteMesh
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6381717984822689379, guid: 4fb2fb7690c94c74bb308856561ac459, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6381717984822689379, guid: 4fb2fb7690c94c74bb308856561ac459, type: 3}
+      propertyPath: m_RaycastPadding.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7562766745544262612, guid: 4fb2fb7690c94c74bb308856561ac459, type: 3}

@@ -94,7 +94,7 @@ public class ObjectSpawner : MonoBehaviour
         }
         TimerText.text = Mathf.Round(TimeLeft) + "s";
 
-        if (Time.time - LastSpawnTime > (6 - Difficulty) / 1.5f / SpawnRate && GameActive)
+        if (Time.time - LastSpawnTime > (6 - Difficulty) / SpawnRate && GameActive)
         {
             //lijst lege gridpunten aanmaken
             List<Vector3> emptyGridPoints = new();
