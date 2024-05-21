@@ -5,7 +5,7 @@ using TMPro;
 
 public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    [SerializeField] private Image _img; //iamge component
+    [SerializeField] private Image _img; //image component
     private Transform _parentAfterDrag; //waar het puzzelstuk terecht komt na gesleept te zijn
     private TextMeshProUGUI _currentCoords; //coordinaten text
 
@@ -33,7 +33,7 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
         transform.position = new(viewportPos.x, viewportPos.y, 0);
     }
 
-    public void OnEndDrag(PointerEventData eventData) //puzzelstuk neerplaatsen einde slepen
+    public void OnEndDrag(PointerEventData eventData) //puzzelstuk neerplaatsen aan het einde van versleping
     {
         CurrentCoords.text = "";
         transform.SetParent(ParentAfterDrag);

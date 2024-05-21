@@ -1079,8 +1079,12 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3500108929725664921, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 105
+      objectReference: {fileID: 0}
+    - target: {fileID: 3500108929725664921, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -140
+      value: -143
       objectReference: {fileID: 0}
     - target: {fileID: 3556952531609611462, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_Name
@@ -1117,6 +1121,26 @@ PrefabInstance:
     - target: {fileID: 4404092152404059910, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_text
       value: Objecten sorteren
+      objectReference: {fileID: 0}
+    - target: {fileID: 4404092152404059910, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      propertyPath: m_fontSize
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 4404092152404059910, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 069500a4bdcadff49836f4a14299139e, type: 2}
+    - target: {fileID: 4404092152404059910, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 4404092152404059910, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -1579612380258712571, guid: 069500a4bdcadff49836f4a14299139e, type: 2}
+    - target: {fileID: 4404092152404059910, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4466824241590007187, guid: 7195814148a1b1a478df71175c4ba0b5, type: 3}
       propertyPath: m_fontSize
@@ -3116,8 +3140,12 @@ PrefabInstance:
       value: Loopband
       objectReference: {fileID: 0}
     - target: {fileID: 3294946391063509283, guid: 18b12419ddf380d469177ba17c82c2ce, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 860cbb5d523d6344088593304a9f884c, type: 3}
+    - target: {fileID: 3294946391063509283, guid: 18b12419ddf380d469177ba17c82c2ce, type: 3}
       propertyPath: m_FontData.m_FontSize
-      value: 30
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 3573507823380952985, guid: 18b12419ddf380d469177ba17c82c2ce, type: 3}
       propertyPath: m_SizeDelta.x
@@ -3749,8 +3777,12 @@ PrefabInstance:
       value: Vuilnisbak
       objectReference: {fileID: 0}
     - target: {fileID: 3294946391063509283, guid: 18b12419ddf380d469177ba17c82c2ce, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 860cbb5d523d6344088593304a9f884c, type: 3}
+    - target: {fileID: 3294946391063509283, guid: 18b12419ddf380d469177ba17c82c2ce, type: 3}
       propertyPath: m_FontData.m_FontSize
-      value: 30
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 3573507823380952985, guid: 18b12419ddf380d469177ba17c82c2ce, type: 3}
       propertyPath: m_SizeDelta.x
@@ -5378,8 +5410,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Kleuren
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a0a2ddbbf334b0c48bdf085e13afcb97, type: 2}
-  m_sharedMaterial: {fileID: -2679921848796929312, guid: a0a2ddbbf334b0c48bdf085e13afcb97, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 069500a4bdcadff49836f4a14299139e, type: 2}
+  m_sharedMaterial: {fileID: -1579612380258712571, guid: 069500a4bdcadff49836f4a14299139e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5403,8 +5435,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 26
+  m_fontSizeBase: 26
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5701,8 +5733,12 @@ PrefabInstance:
       value: Oefenmodus
       objectReference: {fileID: 0}
     - target: {fileID: 3294946391063509283, guid: 18b12419ddf380d469177ba17c82c2ce, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 860cbb5d523d6344088593304a9f884c, type: 3}
+    - target: {fileID: 3294946391063509283, guid: 18b12419ddf380d469177ba17c82c2ce, type: 3}
       propertyPath: m_FontData.m_FontSize
-      value: 30
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 3294946391063509283, guid: 18b12419ddf380d469177ba17c82c2ce, type: 3}
       propertyPath: m_FontData.m_Alignment
