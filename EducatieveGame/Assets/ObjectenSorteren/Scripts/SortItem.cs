@@ -12,6 +12,7 @@ public class SortItem : MonoBehaviour
     private bool _isTrash = false; //of het sorteer object voor in de vuilbak is
     private Collider2D _bounds; //limiet speelveld
     private SortingGame _sortGame;
+    private bool _sorting = false;
 
     private Sprite[] SortItems { get => _sortItems; set => _sortItems = value; }
     public Vector3 StartPosition { get => _startPosition; private set => _startPosition = value; }
@@ -22,6 +23,7 @@ public class SortItem : MonoBehaviour
     public bool IsTrash { get => _isTrash; private set => _isTrash = value; }
     private Collider2D Bounds { get => _bounds; set => _bounds = value; }
     private SortingGame SortGame { get => _sortGame; set => _sortGame = value; }
+    public bool Sorting { get => _sorting; set => _sorting = value; }
 
     private void Awake() //start positie instellen
     {

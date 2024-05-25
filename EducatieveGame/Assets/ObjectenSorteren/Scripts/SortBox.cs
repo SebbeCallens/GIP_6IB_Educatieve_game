@@ -63,8 +63,9 @@ public class SortBox : MonoBehaviour
             yield return null;
         }
 
-        if (GetComponent<Collider2D>().IsTouching(collision))
+        if (GetComponent<Collider2D>().IsTouching(collision) && !item.Sorting)
         {
+            item.Sorting = true;
             if (IsTrashcan) //code als dit een vuilbak is
             {
                 if (collision.GetComponent<SortItem>().IsTrash)
@@ -117,6 +118,8 @@ public class SortBox : MonoBehaviour
                     }
                 }
             }
+            yield return new WaitForSeconds(0.1f);
+            item.Sorting = false;
         }
     }
 }
