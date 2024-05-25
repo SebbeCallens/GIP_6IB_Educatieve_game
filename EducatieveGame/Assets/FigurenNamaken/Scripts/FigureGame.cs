@@ -28,6 +28,7 @@ public class FigureGame : MonoBehaviour
     private int _cellSize; //grootte cel grid
     private int i = 0; //houd bij aan welke lijn je zit
     private int _original; //of het een originele figuur is
+    private int _lines = 0;
     private List<Vector3> _linePoints; //lijst met alle punten voor de linerenderer
     private List<(int, int)> _arrows; //lijst die bijhoud hoeveel keer je elke kant op moet
     private Dictionary<(float, float), string> _directions = new Dictionary<(float, float), string> //een dictionary om de tekst uit het figuurbestand om te zetten naar ints voor de richtingen of omgekeerd
@@ -274,6 +275,7 @@ public class FigureGame : MonoBehaviour
                     {
                         if (Directions.ContainsValue(line.Trim()))
                         {
+                            _lines++;
                             Vector3 previousPoint = LinePoints.Count > 0 ? LinePoints[LinePoints.Count - 1] : startPos;
                             Vector3 newPoint = ComputeNextPoint(previousPoint, line.Trim());
 
@@ -338,7 +340,7 @@ public class FigureGame : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("figure-assist") == 0)
         {
-            EndScreenLogic.EndGame("SelectDrawMode", "Figuur namaken", $"{StatsObj.StatValues[0]}", Camera.main.orthographicSize * 1.75f, new(0, 0, -10), 5);
+            EndScreenLogic.EndGame("SelectDrawMode", "Figuur namaken", $"{StatsObj.StatValues[0]}/{_lines}", Camera.main.orthographicSize * 1.75f, new(0, 0, -10), 5);
         }
         else
         {
