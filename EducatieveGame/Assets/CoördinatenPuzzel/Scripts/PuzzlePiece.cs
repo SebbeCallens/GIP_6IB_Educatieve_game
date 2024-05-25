@@ -40,4 +40,12 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
         Img.raycastTarget = true;
         transform.position = new(transform.parent.position.x, transform.parent.position.y, 0);
     }
+
+    public void EndDrag() //puzzelstuk neerplaatsen aan het einde van versleping
+    {
+        CurrentCoords.text = "";
+        transform.SetParent(ParentAfterDrag);
+        Img.raycastTarget = true;
+        transform.position = new(transform.parent.position.x, transform.parent.position.y, 0);
+    }
 }

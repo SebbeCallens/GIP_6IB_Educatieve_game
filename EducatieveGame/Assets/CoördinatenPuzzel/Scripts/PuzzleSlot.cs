@@ -20,6 +20,7 @@ public class PuzzleSlot : MonoBehaviour, IDropHandler
                 {
                     PuzzlePiece piece = dropped.GetComponent<PuzzlePiece>();
                     piece.ParentAfterDrag = transform;
+                    piece.EndDrag();
                     Instantiate(_dropPieceParticle, transform.position, transform.rotation);
                 }
             }
