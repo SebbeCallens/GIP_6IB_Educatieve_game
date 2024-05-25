@@ -5,6 +5,7 @@ using UnityEngine;
 public class FigureMenuLogic : MenuLogic
 {
     [SerializeField] private GameObject _confirmationWarning; //de warning voor in hulpmodus
+    [SerializeField] private GameObject _deleteConfirmation; //de warning voor verwijderen figuur
     [SerializeField] private GameObject[] _menuButtons; //de menuknoppen
     [SerializeField] private GameObject _deleteButton; //de menuknoppen
     private GameObject _deletedFigureButton;
@@ -29,6 +30,8 @@ public class FigureMenuLogic : MenuLogic
         {
             TextMeshProUGUI text = Menus[index].GetComponentInChildren<TextMeshProUGUI>();
             text.text = "Wil je de figuur " + Figure + " tekenen?";
+            TextMeshProUGUI texts = _deleteConfirmation.GetComponentInChildren<TextMeshProUGUI>();
+            texts.text = "Wil je de figuur " + Figure + " verwijderen?";
             if (PlayerPrefs.GetInt("figure-assist") == 1 && ConfirmationWarning != null)
             {
                 ConfirmationWarning.SetActive(true);
@@ -58,7 +61,18 @@ public class FigureMenuLogic : MenuLogic
             File.Delete(filePath);
         }
         Destroy(DeletedFigureButton);
+        CloseDeleteFigure();
         OpenMenu(0);
+    }
+
+    public void OpenDeleteFigure()
+    {
+        _deleteConfirmation.SetActive(true);
+    }
+
+    public void CloseDeleteFigure()
+    {
+        _deleteConfirmation.SetActive(false);
     }
 
     public void SetDeleteFigure(GameObject figure)
